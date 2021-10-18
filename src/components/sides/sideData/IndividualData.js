@@ -12,5 +12,6 @@ export default class IndividualData extends SideData {
 	constructor() {
 		super();
 		Object.seal(this);
+        this.type = 1;
 	}
 }

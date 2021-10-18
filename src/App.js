@@ -1,20 +1,16 @@
 import FileSaver from "file-saver";
 import Gifshot from "gifshot";
-import {toCanvas} from "html-to-image";
+import { toCanvas } from "html-to-image";
 import JSZip from "jszip";
-import React, {Component} from "react";
-import {BrowserRouter, Switch} from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
-import Flow from "./components/Flow.js";
-import Helper from "./components/helper/Helper.js";
-import Main from "./components/Main.js";
-import Navbar from "./components/navbar/Navbar.js";
-import {getSortaISODateTime} from "./components/reusable/Funcs";
-import SideData from "./components/sides/sideData/SideData.js";
-import ZaemshikSide from "./components/sides/ZaemshikSide.js";
-import ZaimodavecSide from "./components/sides/ZaimodavecSide.js";
+import UserHelper from "./components/helper/UserHelper.js";
+import { getSortaISODateTime } from "./components/reusable/Funcs";
+import PhysicalData from "./components/sides/sideData/PhysicalData";
+import MainContent from "./MainContent.js";
 
 console.warn = () => {};
 
@@ -190,8 +186,8 @@ class App extends Component {
 			crumbs: [],
 		},
 		parties: {
-			zaimodavec: new SideData(),
-			zaemshik: new SideData(),
+			zaimodavec: new PhysicalData(),
+			zaemshik: new PhysicalData(),
 		},
 		update: (what, key, value) => {
 			this.setState((state) => ({[what]: {...state[what], [key]: value}}));
@@ -209,20 +205,9 @@ class App extends Component {
 					<FlowContext.Provider value={this.contextVal("flow")}>
 						<PartiesContext.Provider value={this.contextVal("parties")}>
 							<ErrorHandler>
-								<Navbar flow={this.state.flow} />
-								<Helper />
-								<div className="container-body">
-									<Switch>
-										<Main exact path="/" />
-										<Flow
-											parent="/"
-											root="/sides"
-											steps={[
-												["Займодавец", ZaimodavecSide],
-												["Заёмщик", ZaemshikSide],
-											]}
-										/>
-									</Switch>
+								<div className="main-content-helper-container">
+									<UserHelper />
+									<MainContent />
 								</div>
 							</ErrorHandler>
 						</PartiesContext.Provider>

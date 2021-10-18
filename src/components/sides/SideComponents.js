@@ -22,6 +22,7 @@ function TypeSelector({sideData, update}) {
 		["individual", "Индивидуальный предприниматель"],
 		["juridical", "Юридическое лицо"],
 	];
+    
 	return (
 		<div className="side-typeselector">
 			{typeArray.map(([type, label], i) => (

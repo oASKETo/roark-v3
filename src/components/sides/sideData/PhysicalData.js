@@ -11,5 +11,6 @@ export default class PhysicalData extends SideData {
 	constructor() {
 		super();
 		Object.seal(this);
+        this.type = 0;
 	}
 }

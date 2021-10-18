@@ -10,5 +10,6 @@ export default class JuridicalData extends SideData {
 	constructor() {
 		super();
 		Object.seal(this);
+        this.type = 2;
 	}
 }

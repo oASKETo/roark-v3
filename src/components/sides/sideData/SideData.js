@@ -32,10 +32,6 @@ export default class SideData {
 	side = null; // Zd / za
 	type = null;
 
-    isReady() {
-        
-    }
-
 	representative = Object.seal({name: null, surname: null, paternal: null, address: null, phone: null, POADate: null, POANumber: null}); // zaimodavec
 	defendant = constructDefendant(); // zaemshik
 }

@@ -31,7 +31,8 @@ export function useSideCommons(side) {
 				default:
 					throw new Error("0 1 2 case only " + val);
 			}
-			newPartyObj.type = val;
+			// type is now set in constructor
+			// newPartyObj.type = val;
 		} else {
 			let split = key.split(".");
 			let newKey = split.pop();
