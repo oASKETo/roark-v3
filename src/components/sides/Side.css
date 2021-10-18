@@ -2,6 +2,10 @@
 	padding-left: 40px;
 	padding-right: 40px;
 }
+.side-padding-wrapper {
+	padding-right: 10%;
+	padding-left: 10%;
+}
 
 .side-typeselector {
 	display: flex;
@@ -25,23 +29,22 @@
 	width: 100%;
 }
 
+.side-label {
+	text-align: center;
+}
+
 .side-inputfield-container {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	padding-right: 10%;
-	padding-left: 10%;
 
 	display: grid;
+	gap: 4px;
 	justify-content: center;
-	grid-template-columns: 200px 300px;
+	grid-template-columns: 1fr 24vw;
 }
 .side-inputfield-container input:not([type="checkbox"]) {
 	font-size: 14px;
 	width: 100%;
-}
-.side-inputfield-container > * {
-	margin-left: 4px;
-	margin-right: 4px;
 }
 .side-inputfield-checkbox-container {
 	white-space: nowrap;
@@ -49,8 +52,8 @@
 .side-inputfield-input-container,
 .side-inputfield-relwrapper {
 	text-align: center;
-    align-self: center;
-	max-width: 300px;
+	align-self: center;
+	max-width: 24vw;
 }
 
 .side-inputfield-relwrapper {
@@ -111,10 +114,17 @@
 	filter: brightness(92%);
 }
 
-.side-checkboxlabel-container {
+.side-checkboxlabel-container,
+.side-radiolabel-container {
 	display: flex;
-	justify-content: flex-start;
-	margin: 8px;
+}
+.side-checkboxlabel-container > input,
+.side-radiolabel-container > input {
+	margin-right: 10px;
+}
+.side-checkboxlabel-label,
+.side-radiolabel-label {
+	text-align-last: center;
 }
 
 .representative-adder,

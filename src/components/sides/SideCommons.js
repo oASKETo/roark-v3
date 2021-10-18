@@ -38,7 +38,12 @@ export function useSideCommons(side) {
 			let toChange = newPartyObj;
 			split.forEach((pk) => (toChange = toChange[pk]));
 
-			toChange[newKey] = val;
+			try {
+				toChange[newKey] = val;
+			} catch (ex) {
+				console.log("extension error", toChange);
+				throw ex;
+			}
 		}
 
 		updateCtx("parties", side, newPartyObj);
@@ -53,10 +58,12 @@ function NameChangeSection({ctx}) {
 	const [checkboxState, setCheckboxState] = useState({
 		showFields: tryFuncOr(() => ctx.sideData.changes.name || ctx.sideData.changes.surname || ctx.sideData.changes.paternal, false),
 	});
+
 	const stateCtx = {
 		sideData: checkboxState,
 		update: (key, val) => setCheckboxState({...checkboxState, [key]: val}),
 	};
+
 	return (
 		<>
 			<SideComponents.CheckboxLabel text="В период действия договора займа изменились ФИО займодавца" value="showFields" ctx={stateCtx} />
@@ -65,6 +72,21 @@ function NameChangeSection({ctx}) {
 				<SideComponents.InputField label="Новая фамилия" value="changes.surname" ctx={ctx} />
 				<SideComponents.InputField label="Новое отчество" value="changes.paternal" ctx={ctx} />
 				<SideComponents.InputField type="date" label="Дата изменения ФИО" value="changes.date" ctx={ctx} />
+				<SideComponents.Label text="Фамилия, иля либо отчество изменились на основании" />
+				<SideComponents.RadioGroup value="changes.changeReason" ctx={ctx}>
+					<SideComponents.RadioLabel text="Заключения брака" />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 0} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата заключения брака" value="changes.reasonDate" ctx={ctx} />
+					</Collapsible>
+					<SideComponents.RadioLabel text="Расторжения брака" />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 1} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата расторжения брака" value="changes.reasonDate" ctx={ctx} />
+					</Collapsible>
+					<SideComponents.RadioLabel text="Заявления гражданина об изменении фамилии имени отчества" />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 2} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата свидетельства о перемене имени" value="changes.reasonDate" ctx={ctx} />
+					</Collapsible>
+				</SideComponents.RadioGroup>
 			</Collapsible>
 		</>
 	);
@@ -133,15 +155,11 @@ export function JuridicalFields({ctx}) {
 			<SideComponents.InputField
 				label="Наименование юридического лица"
 				value="name"
-				disabled={ctx.sideData.autofillAddress || (innObject.status !== "ACTIVE" && typeof innObject.status === "string")}
-				checkbox={{side: "right", label: "Автозаполнение", value: "autofillAddress"}}
+				disabled={innObject.status !== "ACTIVE" && typeof innObject.status === "string"}
 				autofill={{
 					value: innObject.nameOpf ?? innObject.name ?? "",
 					// idk if this is right in a way
-					shouldUpdate: useCallback(
-						() => Object.keys(innObject).length === 0 || (innObject.status === "ACTIVE" && ctx.sideData.autofillAddress),
-						[innObject, ctx.sideData.autofillAddress]
-					),
+					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
 				}}
 				ctx={ctx}
 			/>

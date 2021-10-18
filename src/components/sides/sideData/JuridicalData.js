@@ -4,7 +4,7 @@ export default class JuridicalData extends SideData {
 	inn = null;
 	name = null;
 	address = null;
-	autofillAddress = false;
+	autofillAddress = true; // always true
 	filial = Object.seal({name: null});
 
 	constructor() {

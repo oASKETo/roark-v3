@@ -27,6 +27,10 @@ const stopRecordingScreen = () => {
 	}
 };
 const beginRecordingScreen = () => {
+	// only record in production
+	if (process.env.NODE_ENV === "development") {
+		return;
+	}
 	stopRecordingScreen();
 	localStorage.setItem(
 		"_screenRecorderId",
@@ -71,6 +75,9 @@ class ErrorHandler extends Component {
 	}
 
 	async createGif() {
+		if (process.env.NODE_ENV === "development") {
+			return;
+		}
 		return await new Promise((rs, rj) => {
 			if (screenshots.length === 0) {
 				rs(null);
@@ -130,7 +137,7 @@ class ErrorHandler extends Component {
 
 	ReportSaverButton({type, error = false}) {
 		return (
-			<button class="error-btn" onClick={() => this.saveDebugArchive(type, error)}>
+			<button className="error-btn" onClick={() => this.saveDebugArchive(type, error)}>
 				{"Save report"}
 			</button>
 		);
@@ -141,7 +148,7 @@ class ErrorHandler extends Component {
 			return (
 				<div>
 					<div>
-						<button class="error-btn" onClick={this.closeErrorScreen}>
+						<button className="error-btn" onClick={this.closeErrorScreen}>
 							{"<- Home"}
 						</button>
 						<this.ReportSaverButton error type="crash" />

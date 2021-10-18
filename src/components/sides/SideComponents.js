@@ -55,6 +55,59 @@ function CheckboxLabel({text, tooltip, value, ctx}) {
 	);
 }
 
+function RadioGroup({value, ctx, children}) {
+	const {sideData, update} = ctx;
+
+	const uniqueName = Math.random().toString();
+
+	let selectedRadio = nullUndefFix(parsePackage(value, sideData), null);
+	if (!isNaN(+selectedRadio) && selectedRadio !== null) {
+		selectedRadio = +selectedRadio;
+	}
+
+	const onChange = (newVal) => {
+		update(value, newVal);
+	};
+	return (
+		<div
+			className="radio-group"
+			onChange={(ev) => {
+				if (ev.target.getAttribute("type") === "radio") {
+					let val = ev.target.value;
+					if (!isNaN(+val)) {
+						val = +val;
+					}
+					onChange(val);
+				}
+			}}
+		>
+			{children.map((el, i, arr) => {
+				if (el.type === RadioLabel) {
+					const filteredArr = arr.filter((v) => v.type === RadioLabel);
+					const value = el.props.value ?? filteredArr.indexOf(el);
+					return React.cloneElement(el, {name: uniqueName, value, key: i, checked: selectedRadio === value});
+				} else {
+					return el;
+				}
+			})}
+		</div>
+	);
+}
+
+function RadioLabel({text, tooltip, name, value, checked}) {
+	return (
+		<div className="side-radiolabel-container">
+			<input type="radio" name={name} value={value} defaultChecked={checked} />
+			{tooltip && (
+				<div title={tooltip}>
+					<HelpCircle className="side-inputfield-tooltip" />
+				</div>
+			)}
+			<div className="side-radiolabel-label">{text}</div>
+		</div>
+	);
+}
+
 function InputField({
 	type = "text",
 	label,
@@ -373,6 +426,8 @@ const SideComponents = {
 	TypeSelector,
 	Label,
 	CheckboxLabel,
+	RadioGroup,
+	RadioLabel,
 	StatefulCheckboxLabel,
 	InputField,
 	NameSelector,
