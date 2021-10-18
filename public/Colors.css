@@ -1,0 +1,30 @@
+:root {
+	--page-background: #121816;
+	--container-background: #fefdfb;
+    --container-muted: #e9e5de;
+
+	--button: #db3320;
+    --button-disabled: #8d2519;
+    
+    --border: #8f8f9d;
+
+	--text-light: #fefefe;
+    --text-muted: #4e4e4e;
+	--text-dark: black;
+}
+
+body {
+	margin: 0;
+
+	font-family: "Segoe UI";
+
+	color: var(--text-light);
+	background-color: var(--page-background);
+}
+#root {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+}

@@ -1,0 +1,19 @@
+.flow-page-title-container {
+	width: 100%;
+
+    /* Height is way smaller without this line for some reason */
+    padding-bottom: 1px;
+}
+
+.flow-page-title {
+	font-size: 36px;
+	font-weight: lighter;
+	margin-top: 10px;
+
+	text-align: center;
+}
+
+.flow-page-content {
+	margin-top: 24px;
+	min-height: 64px;
+}

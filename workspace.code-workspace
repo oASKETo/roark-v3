@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorTheme": "Tokyo Night Storm",
+		"workbench.colorCustomizations": {},
+		"files.defaultLanguage": "javascriptreact"
+	}
+}

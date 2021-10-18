@@ -1,0 +1,11 @@
+.main-row {
+	margin-bottom: 8px;
+	margin-top: 8px;
+
+	display: flex;
+	justify-content: center;
+}
+.main-row:first-child,
+.main-row:last-child {
+	margin: 0;
+}
