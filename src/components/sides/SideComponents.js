@@ -140,11 +140,14 @@ function InputField({
 			</label>
 		</div>
 	);
+
 	return (
 		<div className="side-inputfield-container">
 			{checkbox.side === "left" && checkboxElement}
 			<div className="side-inputfield-label">{label}</div>
-			<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+			<div className="side-inputfield-input-container">
+				<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+			</div>
 			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
 				<div title={tooltip}>

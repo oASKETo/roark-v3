@@ -1,17 +1,22 @@
+.flow-page-content {
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
 .side-typeselector {
 	display: flex;
 	justify-content: space-around;
 }
 
 .side-typeselector-button-container {
-    text-align: center;
-    margin-bottom: 16px;
+	text-align: center;
+	margin-bottom: 16px;
 }
 .side-typeselector-button {
 	flex-shrink: 1;
 	margin: 4px;
 	filter: brightness(90%) grayscale(40%);
-    max-width: 240px;
+	max-width: 240px;
 }
 .side-typeselector-button.active {
 	filter: brightness(105%);
@@ -23,12 +28,16 @@
 .side-inputfield-container {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	display: flex;
+	padding-right: 10%;
+	padding-left: 10%;
+
+	display: grid;
 	justify-content: center;
+	grid-template-columns: 200px 300px;
 }
 .side-inputfield-container input:not([type="checkbox"]) {
 	font-size: 14px;
-	width: 35%;
+	width: 100%;
 }
 .side-inputfield-container > * {
 	margin-left: 4px;
@@ -37,10 +46,15 @@
 .side-inputfield-checkbox-container {
 	white-space: nowrap;
 }
+.side-inputfield-input-container,
+.side-inputfield-relwrapper {
+	text-align: center;
+    align-self: center;
+	max-width: 300px;
+}
 
 .side-inputfield-relwrapper {
 	position: relative;
-	width: 35%;
 }
 .side-inputfield-relwrapper > input:not(.cssruleorderfix) {
 	font-family: "Segoe UI";
@@ -103,5 +117,13 @@
 	margin: 8px;
 }
 
-.representative-adder-toggle {
+.representative-adder,
+.defendant-adder {
+	margin: 10px;
+	margin-bottom: 16px;
+}
+.representative-adder-toggle,
+.defendant-adder-toggle {
+	margin: auto;
+	display: block;
 }
