@@ -74,7 +74,7 @@ function NameChangeSection({ctx}) {
 				<SideComponents.InputField label="Новая фамилия" value="changes.surname" ctx={ctx} />
 				<SideComponents.InputField label="Новое отчество" value="changes.paternal" ctx={ctx} />
 				<SideComponents.InputField type="date" label="Дата изменения ФИО" value="changes.date" ctx={ctx} />
-				<SideComponents.Label text="Фамилия, иля либо отчество изменились на основании" />
+				<SideComponents.Label text="Фамилия, имя либо отчество изменились на основании" />
 				<SideComponents.RadioGroup value="changes.changeReason" ctx={ctx}>
 					<SideComponents.RadioLabel text="Заключения брака" />
 					<Collapsible shown={ctx.sideData.changes.changeReason === 0} duration="0.1s">
