@@ -1,6 +1,6 @@
 import PartiesContext from "../context/PartiesContext.js";
 import Collapsible from "../reusable/Collapsible.js";
-import {checkInn, tryFuncOr} from "../reusable/Funcs.js";
+import {checkInn, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
 import {useUpdate} from "../reusable/Hooks.js";
 import ShowWhen from "../reusable/ShowWhen.js";
 import {useCallback, useContext, useState} from "react";
@@ -8,6 +8,7 @@ import SideComponents from "./SideComponents.js";
 import IndividualData from "./sideData/IndividualData.js";
 import JuridicalData from "./sideData/JuridicalData.js";
 import PhysicalData from "./sideData/PhysicalData.js";
+import petrovich from "petrovich";
 
 export function useSideCommons(side) {
 	const partyContext = useContext(PartiesContext);
@@ -93,11 +94,40 @@ function NameChangeSection({ctx}) {
 	);
 }
 
+function Cases({namePath, surnamePath, paternalPath, changesPath, ctx}) {
+	const {sideData} = ctx;
+	//? cring?
+	const original = {
+		first: parsePackage(namePath, sideData),
+		middle: parsePackage(paternalPath, sideData),
+		last: parsePackage(surnamePath, sideData),
+	};
+	const changes = {
+		first: parsePackage(changesPath + "." + namePath, sideData),
+		middle: parsePackage(changesPath + "." + paternalPath, sideData),
+		last: parsePackage(changesPath + "." + surnamePath, sideData),
+	};
+
+	const gender = petrovich.detect_gender(changes.middle ?? original.middle);
+	const formattedName = petrovich(
+		{
+			gender: gender === "androgynous" ? "male" : gender,
+			first: changes.first ?? original.first,
+			middle: changes.middle ?? original.middle,
+			last: changes.last ?? original.last,
+		},
+		"genitive"
+	);
+
+	return <SideComponents.Label text={`Взыскать в пользу ${formattedName.last} ${formattedName.first} ${formattedName.middle}`} />;
+}
+
 export function PhysicalFields({ctx}) {
 	return (
 		<>
 			<SideComponents.Label text="Данные физического лица" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideComponents.InputField label="Адрес места жительства" value="address" ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
 			<NameChangeSection ctx={ctx} />
@@ -110,6 +140,7 @@ export function IndividualFields({ctx}) {
 		<>
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideComponents.InputField label="Адрес места жительства" value="address" ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			<NameChangeSection ctx={ctx} />
