@@ -166,7 +166,7 @@ export function JuridicalFields({ctx}) {
 		}
 
 		const updateInnName = ({suggestions: [first]}) => {
-			setInnObject({status: first.data.state.status, nameOpf: first.data.name.short_with_opf, name: first.data.name.full_with_opf});
+			setInnObject({address: first.data.address, status: first.data.state.status, nameOpf: first.data.name.short_with_opf, name: first.data.name.full_with_opf});
 		};
 		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
 			method: "POST",
@@ -200,7 +200,15 @@ export function JuridicalFields({ctx}) {
 				}}
 				ctx={ctx}
 			/>
-			<SideComponents.InputField label="Адрес" value="address" ctx={ctx} />
+			<SideComponents.InputField
+				label="Адрес"
+				value="address"
+				ctx={ctx}
+				autofill={{
+					value: innObject.address?.unrestricted_value ?? "xd",
+					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
+				}}
+			/>
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
 				<SideComponents.InputField
 					label="Наименование филиала или представительства"

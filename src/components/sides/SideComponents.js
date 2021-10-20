@@ -423,6 +423,13 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	);
 }
 
+function AddressField({label, placeholder, tooltip, value, ctx}) {
+    const {sideData, update} = ctx;
+
+    
+
+}
+
 const SideComponents = {
 	TypeSelector,
 	Label,

@@ -6,7 +6,7 @@ import SideComponents from "./SideComponents.js";
 
 export default function ZaemshikSide() {
 	const {sideObject: zaemshik, update, ctx} = useSideCommons("zaemshik");
-
+    
 	return (
 		<>
 			<SideComponents.TypeSelector sideData={zaemshik} update={update} />
