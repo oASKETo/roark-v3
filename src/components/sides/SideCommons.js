@@ -166,7 +166,7 @@ export function JuridicalFields({ctx}) {
 		}
 
 		const updateInnName = ({suggestions: [first]}) => {
-			setInnObject({status: first.data.state.status, nameOpf: first.data.name.short_with_opf, name: first.data.name.full});
+			setInnObject({status: first.data.state.status, nameOpf: first.data.name.short_with_opf, name: first.data.name.full_with_opf});
 		};
 		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
 			method: "POST",
