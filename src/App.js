@@ -1,14 +1,14 @@
 import FileSaver from "file-saver";
 import Gifshot from "gifshot";
-import { toCanvas } from "html-to-image";
+import {toCanvas} from "html-to-image";
 import JSZip from "jszip";
-import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import React, {Component} from "react";
+import {BrowserRouter} from "react-router-dom";
 import "./App.css";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
 import UserHelper from "./components/helper/UserHelper.js";
-import { getSortaISODateTime } from "./components/reusable/Funcs";
+import {getSortaISODateTime} from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
 import MainContent from "./MainContent.js";
 
@@ -100,14 +100,19 @@ class ErrorHandler extends Component {
 		});
 	}
 
-	saveDebugArchive(type, error) {
+	async saveDebugArchive(type, error) {
 		const zip = new JSZip();
 		if (error) {
 			zip.file("error.txt", this.state.error.toString());
 			zip.file("stacktrace.txt", this.state.errorInfo.componentStack);
 			zip.file("actions.gif", this.state.image.split(",")[1], {base64: true});
 		}
-		zip.file("image.png", screenshots[screenshots.length - 1].split(",")[1], {base64: true});
+		const screenshotURL = (await toCanvas(document.getElementById("root"), {
+			canvasWidth: document.documentElement.clientWidth,
+			canvasHeight: document.documentElement.clientHeight,
+		})).toDataURL();
+
+		zip.file("image.png", screenshotURL.split(",")[1], {base64: true});
 		zip.file("appinfo.txt", process.env.REACT_APP_VERSION);
 		zip.generateAsync({type: "blob"}).then((blob) => {
 			FileSaver.saveAs(blob, `${type}_${getSortaISODateTime()}.zip`);
@@ -134,7 +139,7 @@ class ErrorHandler extends Component {
 	ReportSaverButton({type, error = false}) {
 		return (
 			<button className="error-btn" onClick={() => this.saveDebugArchive(type, error)}>
-				{"Save report"}
+				{"Дебаг"}
 			</button>
 		);
 	}
@@ -159,6 +164,13 @@ class ErrorHandler extends Component {
                             background-color: #00f !important;
                             color: #fff !important;
                             border: none !important;
+                        }
+                        .error-btn {
+                            color: white !important;
+                            border: 2px solid white !important;
+                        }
+                        #root {
+                            padding: 18px !important;
                         }`}
 					</style>
 					{/* eslint-disable-next-line jsx-a11y/alt-text */}
