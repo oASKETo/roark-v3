@@ -102,24 +102,29 @@ function Cases({namePath, surnamePath, paternalPath, changesPath, ctx}) {
 		middle: parsePackage(paternalPath, sideData),
 		last: parsePackage(surnamePath, sideData),
 	};
-	const changes = {
-		first: parsePackage(changesPath + "." + namePath, sideData),
-		middle: parsePackage(changesPath + "." + paternalPath, sideData),
-		last: parsePackage(changesPath + "." + surnamePath, sideData),
-	};
 
-	const gender = petrovich.detect_gender(changes.middle ?? original.middle);
-	const formattedName = petrovich(
-		{
-			gender: gender === "androgynous" ? "male" : gender,
-			first: changes.first ?? original.first,
-			middle: changes.middle ?? original.middle,
-			last: changes.last ?? original.last,
-		},
-		"genitive"
-	);
+	if (original.first && original.middle && original.last) {
+		const changes = {
+			first: parsePackage(changesPath + "." + namePath, sideData),
+			middle: parsePackage(changesPath + "." + paternalPath, sideData),
+			last: parsePackage(changesPath + "." + surnamePath, sideData),
+		};
 
-	return <SideComponents.Label text={`Взыскать в пользу ${formattedName.last} ${formattedName.first} ${formattedName.middle}`} />;
+		const gender = petrovich.detect_gender(changes.middle ?? original.middle);
+		const formattedName = petrovich(
+			{
+				gender: gender === "androgynous" ? "male" : gender,
+				first: changes.first ?? original.first,
+				middle: changes.middle ?? original.middle,
+				last: changes.last ?? original.last,
+			},
+			"genitive"
+		);
+
+		return <SideComponents.Label text={`Взыскать в пользу ${formattedName.last} ${formattedName.first} ${formattedName.middle}`} />;
+	} else {
+		return null;
+	}
 }
 
 export function PhysicalFields({ctx}) {
