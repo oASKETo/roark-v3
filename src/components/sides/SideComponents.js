@@ -148,7 +148,7 @@ function InputField({
 	const onChange = (ev) => {
 		const trimmed = ev.target.value.trim();
 		if (checkValid(trimmed)) {
-			update(value, trimmed === "" ? null : trimmed);
+			update(value, trimmed === "" ? null : ev.target.value);
 		}
 	};
 
