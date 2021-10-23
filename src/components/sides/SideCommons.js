@@ -205,7 +205,7 @@ export function JuridicalFields({ctx}) {
 				value="address"
 				ctx={ctx}
 				autofill={{
-					value: innObject.address?.unrestricted_value ?? "xd",
+					value: innObject.address?.unrestricted_value ?? "",
 					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
 				}}
 			/>
