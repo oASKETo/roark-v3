@@ -6,24 +6,24 @@ import SideComponents from "./SideComponents.js";
 
 export default function ZaemshikSide() {
     
-	const {sideObject: zaemshik, update, ctx} = useSideCommons("zaemshik");
+	const ctx = useSideCommons("zaemshik");
     // Эквивалентно:
     // const {sideObject, update, ctx} = useSideCommons("zaemshik");
     // const zaemshik = sideObject;
 
 	return (
 		<>
-			<SideComponents.TypeSelector sideData={zaemshik} update={update} />
+			<SideComponents.TypeSelector sideData={ctx.sideData} update={ctx.update} />
 			<div className="side-padding-wrapper">
-				<ShowWhen value={zaemshik.type} is={0}>
+				<ShowWhen value={ctx.sideData.type} is={0}>
 					<PhysicalFields ctx={ctx} />
 					<DefendantAdder ctx={ctx} />
 				</ShowWhen>
-				<ShowWhen value={zaemshik.type} is={1}>
+				<ShowWhen value={ctx.sideData.type} is={1}>
 					<IndividualFields ctx={ctx} />
 					<DefendantAdder ctx={ctx} />
 				</ShowWhen>
-				<ShowWhen value={zaemshik.type} is={2}>
+				<ShowWhen value={ctx.sideData.type} is={2}>
 					<JuridicalFields ctx={ctx} />
 					<DefendantAdder ctx={ctx} />
 				</ShowWhen>

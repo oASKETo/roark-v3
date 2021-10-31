@@ -51,9 +51,7 @@ export function useSideCommons(side) {
 		updateCtx("parties", side, newPartyObj);
 	};
 
-	const ctx = {sideData: sideObject, update: update};
-
-	return {ctx, sideObject, update};
+	return {sideData: sideObject, update: update};
 }
 
 function NameChangeSection({ctx}) {

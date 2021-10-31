@@ -5,21 +5,21 @@ import {IndividualFields, JuridicalFields, PhysicalFields, useSideCommons} from 
 import SideComponents from "./SideComponents.js";
 
 export default function ZaimodavecSide() {
-	const {sideObject: zaimodavec, update, ctx} = useSideCommons("zaimodavec");
+	const ctx = useSideCommons("zaimodavec");
 
 	return (
 		<>
-			<SideComponents.TypeSelector sideData={zaimodavec} update={update} />
+			<SideComponents.TypeSelector sideData={ctx.sideData} update={ctx.update} />
 			<div className="side-padding-wrapper">
-				<ShowWhen value={zaimodavec.type} is={0}>
+				<ShowWhen value={ctx.sideData.type} is={0}>
 					<PhysicalFields ctx={ctx} />
 					<RepresentativeAdder ctx={ctx} />
 				</ShowWhen>
-				<ShowWhen value={zaimodavec.type} is={1}>
+				<ShowWhen value={ctx.sideData.type} is={1}>
 					<IndividualFields ctx={ctx} />
 					<RepresentativeAdder ctx={ctx} />
 				</ShowWhen>
-				<ShowWhen value={zaimodavec.type} is={2}>
+				<ShowWhen value={ctx.sideData.type} is={2}>
 					<JuridicalFields ctx={ctx} />
 					<RepresentativeAdder ctx={ctx} />
 				</ShowWhen>
