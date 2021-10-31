@@ -4,7 +4,7 @@ export default class IndividualData extends SideData {
 	name = null;
 	surname = null;
 	paternal = null;
-	address = null;
+	address = Object.seal({address: null, type: null});
 	ogrnip = null;
 	changes = Object.seal({name: null, surname: null, paternal: null, date: null, changeReason: null, reasonDate: null});
 	liquidationDate = null;

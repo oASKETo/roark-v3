@@ -4,13 +4,13 @@ export default class PhysicalData extends SideData {
 	name = null;
 	surname = null;
 	paternal = null;
-	address = null;
+	address = Object.seal({address: null, type: null});
 	phone = null;
 	changes = Object.seal({name: null, surname: null, paternal: null, date: null, changeReason: null, reasonDate: null});
 
 	constructor() {
 		super();
 		Object.seal(this);
-        this.type = 0;
+		this.type = 0;
 	}
 }

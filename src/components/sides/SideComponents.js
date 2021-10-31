@@ -22,7 +22,7 @@ function TypeSelector({sideData, update}) {
 		["individual", "Индивидуальный предприниматель"],
 		["juridical", "Юридическое лицо"],
 	];
-    
+
 	return (
 		<div className="side-typeselector">
 			{typeArray.map(([type, label], i) => (
@@ -116,8 +116,8 @@ function InputField({
 	validator,
 	tooltip,
 	value,
-	disabled,
 	ctx,
+	disabled,
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
 }) {
@@ -208,6 +208,37 @@ function InputField({
 					<HelpCircle className="side-inputfield-tooltip" />
 				</div>
 			)}
+		</div>
+	);
+}
+
+function Select({label, placeholder, options, value, ctx}) {
+	// Option: [<Text>, <Value>]
+	const {sideData, update} = ctx;
+
+	const onChange = (ev) => {
+		update(value, ev.target.value);
+	};
+
+	return (
+		<div className="side-inputfield-container">
+			<div className="side-inputfield-label">{label}</div>
+			<div className="side-inputfield-input-container">
+				<select className="side-select-selectelement" value={nullUndefFix(parsePackage(value, sideData), "")} onChange={onChange}>
+					{placeholder && (
+						<option selected value={placeholder}>
+							{placeholder}
+						</option>
+					)}
+					{options.map(([text, value], i) => {
+						return (
+							<option key={i} value={value}>
+								{text}
+							</option>
+						);
+					})}
+				</select>
+			</div>
 		</div>
 	);
 }
@@ -424,10 +455,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 }
 
 function AddressField({label, placeholder, tooltip, value, ctx}) {
-    const {sideData, update} = ctx;
-
-    
-
+	const {sideData, update} = ctx;
 }
 
 const SideComponents = {
@@ -438,6 +466,7 @@ const SideComponents = {
 	RadioLabel,
 	StatefulCheckboxLabel,
 	InputField,
+	Select,
 	NameSelector,
 };
 

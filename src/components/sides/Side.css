@@ -137,3 +137,7 @@
 	margin: auto;
 	display: block;
 }
+
+.side-select-selectelement {
+    max-width: 100%;
+}

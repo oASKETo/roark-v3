@@ -130,8 +130,21 @@ export function PhysicalFields({ctx}) {
 		<>
 			<SideComponents.Label text="Данные физического лица" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
+			<SideComponents.Select
+				label="Адрес ответчика"
+				placeholder="Выберите"
+				value="address.type"
+				options={[
+					["Адрес места регистрации ответчика", "normal"],
+					["Последний известный адрес", "last"],
+					["Адрес местонахождения недвижимости ответчика", "realestate"],
+					["Адрес места регистрации юр. лица ответчика", "juridical"],
+				]}
+				ctx={ctx}
+			/>
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.InputField label="Адрес места жительства" value="address" ctx={ctx} />
+			<SideComponents.InputField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
 			<NameChangeSection ctx={ctx} />
 		</>
@@ -143,8 +156,20 @@ export function IndividualFields({ctx}) {
 		<>
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			<SideComponents.Select
+				label="Адрес ответчика"
+				placeholder="Выберите"
+				value="address.type"
+				options={[
+					["Адрес места регистрации ответчика", "normal"],
+					["Последний известный адрес", "last"],
+					["Адрес местонахождения недвижимости ответчика", "realestate"],
+					["Адрес места регистрации юр. лица ответчика", "juridical"],
+				]}
+				ctx={ctx}
+			/>
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.InputField label="Адрес места жительства" value="address" ctx={ctx} />
+			<SideComponents.InputField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			<NameChangeSection ctx={ctx} />
 			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
