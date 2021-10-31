@@ -107,10 +107,12 @@ class ErrorHandler extends Component {
 			zip.file("stacktrace.txt", this.state.errorInfo.componentStack);
 			zip.file("actions.gif", this.state.image.split(",")[1], {base64: true});
 		}
-		const screenshotURL = (await toCanvas(document.getElementById("root"), {
-			canvasWidth: document.documentElement.clientWidth,
-			canvasHeight: document.documentElement.clientHeight,
-		})).toDataURL();
+		const screenshotURL = (
+			await toCanvas(document.getElementById("root"), {
+				canvasWidth: document.documentElement.clientWidth,
+				canvasHeight: document.documentElement.clientHeight,
+			})
+		).toDataURL();
 
 		zip.file("image.png", screenshotURL.split(",")[1], {base64: true});
 		zip.file("appinfo.txt", process.env.REACT_APP_VERSION);
@@ -213,18 +215,16 @@ class App extends Component {
 	render() {
 		return (
 			<BrowserRouter>
-				<div className="container">
-					<FlowContext.Provider value={this.contextVal("flow")}>
-						<PartiesContext.Provider value={this.contextVal("parties")}>
-							<ErrorHandler>
-								<div className="main-content-helper-container">
-									<UserHelper />
-									<MainContent />
-								</div>
-							</ErrorHandler>
-						</PartiesContext.Provider>
-					</FlowContext.Provider>
-				</div>
+				<FlowContext.Provider value={this.contextVal("flow")}>
+					<PartiesContext.Provider value={this.contextVal("parties")}>
+						<ErrorHandler>
+							<div className="main-content-helper-container">
+								<UserHelper />
+								<MainContent />
+							</div>
+						</ErrorHandler>
+					</PartiesContext.Provider>
+				</FlowContext.Provider>
 			</BrowserRouter>
 		);
 	}

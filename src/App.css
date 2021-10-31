@@ -2,20 +2,29 @@
 	box-sizing: border-box;
 }
 
+body {
+	overflow: hidden;
+}
+
 .main-content-helper-container {
 	display: grid;
 	grid-template-columns: 1fr 1.5fr;
 
-	width: 100vw;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	padding: 24px;
 	height: 100vh;
-
-	padding: 12px;
-
 }
 
 .main-content-container {
 	display: flex;
 	flex-direction: column;
+	max-height: 100%;
+	overflow: hidden;
 }
 
 .container-navigation {
@@ -31,6 +40,10 @@
 	padding: 12px;
 
 	height: 100%;
+	/* app padding + navbar height */
+	max-height: calc(100vh - 24px);
+	overflow-y: scroll;
+	scrollbar-color: red;
 
 	color: var(--text-dark);
 	background-color: var(--container-background);
@@ -47,16 +60,17 @@
 }
 
 .error-btn {
+	position: fixed;
+	bottom: 26px;
+	right: 26px;
+
 	width: 100px;
 	height: 40px;
 	border: 2px solid black;
-	padding: 8px;
-	margin-bottom: 8px;
-	margin-right: 8px;
+	border-radius: 4px;
 	font-size: 14px;
 	white-space: nowrap;
 	cursor: pointer;
 	background-color: transparent;
 	color: black;
-	border-radius: 4px;
 }
