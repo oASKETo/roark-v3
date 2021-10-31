@@ -21,6 +21,7 @@ export default function MainContent() {
 						steps={[
 							["Займодавец", ZaimodavecSide],
 							["Заёмщик", ZaemshikSide],
+                            // More screens
 						]}
 					/>
 				</Switch>

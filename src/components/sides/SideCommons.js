@@ -53,7 +53,7 @@ export function useSideCommons(side) {
 
 	const ctx = {sideData: sideObject, update: update};
 
-	return {sideObject, ctx, update};
+	return {ctx, sideObject, update};
 }
 
 function NameChangeSection({ctx}) {

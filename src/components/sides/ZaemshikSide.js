@@ -5,8 +5,12 @@ import { IndividualFields, JuridicalFields, PhysicalFields, useSideCommons } fro
 import SideComponents from "./SideComponents.js";
 
 export default function ZaemshikSide() {
-	const {sideObject: zaemshik, update, ctx} = useSideCommons("zaemshik");
     
+	const {sideObject: zaemshik, update, ctx} = useSideCommons("zaemshik");
+    // Эквивалентно:
+    // const {sideObject, update, ctx} = useSideCommons("zaemshik");
+    // const zaemshik = sideObject;
+
 	return (
 		<>
 			<SideComponents.TypeSelector sideData={zaemshik} update={update} />
