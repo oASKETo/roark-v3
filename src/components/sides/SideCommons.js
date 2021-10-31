@@ -144,7 +144,7 @@ export function PhysicalFields({ctx}) {
 				ctx={ctx}
 			/>
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.InputField label="Адрес места жительства" value="address.address" ctx={ctx} />
+			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
 			<NameChangeSection ctx={ctx} />
 		</>
@@ -198,7 +198,7 @@ export function JuridicalFields({ctx}) {
 				"Content-Type": "application/json",
 				Accept: "application/json",
 				// TODO: offload to backend
-				Authorization: "Token 64bda6eefd1d370b9b812b6cebce7216af81b24d",
+				Authorization: "Token " + process.env.DADATA,
 			},
 			body: JSON.stringify({query: ctx.sideData.inn}),
 		})

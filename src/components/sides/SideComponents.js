@@ -1,6 +1,6 @@
 import Collapsible from "../reusable/Collapsible.js";
 import {isNullUndef, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
-import {useUpdate} from "../reusable/Hooks.js";
+import {useMount, useUpdate} from "../reusable/Hooks.js";
 import React, {useEffect, useRef, useState} from "react";
 import {HelpCircle} from "react-feather";
 import "./Side.css";
@@ -225,11 +225,7 @@ function Select({label, placeholder, options, value, ctx}) {
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
 				<select className="side-select-selectelement" value={nullUndefFix(parsePackage(value, sideData), "")} onChange={onChange}>
-					{placeholder && (
-						<option selected value={placeholder}>
-							{placeholder}
-						</option>
-					)}
+					{placeholder && <option value={placeholder}>{placeholder}</option>}
 					{options.map(([text, value], i) => {
 						return (
 							<option key={i} value={value}>
@@ -454,8 +450,137 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	);
 }
 
-function AddressField({label, placeholder, tooltip, value, ctx}) {
+function AddressField({label, placeholder, tooltip, value, autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false}, ctx}) {
 	const {sideData, update} = ctx;
+
+	// Autofill functionality
+	// useUpdate(() => {
+	// 	const {value, path, shouldUpdate} = autofill;
+	// 	if (!isNullUndef(path)) {
+	// 		const packagevVal = parsePackage(path, sideData);
+	// 		if (shouldUpdate(inputFieldValue, packagevVal)) {
+	// 			onChange({target: {value: value}});
+	// 		}
+	// 	} else if (!isNullUndef(value)) {
+	// 		if (shouldUpdate(inputFieldValue, value)) {
+	// 			// fake event
+	// 			onChange({target: {value: value}});
+	// 		}
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [autofill.value, autofill.path, autofill.shouldUpdate]);
+
+	const inputValidator = (input) => {
+		let valid = true;
+		if (typeof input !== "string") {
+			valid = false;
+		}
+		if (input.startsWith(" ")) {
+			valid = false;
+		}
+		if (!/^[А-Яа-я- ]*$/g.test(input)) {
+			valid = false;
+		}
+		return valid;
+	};
+
+	const input = nullUndefFix(parsePackage(value, ctx.sideData), "");
+	const [suggestions, setSuggestions] = useState([]);
+	const isBlurredRef = useRef(true);
+
+	let canCallApi = useRef(true);
+	let delayedApiCall = useRef(null);
+	useMount(() => {
+		const id = setInterval(() => {
+			canCallApi.current = true;
+			if (delayedApiCall.current !== null) {
+				delayedApiCall.current();
+				delayedApiCall.current = null;
+			}
+		}, 1000);
+		return () => clearInterval(id);
+	});
+
+	const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+	useUpdate(() => {
+		const apiCallFn = async () => {
+			let {suggestions: newSuggestions} = await (
+				await fetch(url, {
+					method: "POST",
+					mode: "cors",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+						Authorization: "Token " + process.env.REACT_APP_DADATA,
+					},
+					body: JSON.stringify({query: input, count: 4}),
+				})
+			).json();
+			if (newSuggestions) {
+				newSuggestions = newSuggestions.map((obj) => obj.value);
+				setSuggestions(newSuggestions);
+			}
+			canCallApi.current = false;
+		};
+		if (canCallApi.current && inputValidator(input)) {
+			apiCallFn();
+		} else {
+			delayedApiCall.current = apiCallFn;
+		}
+		update(value, input);
+	}, [input]);
+
+	const inputRef = useRef();
+	// cring
+	const hoverRef = useRef();
+	const applySuggestion = (ev) => {
+		const suggestion = hoverRef.current.dataset.suggestion;
+		update(value, suggestion);
+	};
+
+	const onInputBlur = (ev) => {
+		isBlurredRef.current = true;
+		setSuggestions([]);
+	};
+	const onInputFocus = (ev) => {
+		isBlurredRef.current = false;
+	};
+
+	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
+
+	return (
+		<div className="side-inputfield-container">
+			<div className="side-inputfield-label">{label}</div>
+			<div className="side-inputfield-relwrapper">
+				<input
+					ref={inputRef}
+					type="text"
+					value={input}
+					onBlur={onInputBlur}
+					onFocus={onInputFocus}
+					onChange={(ev) => {
+						update(value, ev.target.value.replace("ё", "е"));
+					}}
+				/>
+				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+					{suggestions.map((suggestion) => {
+						return (
+							<button
+								key={suggestion}
+								onMouseEnter={(ev) => (hoverRef.current = ev.target)}
+								onMouseLeave={() => (hoverRef.current = null)}
+								data-suggestion={suggestion}
+								onMouseDown={applySuggestion}
+								className="side-inputfield-suggestions-item"
+							>
+								{suggestion}
+							</button>
+						);
+					})}
+				</dialog>
+			</div>
+		</div>
+	);
 }
 
 const SideComponents = {
@@ -467,6 +592,7 @@ const SideComponents = {
 	StatefulCheckboxLabel,
 	InputField,
 	Select,
+	AddressField,
 	NameSelector,
 };
 
