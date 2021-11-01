@@ -19,8 +19,8 @@ export default function MainContent() {
 						parent="/"
 						root="/sides"
 						steps={[
-							["Займодавец", ZaimodavecSide],
-							["Заёмщик", ZaemshikSide],
+							["Займодавец (Истец)", ZaimodavecSide],
+							["Заёмщик (Ответчик)", ZaemshikSide],
                             // More screens
 						]}
 					/>
