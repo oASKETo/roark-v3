@@ -10,21 +10,21 @@ jobs:
       - uses: actions/checkout@master
       - name: send push message to myself
         uses: appleboy/telegram-action@master
-        if: github.ref == 'refs/heads/dev'
+        # if: github.ref == 'refs/heads/dev'
         with:
           token: ${{ secrets.TGTOKEN }}
           to: ${{ secrets.TGTO_I }}
           message: "Опа! Произошел пуш номер ${{github.run_number}}:\n\n- ${{ join(github.event.commits.*.message, '\n\n- ') }}."
       - name: send push message to nik
         uses: appleboy/telegram-action@master
-        if: github.ref == 'refs/heads/master'
+        # if: github.ref == 'refs/heads/dev'
         with:
           token: ${{ secrets.TGTOKEN }}
           to: ${{ secrets.TGTO_NIK }}
           message: "Опа! Произошел пуш номер ${{github.run_number}}:\n\n- ${{ join(github.event.commits.*.message, '\n\n- ') }}."
       - name: send push message to lar
         uses: appleboy/telegram-action@master
-        if: github.ref == 'refs/heads/master'
+        # if: github.ref == 'refs/heads/dev'
         with:
           token: ${{ secrets.TGTOKEN }}
           to: ${{ secrets.TGTO_LAR }}
