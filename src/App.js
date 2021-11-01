@@ -1,14 +1,14 @@
 import FileSaver from "file-saver";
 import Gifshot from "gifshot";
-import {toCanvas} from "html-to-image";
+import { toCanvas } from "html-to-image";
 import JSZip from "jszip";
-import React, {Component} from "react";
-import {BrowserRouter} from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
 import UserHelper from "./components/helper/UserHelper.js";
-import {getSortaISODateTime} from "./components/reusable/Funcs";
+import { getSortaISODateTime } from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
 import MainContent from "./MainContent.js";
 
