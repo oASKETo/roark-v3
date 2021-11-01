@@ -29,3 +29,10 @@ jobs:
           token: ${{ secrets.TGTOKEN }}
           to: ${{ secrets.TGTO_LAR }}
           message: "Опа! Произошел пуш номер ${{github.run_number}}:\n\n- ${{ join(github.event.commits.*.message, '\n\n- ') }}."
+      - name: send push message to mik
+        uses: appleboy/telegram-action@master
+        # if: github.ref == 'refs/heads/dev'
+        with:
+          token: ${{ secrets.TGTOKEN }}
+          to: ${{ secrets.TGTO_MIK }}
+          message: "Опа! Произошел пуш номер ${{github.run_number}}:\n\n- ${{ join(github.event.commits.*.message, '\n\n- ') }}."
