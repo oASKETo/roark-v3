@@ -10,6 +10,30 @@ import JuridicalData from "./sideData/JuridicalData.js";
 import PhysicalData from "./sideData/PhysicalData.js";
 import petrovich from "petrovich";
 
+export function useAppContext(ctx, name) {
+	const context = useContext(ctx);
+	const contextData = context[name];
+	const contextUpdate = context.update;
+
+	const update = (key, val) => {
+		let split = key.split(".");
+		let newKey = split.pop();
+		let toChange = contextData;
+		split.forEach((pk) => (toChange = toChange[pk]));
+
+		try {
+			toChange[newKey] = val;
+		} catch (ex) {
+			console.log("extension error", toChange);
+			throw ex;
+		}
+
+		contextUpdate(name, key, contextData);
+	};
+
+	return {sideData: contextData, update: update};
+}
+
 export function useSideCommons(side) {
 	const partyContext = useContext(PartiesContext);
 	const sideObject = partyContext.parties[side];
