@@ -64,6 +64,15 @@ export function checkInn(value) {
 		return checkSumOne === Number(value[10]) && checkSumTwo === Number(value[11]);
 	}
 }
+
 export function getSortaISODateTime() {
-    return dayjs().format("YYYY-MM-DD-HH:mm:ss");
+	return dayjs().format("YYYY-MM-DD-HH:mm:ss");
+}
+
+export async function catchFetchStatusCode(response) {
+	if (!response.ok) {
+		console.debug("fetch returned http", response.status);
+		console.debug(await response.json());
+	}
+	return response;
 }
