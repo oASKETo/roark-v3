@@ -1,14 +1,14 @@
+import petrovich from "petrovich";
+import { useCallback, useContext, useState } from "react";
 import PartiesContext from "../context/PartiesContext.js";
 import Collapsible from "../reusable/Collapsible.js";
-import {checkInn, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
-import {useUpdate} from "../reusable/Hooks.js";
+import { catchFetchStatusCode, checkInn, parsePackage, tryFuncOr } from "../reusable/Funcs.js";
+import { useUpdate } from "../reusable/Hooks.js";
 import ShowWhen from "../reusable/ShowWhen.js";
-import {useCallback, useContext, useState} from "react";
 import SideComponents from "./SideComponents.js";
 import IndividualData from "./sideData/IndividualData.js";
 import JuridicalData from "./sideData/JuridicalData.js";
 import PhysicalData from "./sideData/PhysicalData.js";
-import petrovich from "petrovich";
 
 export function useAppContext(ctx, name) {
 	const context = useContext(ctx);
@@ -193,7 +193,7 @@ export function IndividualFields({ctx}) {
 				ctx={ctx}
 			/>
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.InputField label="Адрес места жительства" value="address.address" ctx={ctx} />
+			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			<NameChangeSection ctx={ctx} />
 			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
@@ -222,10 +222,11 @@ export function JuridicalFields({ctx}) {
 				"Content-Type": "application/json",
 				Accept: "application/json",
 				// TODO: offload to backend
-				Authorization: "Token " + process.env.DADATA,
+				Authorization: "Token " + process.env.REACT_APP_DADATA,
 			},
 			body: JSON.stringify({query: ctx.sideData.inn}),
 		})
+			.then(catchFetchStatusCode)
 			.then((response) => response.json())
 			.then(updateInnName);
 	}, [ctx.sideData.inn, ctx.sideData.autofillAddress]);
@@ -247,12 +248,12 @@ export function JuridicalFields({ctx}) {
 				}}
 				ctx={ctx}
 			/>
-			<SideComponents.InputField
+			<SideComponents.AddressField
 				label="Адрес"
 				value="address"
 				ctx={ctx}
 				autofill={{
-					value: innObject.address?.unrestricted_value ?? "",
+					value: innObject.address?.value ?? "",
 					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
 				}}
 			/>
