@@ -1,5 +1,5 @@
 import Collapsible from "../reusable/Collapsible.js";
-import {isNullUndef, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
+import {catchFetchStatusCode, isNullUndef, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
 import {useMount, useUpdate} from "../reusable/Hooks.js";
 import React, {useEffect, useRef, useState} from "react";
 import {HelpCircle} from "react-feather";
@@ -453,23 +453,6 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 function AddressField({label, placeholder, tooltip, value, autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false}, ctx}) {
 	const {update} = ctx;
 
-	// Autofill functionality
-	// useUpdate(() => {
-	// 	const {value, path, shouldUpdate} = autofill;
-	// 	if (!isNullUndef(path)) {
-	// 		const packagevVal = parsePackage(path, sideData);
-	// 		if (shouldUpdate(inputFieldValue, packagevVal)) {
-	// 			onChange({target: {value: value}});
-	// 		}
-	// 	} else if (!isNullUndef(value)) {
-	// 		if (shouldUpdate(inputFieldValue, value)) {
-	// 			// fake event
-	// 			onChange({target: {value: value}});
-	// 		}
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [autofill.value, autofill.path, autofill.shouldUpdate]);
-
 	const inputValidator = (input) => {
 		let valid = true;
 		if (typeof input !== "string") {
@@ -514,7 +497,7 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 						Authorization: "Token " + process.env.REACT_APP_DADATA,
 					},
 					body: JSON.stringify({query: input, count: 4}),
-				})
+				}).then(catchFetchStatusCode)
 			).json();
 			if (newSuggestions) {
 				newSuggestions = newSuggestions.map((obj) => obj.value);
@@ -529,6 +512,22 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 		}
 		update(value, input);
 	}, [input]);
+
+	// Autofill
+	useUpdate(() => {
+		const {value: af_value, path: af_path, shouldUpdate: af_shouldUpdate} = autofill;
+		if (!isNullUndef(af_path)) {
+			const packagevVal = parsePackage(af_path, ctx.sideData);
+			if (af_shouldUpdate(input, packagevVal)) {
+				update(value, af_value.replace("ё", "е"));
+			}
+		} else if (!isNullUndef(af_value)) {
+			if (af_shouldUpdate(input, value)) {
+				update(value, af_value.replace("ё", "е"));
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [autofill.value, autofill.path, autofill.shouldUpdate]);
 
 	const inputRef = useRef();
 	// cring
@@ -551,7 +550,7 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
 	};
 	const onMouseLeave = (ev) => {
-        hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
 		hoverRef.current = null;
 	};
 
