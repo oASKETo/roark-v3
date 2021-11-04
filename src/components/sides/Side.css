@@ -98,6 +98,8 @@
 
 	display: flex;
 	flex-direction: column;
+
+    z-index: 999;
 }
 
 .side-inputfield-suggestions-item {
@@ -109,6 +111,9 @@
 	height: 30px;
 
 	cursor: pointer;
+
+    text-align: left;
+    z-index: 999;
 }
 .side-inputfield-suggestions-item-hover {
 	filter: brightness(92%);
