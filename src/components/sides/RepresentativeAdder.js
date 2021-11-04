@@ -17,7 +17,7 @@ export default function RepresentativeAdder({ctx}) {
 			</button>
 			<Collapsible collapsed={hidden} duration="0.25s">
 				<SideComponents.NameSelector label="ФИО представителя" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={adderContext} />
-				<SideComponents.InputField label="Адрес представителя" value="address" ctx={adderContext} />
+				<SideComponents.AddressField label="Адрес представителя" value="address" ctx={adderContext} />
 				<SideComponents.InputField label="Телефон" value="phone" ctx={adderContext} validator="\+?[0-9]*" />
 				<SideComponents.InputField label="Дата выдачи доверенности" value="POADate" ctx={adderContext} type="date" />
 				<SideComponents.InputField label="Номер доверенности" value="POANumber" ctx={adderContext} />
