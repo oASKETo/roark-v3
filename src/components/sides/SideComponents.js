@@ -546,6 +546,15 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 		isBlurredRef.current = false;
 	};
 
+	const onMouseEnter = (ev) => {
+		hoverRef.current = ev.target;
+		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
+	};
+	const onMouseLeave = (ev) => {
+        hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+		hoverRef.current = null;
+	};
+
 	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
 
 	return (
@@ -567,8 +576,8 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 						return (
 							<button
 								key={suggestion}
-								onMouseEnter={(ev) => (hoverRef.current = ev.target)}
-								onMouseLeave={() => (hoverRef.current = null)}
+								onMouseEnter={onMouseEnter}
+								onMouseLeave={onMouseLeave}
 								data-suggestion={suggestion}
 								onMouseDown={applySuggestion}
 								className="side-inputfield-suggestions-item"
