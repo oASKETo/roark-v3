@@ -451,7 +451,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 }
 
 function AddressField({label, placeholder, tooltip, value, autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false}, ctx}) {
-	const {sideData, update} = ctx;
+	const {update} = ctx;
 
 	// Autofill functionality
 	// useUpdate(() => {
