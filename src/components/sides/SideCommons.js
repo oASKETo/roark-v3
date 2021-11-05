@@ -170,6 +170,7 @@ export function PhysicalFields({ctx}) {
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
+			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
 		</>
 	);
@@ -195,6 +196,8 @@ export function IndividualFields({ctx}) {
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
+			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
+			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
 			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
 				<SideComponents.InputField type="date" label="Дата ликвидации ИП" value="liquidationDate" ctx={ctx} />
@@ -288,6 +291,8 @@ export function JuridicalFields({ctx}) {
 					shouldUpdate: shouldUpdateShared,
 				}}
 			/>
+			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
+			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
 				<SideComponents.InputField
 					label="Наименование филиала или представительства"

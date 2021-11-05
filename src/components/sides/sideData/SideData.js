@@ -20,7 +20,7 @@ const constructDefendant = () => {
 		issuer: null,
 		issueDate: null,
 	};
-    defendant.noData = false;
+	defendant.noData = false;
 
 	Object.keys(defendant).forEach((key) => Object.seal(defendant[key]));
 	Object.seal(defendant);
@@ -31,6 +31,8 @@ const constructDefendant = () => {
 export default class SideData {
 	side = null; // Zd / za
 	type = null;
+	phone = null;
+	email = null;
 
 	representative = Object.seal({name: null, surname: null, paternal: null, address: null, phone: null, POADate: null, POANumber: null}); // zaimodavec
 	defendant = constructDefendant(); // zaemshik
