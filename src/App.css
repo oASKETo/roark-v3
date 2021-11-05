@@ -43,6 +43,7 @@ body {
 	/* app padding + navbar height */
 	max-height: calc(100vh - 24px);
 	overflow-y: scroll;
+    scrollbar-width: thin;
 	scrollbar-color: red;
 
 	color: var(--text-dark);
