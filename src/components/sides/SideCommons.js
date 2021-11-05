@@ -1,9 +1,9 @@
 import petrovich from "petrovich";
-import { useCallback, useContext, useState } from "react";
+import {useCallback, useContext, useState} from "react";
 import PartiesContext from "../context/PartiesContext.js";
 import Collapsible from "../reusable/Collapsible.js";
-import { catchFetchStatusCode, checkInn, parsePackage, tryFuncOr } from "../reusable/Funcs.js";
-import { useUpdate } from "../reusable/Hooks.js";
+import {catchFetchStatusCode, checkInn, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
+import {useUpdate} from "../reusable/Hooks.js";
 import ShowWhen from "../reusable/ShowWhen.js";
 import SideComponents from "./SideComponents.js";
 import IndividualData from "./sideData/IndividualData.js";
@@ -205,6 +205,7 @@ export function IndividualFields({ctx}) {
 
 export function JuridicalFields({ctx}) {
 	const [innObject, setInnObject] = useState({});
+	// INN query
 	useUpdate(() => {
 		if (!checkInn(ctx.sideData.inn)) {
 			console.log("invalid inn");
@@ -212,8 +213,16 @@ export function JuridicalFields({ctx}) {
 			return;
 		}
 
-		const updateInnName = ({suggestions: [first]}) => {
-			setInnObject({address: first.data.address, status: first.data.state.status, nameOpf: first.data.name.short_with_opf, name: first.data.name.full_with_opf});
+		const updateInnName = (response) => {
+			const first = response.suggestions[0];
+			setInnObject({
+				address: first.data.address,
+				status: first.data.state.status,
+				nameOpf: first.data.name.short_with_opf,
+				name: first.data.name.full_with_opf,
+				kladr: first.data.address.data.kladr_id,
+				oktmo: first.data.address.data.oktmo,
+			});
 		};
 		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
 			method: "POST",
@@ -230,6 +239,11 @@ export function JuridicalFields({ctx}) {
 			.then((response) => response.json())
 			.then(updateInnName);
 	}, [ctx.sideData.inn, ctx.sideData.autofillAddress]);
+
+	// idk if this is the right way to do it
+	// it seems to be right xd
+	const shouldUpdateShared = useCallback(() => innObject.status === "ACTIVE", [innObject]);
+
 	return (
 		<>
 			<SideComponents.Label text="Данные юридического лица" />
@@ -243,8 +257,7 @@ export function JuridicalFields({ctx}) {
 				disabled={innObject.status !== "ACTIVE" && typeof innObject.status === "string"}
 				autofill={{
 					value: innObject.nameOpf ?? innObject.name ?? "",
-					// idk if this is right in a way
-					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
+					shouldUpdate: shouldUpdateShared,
 				}}
 				ctx={ctx}
 			/>
@@ -254,7 +267,25 @@ export function JuridicalFields({ctx}) {
 				ctx={ctx}
 				autofill={{
 					value: innObject.address?.value ?? "",
-					shouldUpdate: useCallback(() => Object.keys(innObject).length === 0 || innObject.status === "ACTIVE", [innObject]),
+					shouldUpdate: shouldUpdateShared,
+				}}
+			/>
+			<SideComponents.InputField
+				label="Код КЛАДР"
+				value="kladr"
+				ctx={ctx}
+				autofill={{
+					value: innObject.kladr ?? "",
+					shouldUpdate: shouldUpdateShared,
+				}}
+			/>
+			<SideComponents.InputField
+				label="Код ОКТМО"
+				value="oktmo"
+				ctx={ctx}
+				autofill={{
+					value: innObject.oktmo ?? "",
+					shouldUpdate: shouldUpdateShared,
 				}}
 			/>
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
