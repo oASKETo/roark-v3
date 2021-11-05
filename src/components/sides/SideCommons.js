@@ -31,7 +31,7 @@ export function useAppContext(ctx, name) {
 		contextUpdate(name, key, contextData);
 	};
 
-	return {sideData: contextData, update: update};
+	return {sideData: contextData, update: update, name};
 }
 
 export function useSideCommons(side) {
