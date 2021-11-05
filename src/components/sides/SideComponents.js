@@ -486,6 +486,11 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 
 	const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 	useUpdate(() => {
+        // Autofill, etc
+        // Don't query api
+        if(isBlurredRef.current) {
+            return;
+        }
 		const apiCallFn = async () => {
 			let {suggestions: newSuggestions} = await (
 				await fetch(url, {
