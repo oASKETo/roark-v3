@@ -218,6 +218,7 @@ export function JuridicalFields({ctx}) {
 
 		const updateInnName = (response) => {
 			const first = response.suggestions[0];
+            console.log(first.data.address.data)
 			setInnObject({
 				address: first.data.address,
 				status: first.data.state.status,
@@ -225,6 +226,7 @@ export function JuridicalFields({ctx}) {
 				name: first.data.name.full_with_opf,
 				kladr: first.data.address.data.kladr_id,
 				oktmo: first.data.address.data.oktmo,
+                okato: first.data.address.data.okato,
 			});
 		};
 		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
@@ -288,6 +290,15 @@ export function JuridicalFields({ctx}) {
 				ctx={ctx}
 				autofill={{
 					value: innObject.oktmo ?? "",
+					shouldUpdate: shouldUpdateShared,
+				}}
+			/>
+            <SideComponents.InputField
+				label="Код ОКАТО"
+				value="okato"
+				ctx={ctx}
+				autofill={{
+					value: innObject.okato ?? "",
 					shouldUpdate: shouldUpdateShared,
 				}}
 			/>
