@@ -216,8 +216,14 @@ function Select({label, placeholder, options, value, ctx}) {
 	// Option: [<Text>, <Value>]
 	const {sideData, update} = ctx;
 
+	const nullId = Math.random().toString();
 	const onChange = (ev) => {
-		update(value, ev.target.value);
+		const val = ev.target.value;
+		if (val === nullId) {
+			update(value, null);
+		} else {
+			update(value, val);
+		}
 	};
 
 	return (
@@ -225,7 +231,7 @@ function Select({label, placeholder, options, value, ctx}) {
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
 				<select className="side-select-selectelement" value={nullUndefFix(parsePackage(value, sideData), "")} onChange={onChange}>
-					{placeholder && <option value={placeholder}>{placeholder}</option>}
+					{placeholder && <option value={placeholder[1] === null ? nullId : placeholder[1]}>{placeholder[0]}</option>}
 					{options.map(([text, value], i) => {
 						return (
 							<option key={i} value={value}>
@@ -450,7 +456,15 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	);
 }
 
-function AddressField({label, placeholder, tooltip, value, autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false}, ctx}) {
+function AddressField({
+	label,
+	placeholder,
+	tooltip,
+	value,
+	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
+	onApplySuggestion = () => {},
+	ctx,
+}) {
 	const {update} = ctx;
 
 	const inputValidator = (input) => {
@@ -468,7 +482,7 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 	};
 
 	const input = nullUndefFix(parsePackage(value, ctx.sideData), "");
-	const [suggestions, setSuggestions] = useState([]);
+	const [suggestions, setSuggestions] = useState({});
 	const isBlurredRef = useRef(true);
 
 	let canCallApi = useRef(true);
@@ -477,6 +491,7 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 		const id = setInterval(() => {
 			canCallApi.current = true;
 			if (delayedApiCall.current !== null) {
+				console.log("addres update valid delayed execute");
 				delayedApiCall.current();
 				delayedApiCall.current = null;
 			}
@@ -485,12 +500,13 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 	});
 
 	const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+	//TODO: unnecessary update is called when selecting a dropdown option
 	useUpdate(() => {
-        // Autofill, etc
-        // Don't query api
-        if(isBlurredRef.current) {
-            return;
-        }
+		// Autofill, etc
+		// Don't query api
+		if (isBlurredRef.current) {
+			return;
+		}
 		const apiCallFn = async () => {
 			let {suggestions: newSuggestions} = await (
 				await fetch(url, {
@@ -505,14 +521,16 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 				}).then(catchFetchStatusCode)
 			).json();
 			if (newSuggestions) {
-				newSuggestions = newSuggestions.map((obj) => obj.value);
+				newSuggestions = Object.fromEntries(newSuggestions.map((obj) => [Math.random().toString(), obj]));
 				setSuggestions(newSuggestions);
 			}
 			canCallApi.current = false;
 		};
 		if (canCallApi.current && inputValidator(input)) {
+			console.log("addres update valid");
 			apiCallFn();
 		} else {
+			console.log("addres update valid delayed set");
 			delayedApiCall.current = apiCallFn;
 		}
 		update(value, input);
@@ -538,13 +556,14 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 	// cring
 	const hoverRef = useRef();
 	const applySuggestion = (ev) => {
-		const suggestion = hoverRef.current.dataset.suggestion;
-		update(value, suggestion);
+		const suggestion = suggestions[hoverRef.current.dataset.suggestion];
+		onApplySuggestion(suggestion);
+		update(value, suggestion.value);
 	};
 
 	const onInputBlur = (ev) => {
 		isBlurredRef.current = true;
-		setSuggestions([]);
+		setSuggestions({});
 	};
 	const onInputFocus = (ev) => {
 		isBlurredRef.current = false;
@@ -559,7 +578,7 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 		hoverRef.current = null;
 	};
 
-	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
+	const shouldOpenDialog = !!Object.keys(suggestions).length && document.activeElement === inputRef.current;
 
 	return (
 		<div className="side-inputfield-container">
@@ -576,17 +595,17 @@ function AddressField({label, placeholder, tooltip, value, autofill = {value: un
 					}}
 				/>
 				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
-					{suggestions.map((suggestion) => {
+					{Object.entries(suggestions).map(([key, suggestion]) => {
 						return (
 							<button
-								key={suggestion}
+								key={key} // has to be 'key'
 								onMouseEnter={onMouseEnter}
 								onMouseLeave={onMouseLeave}
-								data-suggestion={suggestion}
+								data-suggestion={key}
 								onMouseDown={applySuggestion}
 								className="side-inputfield-suggestions-item"
 							>
-								{suggestion}
+								{suggestion.value}
 							</button>
 						);
 					})}

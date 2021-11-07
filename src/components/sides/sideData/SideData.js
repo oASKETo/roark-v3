@@ -4,6 +4,13 @@ const constructDefendant = () => {
 	keys.forEach((key) => {
 		defendant[key] = null;
 	});
+	defendant.address = {
+		type: null,
+		value: null,
+		realestate: null,
+		kladr: null,
+		oktmo: null,
+	};
 	defendant.passport = {
 		series: null,
 		number: null,

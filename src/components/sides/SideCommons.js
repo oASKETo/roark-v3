@@ -149,16 +149,67 @@ function Cases({namePath, surnamePath, paternalPath, changesPath, ctx}) {
 	}
 }
 
-export function PhysicalFields({ctx}) {
+function useINNQuery(inn, depenencies) {
+	const [innObject, setInnObject] = useState({});
+	useUpdate(() => {
+		if (!checkInn(inn)) {
+			setInnObject({});
+			return;
+		}
+
+		const updateInnName = (response) => {
+			const first = response.suggestions[0];
+			console.log(first.data.address.data);
+			setInnObject({
+				address: first.data.address,
+				status: first.data.state.status,
+				nameOpf: first.data.name.short_with_opf,
+				name: first.data.name.full_with_opf,
+				kladr: first.data.address.data.kladr_id,
+				oktmo: first.data.address.data.oktmo,
+				okato: first.data.address.data.okato,
+			});
+		};
+		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+				// TODO: offload to backend
+				Authorization: "Token " + process.env.REACT_APP_DADATA,
+			},
+			body: JSON.stringify({query: inn}),
+		})
+			.then(catchFetchStatusCode)
+			.then((response) => response.json())
+			.then(updateInnName);
+	}, [inn, ...depenencies]);
+
+	// idk if this is the right way to do it
+	// it seems to be right xd
+	const shouldAutoupdate = useCallback(() => innObject.status === "ACTIVE", [innObject]);
+
+	return [innObject, shouldAutoupdate];
+}
+
+function DefendantAddressDropdown({ctx}) {
+	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [ctx.sideData.autofillAddress]);
+	const [suggestion, setSuggestion] = useState({});
+
+	const type = ctx.sideData.defendant.address.type;
+	const label = {
+		normal: "Адрес места жительства",
+		last: "Последний известный адрес",
+		realestate: "Адрес недвижимости",
+		juridical: "Адрес",
+	}[type];
 	return (
 		<>
-			<SideComponents.Label text="Данные физического лица" />
-			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
-			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
 			<SideComponents.Select
 				label="Адрес ответчика"
-				placeholder="Выберите"
-				value="address.type"
+				placeholder={["Выберите", null]}
+				value="defendant.address.type"
 				options={[
 					["Адрес места регистрации ответчика", "normal"],
 					["Последний известный адрес", "last"],
@@ -167,8 +218,55 @@ export function PhysicalFields({ctx}) {
 				]}
 				ctx={ctx}
 			/>
+			{type === "realestate" && (
+				<SideComponents.Select
+					label="Тип имущества"
+					placeholder={["Выберите", null]}
+					value="defendant.address.realestate"
+					options={[
+						["Квартира", "flat"],
+						["Земельный участок", "land"],
+						["Жилой дом", "house"],
+						["Помещение", "room"],
+					]}
+					ctx={ctx}
+				/>
+			)}
+			{type && <SideComponents.AddressField label={label} value="defendant.address.value" onApplySuggestion={(s) => setSuggestion(s.data)} ctx={ctx} />}
+			<SideComponents.InputField
+				label="Код КЛАДР"
+				value="defendant.address.kladr"
+				ctx={ctx}
+				disabled
+				autofill={{
+					value: suggestion.kladr_id ?? "",
+					// infinite loop without "neew !== old"
+					// TODO: allow editing?
+					shouldUpdate: (old, neew) => !!neew && neew !== old,
+				}}
+			/>
+			<SideComponents.InputField
+				label="Код ОКТМО"
+				value="defendant.address.oktmo"
+				ctx={ctx}
+				disabled
+				autofill={{
+					value: suggestion.oktmo ?? "",
+					shouldUpdate: (old, neew) => !!neew && neew !== old,
+				}}
+			/>
+		</>
+	);
+}
+
+export function PhysicalFields({ctx}) {
+	return (
+		<>
+			<SideComponents.Label text="Данные физического лица" />
+			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
+			<DefendantAddressDropdown ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
@@ -181,20 +279,8 @@ export function IndividualFields({ctx}) {
 		<>
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
-			<SideComponents.Select
-				label="Адрес ответчика"
-				placeholder="Выберите"
-				value="address.type"
-				options={[
-					["Адрес места регистрации ответчика", "normal"],
-					["Последний известный адрес", "last"],
-					["Адрес местонахождения недвижимости ответчика", "realestate"],
-					["Адрес места регистрации юр. лица ответчика", "juridical"],
-				]}
-				ctx={ctx}
-			/>
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideComponents.AddressField label="Адрес места жительства" value="address.address" ctx={ctx} />
+			<DefendantAddressDropdown ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
@@ -207,48 +293,8 @@ export function IndividualFields({ctx}) {
 }
 
 export function JuridicalFields({ctx}) {
-	const [innObject, setInnObject] = useState({});
 	// INN query
-	useUpdate(() => {
-		if (!checkInn(ctx.sideData.inn)) {
-			console.log("invalid inn");
-			setInnObject({});
-			return;
-		}
-
-		const updateInnName = (response) => {
-			const first = response.suggestions[0];
-            console.log(first.data.address.data)
-			setInnObject({
-				address: first.data.address,
-				status: first.data.state.status,
-				nameOpf: first.data.name.short_with_opf,
-				name: first.data.name.full_with_opf,
-				kladr: first.data.address.data.kladr_id,
-				oktmo: first.data.address.data.oktmo,
-                okato: first.data.address.data.okato,
-			});
-		};
-		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
-			method: "POST",
-			mode: "cors",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-				// TODO: offload to backend
-				Authorization: "Token " + process.env.REACT_APP_DADATA,
-			},
-			body: JSON.stringify({query: ctx.sideData.inn}),
-		})
-			.then(catchFetchStatusCode)
-			.then((response) => response.json())
-			.then(updateInnName);
-	}, [ctx.sideData.inn, ctx.sideData.autofillAddress]);
-
-	// idk if this is the right way to do it
-	// it seems to be right xd
-	const shouldUpdateShared = useCallback(() => innObject.status === "ACTIVE", [innObject]);
-
+	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [ctx.sideData.autofillAddress]);
 	return (
 		<>
 			<SideComponents.Label text="Данные юридического лица" />
@@ -262,7 +308,7 @@ export function JuridicalFields({ctx}) {
 				disabled={innObject.status !== "ACTIVE" && typeof innObject.status === "string"}
 				autofill={{
 					value: innObject.nameOpf ?? innObject.name ?? "",
-					shouldUpdate: shouldUpdateShared,
+					shouldUpdate: shouldAutoupdate,
 				}}
 				ctx={ctx}
 			/>
@@ -272,7 +318,7 @@ export function JuridicalFields({ctx}) {
 				ctx={ctx}
 				autofill={{
 					value: innObject.address?.value ?? "",
-					shouldUpdate: shouldUpdateShared,
+					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
 			<SideComponents.InputField
@@ -281,7 +327,7 @@ export function JuridicalFields({ctx}) {
 				ctx={ctx}
 				autofill={{
 					value: innObject.kladr ?? "",
-					shouldUpdate: shouldUpdateShared,
+					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
 			<SideComponents.InputField
@@ -290,16 +336,16 @@ export function JuridicalFields({ctx}) {
 				ctx={ctx}
 				autofill={{
 					value: innObject.oktmo ?? "",
-					shouldUpdate: shouldUpdateShared,
+					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
-            <SideComponents.InputField
+			<SideComponents.InputField
 				label="Код ОКАТО"
 				value="okato"
 				ctx={ctx}
 				autofill={{
 					value: innObject.okato ?? "",
-					shouldUpdate: shouldUpdateShared,
+					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
