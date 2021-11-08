@@ -456,6 +456,22 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	);
 }
 
+function StatefulToggleButton({label, disabled, initialValue = false, children}) {
+	const [toggled, setToggled] = useState(initialValue);
+	const toggle = () => {
+		setToggled(!toggled);
+	};
+	return (
+		<>
+			<button disabled={disabled} className={`side-button button-element small ${toggled && "toggled"}`} onClick={toggle}>
+				{label}
+			</button>
+			{children(toggled)}
+		</>
+	);
+}
+
+// TODO: tooltip
 function AddressField({
 	label,
 	placeholder,
@@ -587,6 +603,7 @@ function AddressField({
 				<input
 					ref={inputRef}
 					type="text"
+					placeholder={placeholder}
 					value={input}
 					onBlur={onInputBlur}
 					onFocus={onInputFocus}
@@ -624,6 +641,7 @@ const SideComponents = {
 	StatefulCheckboxLabel,
 	InputField,
 	Select,
+	StatefulToggleButton,
 	AddressField,
 	NameSelector,
 };
