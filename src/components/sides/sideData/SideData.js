@@ -1,5 +1,5 @@
 const constructDefendant = () => {
-	const keys = ["birthDate", "birthPlace", "workPlace", "snils", "orgnip", "innPhys"];
+	const keys = ["birthDate", "birthPlace", "workPlace"];
 	const defendant = {};
 	keys.forEach((key) => {
 		defendant[key] = null;
