@@ -1,12 +1,12 @@
 import React from "react";
 import Collapsible from "../reusable/Collapsible.js";
-import { isNotNullOrEmptyObject } from "../reusable/Funcs.js";
+import {isNotNullOrEmptyObject} from "../reusable/Funcs.js";
 import SideComponents from "./SideComponents.js";
 
 export default function DefendantAdder({ctx}) {
 	const adderContext = {sideData: ctx.sideData.defendant, update: (k, v) => ctx.update(`defendant.${k}`, v)};
 
-const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyObject);
+	const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyObject);
 
 	return (
 		<div className="defendant-adder">
@@ -16,7 +16,7 @@ const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyO
 						<SideComponents.InputField label="Дата рождения" value="birthDate" ctx={adderContext} disabled={ctx.sideData.defendant.noData} type="date" />
 						<SideComponents.InputField label="Место рождения" value="birthPlace" ctx={adderContext} disabled={ctx.sideData.defendant.noData} />
 						<SideComponents.InputField label="Место работы" value="workPlace" ctx={adderContext} disabled={ctx.sideData.defendant.noData} />
-						<SideComponents.StatefulToggleButton label="Паспорт" initialValue={Object.values(ctx.sideData.defendant.passport).some(isNotNullOrEmptyObject)}>
+						<SideComponents.StatefulToggleButton label="Паспорт" initialValue={!Object.values(ctx.sideData.defendant.passport).some(isNotNullOrEmptyObject)}>
 							{(toggled) => (
 								<Collapsible collapsed={toggled} duration="0.25s">
 									<SideComponents.InputField label="серия" value="passport.series" ctx={adderContext} disabled={ctx.sideData.defendant.noData} />
@@ -34,7 +34,7 @@ const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyO
 						</SideComponents.StatefulToggleButton>
 						<SideComponents.StatefulToggleButton
 							label="Водительское удостоверение"
-							initialValue={Object.values(ctx.sideData.defendant.driverLicense).some(isNotNullOrEmptyObject)}
+							initialValue={!Object.values(ctx.sideData.defendant.driverLicense).some(isNotNullOrEmptyObject)}
 						>
 							{(toggled) => (
 								<Collapsible collapsed={toggled} duration="0.25s">
@@ -45,7 +45,7 @@ const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyO
 						</SideComponents.StatefulToggleButton>
 						<SideComponents.StatefulToggleButton
 							label="Свидетельство о регистрации ТС"
-							initialValue={Object.values(ctx.sideData.defendant.vehicleRegistration).some(isNotNullOrEmptyObject)}
+							initialValue={!Object.values(ctx.sideData.defendant.vehicleRegistration).some(isNotNullOrEmptyObject)}
 						>
 							{(toggled) => (
 								<Collapsible collapsed={toggled} duration="0.25s">
