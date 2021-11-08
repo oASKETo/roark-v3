@@ -322,7 +322,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.AddressField
 				label="Адрес"
-				value="address"
+				value="address.value"
 				ctx={ctx}
 				autofill={{
 					value: innObject.address?.value ?? "",
