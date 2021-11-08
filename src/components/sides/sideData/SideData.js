@@ -4,13 +4,6 @@ const constructDefendant = () => {
 	keys.forEach((key) => {
 		defendant[key] = null;
 	});
-	defendant.address = {
-		type: null,
-		value: null,
-		realestate: null,
-		kladr: null,
-		oktmo: null,
-	};
 	defendant.passport = {
 		series: null,
 		number: null,
@@ -40,6 +33,14 @@ export default class SideData {
 	type = null;
 	phone = null;
 	email = null;
+
+	address = {
+		type: null,
+		value: null,
+		realestate: null,
+		kladr: null,
+		oktmo: null,
+	};
 
 	representative = Object.seal({name: null, surname: null, paternal: null, address: null, phone: null, POADate: null, POANumber: null}); // zaimodavec
 	defendant = constructDefendant(); // zaemshik

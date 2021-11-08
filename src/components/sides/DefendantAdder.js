@@ -5,9 +5,12 @@ import SideComponents from "./SideComponents.js";
 
 export default function DefendantAdder({ctx}) {
 	const adderContext = {sideData: ctx.sideData.defendant, update: (k, v) => ctx.update(`defendant.${k}`, v)};
+
+const shouldShow = !Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyObject);
+
 	return (
 		<div className="defendant-adder">
-			<SideComponents.StatefulToggleButton label="Дополнительная информация" initialValue={!Object.values(ctx.sideData.defendant).some(isNotNullOrEmptyObject)}>
+			<SideComponents.StatefulToggleButton label="Дополнительная информация" initialValue={shouldShow}>
 				{(toggled) => (
 					<Collapsible maxHeightFix collapsed={toggled} duration="0.5s">
 						<SideComponents.InputField label="Дата рождения" value="birthDate" ctx={adderContext} disabled={ctx.sideData.defendant.noData} type="date" />

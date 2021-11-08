@@ -197,7 +197,7 @@ function DefendantAddressDropdown({ctx}) {
 	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [ctx.sideData.autofillAddress]);
 	const [suggestion, setSuggestion] = useState({});
 
-	const type = ctx.sideData.defendant.address.type;
+	const type = ctx.sideData.address.type;
 	const label = {
 		normal: "Адрес места жительства",
 		last: "Последний известный адрес",
@@ -209,7 +209,7 @@ function DefendantAddressDropdown({ctx}) {
 			<SideComponents.Select
 				label="Адрес ответчика"
 				placeholder={["Выберите", null]}
-				value="defendant.address.type"
+				value="address.type"
 				options={[
 					["Адрес места регистрации ответчика", "normal"],
 					["Последний известный адрес", "last"],
@@ -222,7 +222,7 @@ function DefendantAddressDropdown({ctx}) {
 				<SideComponents.Select
 					label="Тип имущества"
 					placeholder={["Выберите", null]}
-					value="defendant.address.realestate"
+					value="address.realestate"
 					options={[
 						["Квартира", "flat"],
 						["Земельный участок", "land"],
@@ -232,10 +232,10 @@ function DefendantAddressDropdown({ctx}) {
 					ctx={ctx}
 				/>
 			)}
-			{type && <SideComponents.AddressField label={label} value="defendant.address.value" onApplySuggestion={(s) => setSuggestion(s.data)} ctx={ctx} />}
+			{type && <SideComponents.AddressField label={label} value="address.value" onApplySuggestion={(s) => setSuggestion(s.data)} ctx={ctx} />}
 			<SideComponents.InputField
 				label="Код КЛАДР"
-				value="defendant.address.kladr"
+				value="address.kladr"
 				ctx={ctx}
 				disabled
 				autofill={{
@@ -247,7 +247,7 @@ function DefendantAddressDropdown({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код ОКТМО"
-				value="defendant.address.oktmo"
+				value="address.oktmo"
 				ctx={ctx}
 				disabled
 				autofill={{
@@ -259,6 +259,14 @@ function DefendantAddressDropdown({ctx}) {
 	);
 }
 
+function SideAddressDropdown({ctx}) {
+	if (ctx.side === "zaimodavec") {
+		return <SideComponents.AddressField label="Адрес места жительства" value="address.value" ctx={ctx} />;
+	} else {
+		return <DefendantAddressDropdown ctx={ctx} />;
+	}
+}
+
 export function PhysicalFields({ctx}) {
 	return (
 		<>
@@ -266,7 +274,7 @@ export function PhysicalFields({ctx}) {
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
 			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<DefendantAddressDropdown ctx={ctx} />
+			<SideAddressDropdown ctx={ctx} />
 			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
@@ -280,7 +288,7 @@ export function IndividualFields({ctx}) {
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<DefendantAddressDropdown ctx={ctx} />
+			<SideAddressDropdown ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
@@ -314,7 +322,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.AddressField
 				label="Адрес"
-				value="defendant.address.value"
+				value="address"
 				ctx={ctx}
 				autofill={{
 					value: innObject.address?.value ?? "",
