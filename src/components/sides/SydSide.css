@@ -1,0 +1,154 @@
+p {
+  color: #47525e;
+  font-family: Lato;
+  font-size: 15px;
+  line-height: 25px;
+  text-align: left;
+}
+label {
+  float: left;
+}
+.radio {
+  float: left;
+}
+.App {
+  float: left;
+}
+.App-p-p {
+  margin-left: 40px;
+}
+.App-p {
+  color: #47525e;
+  font-family: Lato;
+  font-size: 15px;
+  line-height: 25px;
+  text-align: left;
+}
+center {
+  color: #47525e;
+  font-family: Lato;
+  font-size: 26px;
+  line-height: 33px;
+}
+
+ul {
+  color: #47525e;
+  font-family: Lato;
+  font-size: 26px;
+  line-height: 33px;
+  text-align: left;
+}
+
+li {
+  color: #47525e;
+  font-family: Lato;
+  font-size: 15px;
+  line-height: 25px;
+  text-align: left;
+  list-style-type: none; /* Убираем маркеры у списка */
+}
+li:before {
+  content: "♫"; /* Добавляем в качестве маркера символ */
+}
+
+.App-title {
+  text-align: center;
+
+  /* Ширина элемента в пикселах */
+  margin: auto; /* Выравниваем по центру */
+}
+.App-table {
+  text-align: center;
+
+  /* Ширина элемента в пикселах */
+
+  margin: auto; /* Выравниваем по центру */
+}
+.App-tema {
+  text-align: center;
+
+  margin: auto; /* Выравниваем по центру */
+}
+.App-tema-podtema {
+  text-align: left;
+}
+.App-radio {
+  text-align: left;
+
+  /* Ширина элемента в пикселах */
+
+  margin: auto; /* Выравниваем по центру */
+}
+.App-radio-text {
+  clear: both;
+  text-align: right;
+  width: 100%;
+  margin-bottom: 7px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.split-button {
+  float: left;
+  width: 20%;
+  height: 100%;
+}
+.split-text {
+  float: left;
+  width: 80%;
+}
+.button-route {
+  background: rgb(67, 201, 116);
+  height: 80px;
+  width: 80px;
+  font-family: "Times New Roman", Times, serif; /* Гарнитура текста */
+  font-size: 350%;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+.button-route:hover,
+.button-route:focus {
+  border-color: #999;
+  background: -webkit-linear-gradient(top, white, #e0e0e0);
+  background: -moz-linear-gradient(top, white, #e0e0e0);
+  background: -ms-linear-gradient(top, white, #e0e0e0);
+  background: -o-linear-gradient(top, white, #e0e0e0);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 3px #fff;
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 3px #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 3px #fff;
+}
+.main {
+  float: left;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
