@@ -1,9 +1,10 @@
 import {saveAs} from "file-saver";
 
 export function generateDocx(parties) {
-	if (!(parties && parties.zaimodavec && parties.zaemshik)) {
+	if (!(parties && parties.zaimodavec.name && parties.zaemshik.name)) {
 		return;
 	}
+	console.log(parties, parties.zaimodavec, parties.zaemshik);
 	const {zaimodavec: zd, zaemshik: za} = parties;
 	import("docx").then((docx) => {
 		const {Document, Packer, Paragraph, TextRun} = docx;
@@ -67,7 +68,7 @@ export function generateDocx(parties) {
 		addParagraph([`Адрес: `, true], ["суда"]);
 
 		// if (zd.type !== 2) {
-		addParagraph([`Истец: `, true], [`${zd.surname} ${zd.name} ${zd.paternal}`]);
+		addParagraph([`Истец: `, true], [`${zd.changes.surname ?? zd.surname} ${zd.changes.name ?? zd.name} ${zd.changes.paternal ?? zd.paternal}`]);
 		// } else {
 		// addParagraph([`Истец: `, true], [`${val["zd_jpyesname_text"] ? `"${val["zd_jpyesname_text"].value}"` : ""} ${val["zd_orf_text"].value}`]);
 		// }
