@@ -194,7 +194,7 @@ function useINNQuery(inn, depenencies) {
 }
 
 function DefendantAddressDropdown({ctx}) {
-	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [ctx.sideData.autofillAddress]);
+	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.address.inn, []);
 	const [suggestion, setSuggestion] = useState({});
 
 	const type = ctx.sideData.address.type;
@@ -208,13 +208,14 @@ function DefendantAddressDropdown({ctx}) {
 		<>
 			<SideComponents.Select
 				label="Адрес ответчика"
-				placeholder={["Выберите", null]}
+				setIfEmpty
 				value="address.type"
 				options={[
 					["Адрес места регистрации ответчика", "normal"],
 					["Последний известный адрес", "last"],
 					["Адрес местонахождения недвижимости ответчика", "realestate"],
 					["Адрес места регистрации юр. лица ответчика", "juridical"],
+					["Место жительства ответчика неизвестно", "unknown"],
 				]}
 				ctx={ctx}
 			/>
@@ -232,14 +233,44 @@ function DefendantAddressDropdown({ctx}) {
 					ctx={ctx}
 				/>
 			)}
-			{type && <SideComponents.AddressField label={label} value="address.value" onApplySuggestion={(s) => setSuggestion(s.data)} ctx={ctx} />}
+			{type && !["unknown", "juridical"].includes(type) && (
+				<SideComponents.AddressField label={label} value="address.value" onApplySuggestion={(s) => setSuggestion(s.data)} ctx={ctx} />
+			)}
+			{type === "juridical" && (
+				<>
+					<SideComponents.InputField label="ИНН" value="address.inn" ctx={ctx} validator="[0-9]*" />
+					<ShowWhen value={innObject.status} isNot={"ACTIVE"} andNotNull andNotUndefined>
+						<SideComponents.Label text="Внимание: Юридическое лицо не активно" />
+					</ShowWhen>
+					<SideComponents.InputField
+						label="Наименование юридического лица"
+						value="name"
+						disabled={innObject.status !== "ACTIVE" && typeof innObject.status === "string"}
+						autofill={{
+							value: innObject.nameOpf ?? innObject.name ?? "",
+							shouldUpdate: shouldAutoupdate,
+						}}
+						ctx={ctx}
+					/>
+					<SideComponents.AddressField
+						label="Адрес"
+						value="address.value"
+						ctx={ctx}
+                        disabled
+						autofill={{
+							value: innObject.address?.value ?? "",
+							shouldUpdate: shouldAutoupdate,
+						}}
+					/>
+				</>
+			)}
 			<SideComponents.InputField
 				label="Код КЛАДР"
 				value="address.kladr"
 				ctx={ctx}
 				disabled
 				autofill={{
-					value: suggestion.kladr_id ?? "",
+					value: suggestion.kladr_id ?? innObject.kladr ?? "",
 					// infinite loop without "neew !== old"
 					// TODO: allow editing?
 					shouldUpdate: (old, neew) => !!neew && neew !== old,
@@ -251,7 +282,7 @@ function DefendantAddressDropdown({ctx}) {
 				ctx={ctx}
 				disabled
 				autofill={{
-					value: suggestion.oktmo ?? "",
+					value: suggestion.oktmo ?? innObject.oktmo ?? "",
 					shouldUpdate: (old, neew) => !!neew && neew !== old,
 				}}
 			/>
