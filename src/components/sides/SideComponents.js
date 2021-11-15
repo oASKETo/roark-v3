@@ -365,7 +365,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		if (input.startsWith(" ")) {
 			valid = false;
 		}
-		if (!/^[А-Яа-я- ]*$/g.test(input)) {
+		if (!/^[ЁёА-Яа-я- ]*$/g.test(input)) {
 			valid = false;
 		}
 		if (input.split(" ").length > 3) {
@@ -470,7 +470,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 						if (overrideInput !== "") {
 							stopPreviewSuggestion();
 						} else if (inputValidator(ev.target.value)) {
-							setInput(ev.target.value.replace("ё", "е"));
+							setInput(ev.target.value);
 						}
 					}}
 				/>
@@ -535,7 +535,7 @@ function AddressField({
 		if (input.startsWith(" ")) {
 			valid = false;
 		}
-		if (!/^[А-Яа-я- ]*$/g.test(input)) {
+		if (!/^[ЁёА-Яа-я- ]*$/g.test(input)) {
 			valid = false;
 		}
 		return valid;
@@ -602,11 +602,11 @@ function AddressField({
 		if (!isNullUndef(af_path)) {
 			const packagevVal = parsePackage(af_path, ctx.sideData);
 			if (af_shouldUpdate(input, packagevVal)) {
-				update(value, af_value.replace("ё", "е"));
+				update(value, af_value);
 			}
 		} else if (!isNullUndef(af_value)) {
 			if (af_shouldUpdate(input, value)) {
-				update(value, af_value.replace("ё", "е"));
+				update(value, af_value);
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -654,7 +654,7 @@ function AddressField({
 					onFocus={onInputFocus}
 					disabled={disabled}
 					onChange={(ev) => {
-						update(value, ev.target.value.replace("ё", "е"));
+						update(value, ev.target.value);
 					}}
 				/>
 				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
