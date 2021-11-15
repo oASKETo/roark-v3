@@ -212,7 +212,11 @@ function InputField({
 	);
 }
 
-function Select({label, placeholder, options, value, ctx}) {
+// setIfEmpty -
+function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
+	if (placeholder && placeholder[1] === null && setIfEmpty) {
+		throw Error("placeholder can't be null of setIfEmpty is true");
+	}
 	// Option: [<Text>, <Value>]
 	const {sideData, update} = ctx;
 
@@ -226,11 +230,20 @@ function Select({label, placeholder, options, value, ctx}) {
 		}
 	};
 
+	const selectValue = parsePackage(value, sideData);
+	useMount(() => {
+		if (setIfEmpty && selectValue === null) {
+			update(value, placeholder ? placeholder[1] : options[0][1]);
+		}
+	});
+
+	console.log(selectValue);
+
 	return (
 		<div className="side-inputfield-container">
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
-				<select className="side-select-selectelement" value={nullUndefFix(parsePackage(value, sideData), "")} onChange={onChange}>
+				<select className="side-select-selectelement" value={nullUndefFix(selectValue, "")} onChange={onChange}>
 					{placeholder && <option value={placeholder[1] === null ? nullId : placeholder[1]}>{placeholder[0]}</option>}
 					{options.map(([text, value], i) => {
 						return (
@@ -479,6 +492,7 @@ function AddressField({
 	value,
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	onApplySuggestion = () => {},
+    disabled,
 	ctx,
 }) {
 	const {update} = ctx;
@@ -574,7 +588,8 @@ function AddressField({
 	const applySuggestion = (ev) => {
 		const suggestion = suggestions[hoverRef.current.dataset.suggestion];
 		onApplySuggestion(suggestion);
-		update(value, suggestion.value);
+        // include postcode
+		update(value, suggestion.unrestricted_value);
 	};
 
 	const onInputBlur = (ev) => {
@@ -607,6 +622,7 @@ function AddressField({
 					value={input}
 					onBlur={onInputBlur}
 					onFocus={onInputFocus}
+                    disabled={disabled}
 					onChange={(ev) => {
 						update(value, ev.target.value.replace("ё", "е"));
 					}}
