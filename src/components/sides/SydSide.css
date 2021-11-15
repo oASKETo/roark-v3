@@ -8,6 +8,7 @@ p {
 label {
   float: left;
 }
+
 .radio {
   float: left;
 }
@@ -85,12 +86,20 @@ li:before {
   width: 100%;
   margin-bottom: 7px;
 }
-
+.App-radio-text-width {
+  width: 220px;
+  text-align: left;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-
+.active-button {
+  background-color: red;
+}
+.standart-button {
+  background: rgb(67, 201, 116);
+}
 .split-button {
   float: left;
   width: 20%;
