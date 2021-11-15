@@ -1,5 +1,11 @@
 import Collapsible from "../reusable/Collapsible.js";
-import {catchFetchStatusCode, isNullUndef, nullUndefFix, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
+import {
+  catchFetchStatusCode,
+  isNullUndef,
+  nullUndefFix,
+  parsePackage,
+  tryFuncOr,
+} from "../reusable/Funcs.js";
 import {useMount, useUpdate} from "../reusable/Hooks.js";
 import React, {useEffect, useRef, useState} from "react";
 import {HelpCircle} from "react-feather";
@@ -10,7 +16,10 @@ function TypeSelector({sideData, update}) {
 	const TypeButton = ({name, label, index, active}) => {
 		return (
 			<div className="side-typeselector-button-container">
-				<button className={"side-typeselector-button" + (active ? " active" : "")} onClick={() => update("type", index)}>
+        <button
+          className={"side-typeselector-button" + (active ? " active" : "")}
+          onClick={() => update("type", index)}
+        >
 					<img src={`/sides/${name}.png`} alt={label} />
 				</button>
 				<div className="side-typeselector-label">{label}</div>
@@ -27,7 +36,13 @@ function TypeSelector({sideData, update}) {
 	return (
 		<div className="side-typeselector">
 			{typeArray.map(([type, label], i) => (
-				<TypeButton name={type} index={i} active={sideData.type === i} key={type} label={label} />
+        <TypeButton
+          name={type}
+          index={i}
+          active={sideData.type === i}
+          key={type}
+          label={label}
+        />
 			))}
 		</div>
 	);
@@ -46,7 +61,11 @@ function CheckboxLabel({text, tooltip, value, ctx}) {
 
 	return (
 		<div className="side-checkboxlabel-container">
-			<input type="checkbox" checked={nullUndefFix(parsePackage(value, sideData), false)} onChange={onChange} />
+      <input
+        type="checkbox"
+        checked={nullUndefFix(parsePackage(value, sideData), false)}
+        onChange={onChange}
+      />
 			{tooltip && (
 				<div title={tooltip}>
 					<HelpCircle className="side-inputfield-tooltip" />
@@ -87,7 +106,12 @@ function RadioGroup({value, ctx, children}) {
 				if (el.type === RadioLabel) {
 					const filteredArr = arr.filter((v) => v.type === RadioLabel);
 					const value = el.props.value ?? filteredArr.indexOf(el);
-					return React.cloneElement(el, {name: uniqueName, value, key: i, checked: selectedRadio === value});
+          return React.cloneElement(el, {
+            name: uniqueName,
+            value,
+            key: i,
+            checked: selectedRadio === value,
+          });
 				} else {
 					return el;
 				}
@@ -124,7 +148,8 @@ function InputField({
 	_masked = false,
 	_maskOptions,
 }) {
-	checkbox.onChange === undefined && (checkbox.onChange = (ev) => ctx.update(checkbox.value, ev.target.checked));
+  checkbox.onChange === undefined &&
+    (checkbox.onChange = (ev) => ctx.update(checkbox.value, ev.target.checked));
 	const {sideData, update} = ctx;
 
 	// input value=
@@ -189,7 +214,10 @@ function InputField({
 				id={checkboxId}
 				type="checkbox"
 				className={"side-inputfield-checkbox " + checkbox.side}
-				checked={tryFuncOr(() => nullUndefFix(parsePackage(checkbox.value, sideData), false), false)}
+        checked={tryFuncOr(
+          () => nullUndefFix(parsePackage(checkbox.value, sideData), false),
+          false
+        )}
 				onChange={checkbox.onChange}
 				disabled={checkbox.disabled}
 			/>
@@ -288,7 +316,13 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 	);
 }
 
-function StatefulCheckboxLabel({text, tooltip, initiallyCollaped = true, duration, children}) {
+function StatefulCheckboxLabel({
+  text,
+  tooltip,
+  initiallyCollaped = true,
+  duration,
+  children,
+}) {
 	const [show, setShow] = useState(!initiallyCollaped);
 	const checkboxCtx = {
 		sideData: {show},
@@ -299,7 +333,12 @@ function StatefulCheckboxLabel({text, tooltip, initiallyCollaped = true, duratio
 	};
 	return (
 		<>
-			<CheckboxLabel text={text} tooltip={tooltip} value="show" ctx={checkboxCtx} />
+      <CheckboxLabel
+        text={text}
+        tooltip={tooltip}
+        value="show"
+        ctx={checkboxCtx}
+      />
 			<Collapsible collapsed={!show} duration={duration}>
 				{children}
 			</Collapsible>
@@ -336,12 +375,16 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 
 	useUpdate(() => {
 		(async () => {
-			let {suggestions: newSuggestions} = await (await fetch(getQuery(input))).json();
+      let { suggestions: newSuggestions } = await (
+        await fetch(getQuery(input))
+      ).json();
 			if (newSuggestions) {
 				newSuggestions = newSuggestions.map((obj) => obj.value);
 				// Remove if suggestion equals current input
 				const inputSplit = splitInput(input);
-				newSuggestions = newSuggestions.filter((obj) => obj !== inputSplit[fillInStage]);
+        newSuggestions = newSuggestions.filter(
+          (obj) => obj !== inputSplit[fillInStage]
+        );
 				setSuggestions(newSuggestions);
 			}
 		})();
@@ -399,7 +442,10 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		inputSplit[fillInStage] = suggestion;
 		setOverrideInput("");
 		// Also append a space
-		setInput(inputSplit.filter((v) => v !== "").join(" ") + (fillInStage < 2 ? " " : ""));
+    setInput(
+      inputSplit.filter((v) => v !== "").join(" ") +
+        (fillInStage < 2 ? " " : "")
+    );
 		// Keep field focused, unless last suggestion
 		if (fillInStage === 2) {
 			inputRef.current.blur();
@@ -409,7 +455,10 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	};
 
 	//* This is WIP ---------------
-	const [emulateHoverOn, setEmulateHoverOn] = useState({current: -1, previous: -1});
+  const [emulateHoverOn, setEmulateHoverOn] = useState({
+    current: -1,
+    previous: -1,
+  });
 	const suggestionListRef = useRef();
 	const emulateHover = (ev) => {
 		// const newObj = {current: emulateHoverOn.current, previous: emulateHoverOn.current};
@@ -453,7 +502,8 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		isBlurredRef.current = false;
 	};
 
-	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
+  const shouldOpenDialog =
+    !!suggestions.length && document.activeElement === inputRef.current;
 
 	return (
 		<div className="side-inputfield-container">
@@ -476,9 +526,17 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 				/>
 				<div className="side-inputfield-mask-container">
 					<span className="side-inputfield-mask-pre">{input}</span>
-					<span className="side-inputfield-mask-post">{overrideInput === "" && suggestions[0]?.replace(splitInput(input)[fillInStage], "")}</span>
+          <span className="side-inputfield-mask-post">
+            {overrideInput === "" &&
+              suggestions[0]?.replace(splitInput(input)[fillInStage], "")}
+          </span>
 				</div>
-				<dialog className="side-inputfield-suggestions" ref={suggestionListRef} style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+        <dialog
+          className="side-inputfield-suggestions"
+          ref={suggestionListRef}
+          style={{ display: shouldOpenDialog ? undefined : "none" }}
+          open={shouldOpenDialog}
+        >
 					{suggestions.map((suggestion) => {
 						return (
 							<button
@@ -499,14 +557,23 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	);
 }
 
-function StatefulToggleButton({label, disabled, initialValue = false, children}) {
+function StatefulToggleButton({
+  label,
+  disabled,
+  initialValue = false,
+  children,
+}) {
 	const [toggled, setToggled] = useState(initialValue);
 	const toggle = () => {
 		setToggled(!toggled);
 	};
 	return (
 		<>
-			<button disabled={disabled} className={`side-button button-element small ${toggled && "toggled"}`} onClick={toggle}>
+      <button
+        disabled={disabled}
+        className={`side-button button-element small ${toggled && "toggled"}`}
+        onClick={toggle}
+      >
 				{label}
 			</button>
 			{children(toggled)}
@@ -520,7 +587,11 @@ function AddressField({
 	placeholder,
 	tooltip,
 	value,
-	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
+  autofill = {
+    value: undefined,
+    path: undefined,
+    shouldUpdate: (oldValue, newValue) => false,
+  },
 	onApplySuggestion = () => {},
 	disabled,
 	ctx,
@@ -559,7 +630,8 @@ function AddressField({
 		return () => clearInterval(id);
 	});
 
-	const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+  const url =
+    "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 	//TODO: unnecessary update is called when selecting a dropdown option
 	useUpdate(() => {
 		// Autofill, etc
@@ -581,7 +653,9 @@ function AddressField({
 				}).then(catchFetchStatusCode)
 			).json();
 			if (newSuggestions) {
-				newSuggestions = Object.fromEntries(newSuggestions.map((obj) => [Math.random().toString(), obj]));
+        newSuggestions = Object.fromEntries(
+          newSuggestions.map((obj) => [Math.random().toString(), obj])
+        );
 				setSuggestions(newSuggestions);
 			}
 			canCallApi.current = false;
@@ -598,7 +672,11 @@ function AddressField({
 
 	// Autofill
 	useUpdate(() => {
-		const {value: af_value, path: af_path, shouldUpdate: af_shouldUpdate} = autofill;
+    const {
+      value: af_value,
+      path: af_path,
+      shouldUpdate: af_shouldUpdate,
+    } = autofill;
 		if (!isNullUndef(af_path)) {
 			const packagevVal = parsePackage(af_path, ctx.sideData);
 			if (af_shouldUpdate(input, packagevVal)) {
@@ -639,7 +717,9 @@ function AddressField({
 		hoverRef.current = null;
 	};
 
-	const shouldOpenDialog = !!Object.keys(suggestions).length && document.activeElement === inputRef.current;
+  const shouldOpenDialog =
+    !!Object.keys(suggestions).length &&
+    document.activeElement === inputRef.current;
 
 	return (
 		<div className="side-inputfield-container">
@@ -657,7 +737,11 @@ function AddressField({
 						update(value, ev.target.value);
 					}}
 				/>
-				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+        <dialog
+          className="side-inputfield-suggestions"
+          style={{ display: shouldOpenDialog ? undefined : "none" }}
+          open={shouldOpenDialog}
+        >
 					{Object.entries(suggestions).map(([key, suggestion]) => {
 						return (
 							<button
