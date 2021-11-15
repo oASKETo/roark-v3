@@ -4,6 +4,7 @@ import {useMount, useUpdate} from "../reusable/Hooks.js";
 import React, {useEffect, useRef, useState} from "react";
 import {HelpCircle} from "react-feather";
 import "./Side.css";
+import InputMask from "react-input-mask";
 
 function TypeSelector({sideData, update}) {
 	const TypeButton = ({name, label, index, active}) => {
@@ -120,6 +121,8 @@ function InputField({
 	disabled,
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
+	_masked = false,
+	_maskOptions,
 }) {
 	checkbox.onChange === undefined && (checkbox.onChange = (ev) => ctx.update(checkbox.value, ev.target.checked));
 	const {sideData, update} = ctx;
@@ -147,6 +150,7 @@ function InputField({
 
 	const onChange = (ev) => {
 		const trimmed = ev.target.value.trim();
+		console.log(ev.target.value);
 		if (checkValid(trimmed)) {
 			update(value, trimmed === "" ? null : ev.target.value);
 		}
@@ -200,7 +204,11 @@ function InputField({
 			{checkbox.side === "left" && checkboxElement}
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
-				<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+				{!_masked ? (
+					<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+				) : (
+					<InputMask {..._maskOptions} type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+				)}
 			</div>
 			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
@@ -210,6 +218,28 @@ function InputField({
 			)}
 		</div>
 	);
+}
+
+function MaskedInputField({
+	label,
+	placeholder,
+	validator,
+	tooltip,
+	value,
+	ctx,
+	disabled,
+	autofill,
+	maskOptions = {
+		mask: undefined,
+		maskPlaceholder: undefined,
+		alwaysShowMask: true,
+	},
+}) {
+	return <InputField {...arguments[0]} _masked={true} _maskOptions={maskOptions} />;
+}
+
+function PhoneInputField({label, placeholder, validator, tooltip, value, ctx, disabled, autofill}) {
+	return <MaskedInputField {...arguments[0]} maskOptions={{mask: "+79 99 999 99", maskChar: " "}} />;
 }
 
 // setIfEmpty -
@@ -492,7 +522,7 @@ function AddressField({
 	value,
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	onApplySuggestion = () => {},
-    disabled,
+	disabled,
 	ctx,
 }) {
 	const {update} = ctx;
@@ -588,7 +618,7 @@ function AddressField({
 	const applySuggestion = (ev) => {
 		const suggestion = suggestions[hoverRef.current.dataset.suggestion];
 		onApplySuggestion(suggestion);
-        // include postcode
+		// include postcode
 		update(value, suggestion.unrestricted_value);
 	};
 
@@ -622,7 +652,7 @@ function AddressField({
 					value={input}
 					onBlur={onInputBlur}
 					onFocus={onInputFocus}
-                    disabled={disabled}
+					disabled={disabled}
 					onChange={(ev) => {
 						update(value, ev.target.value.replace("ё", "е"));
 					}}
@@ -656,6 +686,8 @@ const SideComponents = {
 	RadioLabel,
 	StatefulCheckboxLabel,
 	InputField,
+	MaskedInputField,
+	PhoneInputField,
 	Select,
 	StatefulToggleButton,
 	AddressField,

@@ -256,7 +256,7 @@ function DefendantAddressDropdown({ctx}) {
 						label="Адрес"
 						value="address.value"
 						ctx={ctx}
-                        disabled
+						disabled
 						autofill={{
 							value: innObject.address?.value ?? "",
 							shouldUpdate: shouldAutoupdate,
@@ -306,7 +306,7 @@ export function PhysicalFields({ctx}) {
 			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideAddressDropdown ctx={ctx} />
-			<SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />
+			<SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
 		</>
@@ -321,7 +321,7 @@ export function IndividualFields({ctx}) {
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 			<SideAddressDropdown ctx={ctx} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
+			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<NameChangeSection ctx={ctx} />
 			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
@@ -387,7 +387,7 @@ export function JuridicalFields({ctx}) {
 					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="Телефон" value="phone" ctx={ctx} validator="\+?[0-9]*" />}
+			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
 			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
 				<SideComponents.InputField

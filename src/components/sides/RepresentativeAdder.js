@@ -1,6 +1,6 @@
 import React from "react";
 import Collapsible from "../reusable/Collapsible.js";
-import { isNotNullOrEmptyObject } from "../reusable/Funcs.js";
+import {isNotNullOrEmptyObject} from "../reusable/Funcs.js";
 import "./Side.css";
 import SideComponents from "./SideComponents.js";
 
@@ -14,7 +14,7 @@ export default function RepresentativeAdder({ctx}) {
 					<Collapsible collapsed={toggled} duration="0.25s">
 						<SideComponents.NameSelector label="ФИО представителя" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={adderContext} />
 						<SideComponents.AddressField label="Адрес представителя" value="address" ctx={adderContext} />
-						<SideComponents.InputField label="Телефон" value="phone" ctx={adderContext} validator="\+?[0-9]*" />
+						<SideComponents.PhoneInputField label="Телефон" value="phone" ctx={adderContext} />
 						<SideComponents.InputField label="Дата выдачи доверенности" value="POADate" ctx={adderContext} type="date" />
 						<SideComponents.InputField label="Номер доверенности" value="POANumber" ctx={adderContext} />
 					</Collapsible>
