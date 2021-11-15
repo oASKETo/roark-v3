@@ -1,7 +1,6 @@
 import SideData from "./SideData.js";
 
 export default class IndividualData extends SideData {
-	name = null;
 	surname = null;
 	paternal = null;
 	ogrnip = null;

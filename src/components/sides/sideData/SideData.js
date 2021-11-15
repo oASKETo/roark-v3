@@ -29,8 +29,8 @@ const constructDefendant = () => {
 };
 
 export default class SideData {
-	side = null; // Zd / za
 	type = null;
+	name = null;
 	phone = null;
 	email = null;
 

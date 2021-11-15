@@ -12,6 +12,12 @@
 }
 /* .navbar-left {
 } */
+.navbar-right {
+	display: flex;
+}
+.navbar-right > * {
+    margin-left: 6px;
+}
 
 .navbar-breadcrumbs {
 	padding: 0;
