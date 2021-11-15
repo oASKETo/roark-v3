@@ -1414,31 +1414,31 @@ export default function SydSide() {
   const color = [
     {
       id: 1,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 2,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 3,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 4,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 5,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 6,
-      text: "standart-button",
+      text: "standard-button",
     },
     {
       id: 7,
-      text: "standart-button",
+      text: "standard-button",
     },
   ];
   return (
