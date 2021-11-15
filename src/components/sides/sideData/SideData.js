@@ -34,13 +34,14 @@ export default class SideData {
 	phone = null;
 	email = null;
 
-	address = {
+	address = Object.seal({
 		type: null,
 		value: null,
 		realestate: null,
 		kladr: null,
 		oktmo: null,
-	};
+		inn: null,
+	});
 
 	representative = Object.seal({name: null, surname: null, paternal: null, address: null, phone: null, POADate: null, POANumber: null}); // zaimodavec
 	defendant = constructDefendant(); // zaemshik
