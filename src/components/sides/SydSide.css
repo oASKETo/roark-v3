@@ -53,6 +53,16 @@
   float: left;
   width: 80%;
 }
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.active-button {
+  background-color: red;
+}
+.standard-button {
+  background: rgb(67, 201, 116);
+}
 /* Часть экрана для кнопок слева */
 .sydside-split-button {
   float: left;

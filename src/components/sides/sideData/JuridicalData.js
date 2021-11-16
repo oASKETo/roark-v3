@@ -2,7 +2,6 @@ import SideData from "./SideData.js";
 
 export default class JuridicalData extends SideData {
 	inn = null;
-	name = null;
     kladr = null;
     okato = null;
 	oktmo = null;

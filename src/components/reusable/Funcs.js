@@ -76,3 +76,8 @@ export async function catchFetchStatusCode(response) {
 	}
 	return response;
 }
+export function chain(...funcs) {
+	return (...args) => {
+		funcs.forEach((f) => typeof f === "function" && f(...args));
+	};
+}
