@@ -31,16 +31,14 @@ function ActionProduction() {
     },
   ];
   const tableProps = table.map((table) => (
-    <li className="ok"> {table.text}</li>
+    <li className="sydside-li"> {table.text}</li>
   ));
 
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
-        <div className="App-tema">
-          <center>Подсудность</center>
-        </div>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
+        <div className="sydside-app-tema">Подсудность</div>
         <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
           <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 
@@ -48,16 +46,20 @@ function ActionProduction() {
             shown={ctx.sideData.value.radio_level_1 === 0}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -69,24 +71,28 @@ function ActionProduction() {
             shown={ctx.sideData.value.radio_level_1 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите Адрес суда" />
               </div>
@@ -98,24 +104,28 @@ function ActionProduction() {
             shown={ctx.sideData.value.radio_level_1 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -127,32 +137,36 @@ function ActionProduction() {
             shown={ctx.sideData.value.radio_level_1 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите адрес жительства/нахождения займодавца:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -164,32 +178,36 @@ function ActionProduction() {
             shown={ctx.sideData.value.radio_level_1 === 4}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите адрес места исполнения договора:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -228,31 +246,35 @@ function SimplifiedProduction() {
         +"обратиться с соответствующей жалобой.",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
 
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
-        <div className="App-tema">
-          <center>Подсудность</center>
-        </div>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
+        <div className="sydside-app-tema">Подсудность</div>
         <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
           <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
           <Collapsible
             shown={ctx.sideData.value.radio_level_1 === 0}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -263,24 +285,28 @@ function SimplifiedProduction() {
             shown={ctx.sideData.value.radio_level_1 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -291,16 +317,20 @@ function SimplifiedProduction() {
             shown={ctx.sideData.value.radio_level_1 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -311,10 +341,10 @@ function SimplifiedProduction() {
             shown={ctx.sideData.value.radio_level_1 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
@@ -324,21 +354,27 @@ function SimplifiedProduction() {
                   placeholder="Введите пункт договора"
                 />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Укажите адрес места исполнения договора</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Укажите адрес места исполнения договора
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
                 <input type="text" id="n" placeholder="Введите адрес" />
               </div>
@@ -374,181 +410,229 @@ function OrderProduction() {
       text: "Судебный приказ отменяется в случае подачи возражений должником после чего необходимо обращаться с исковым заявлением",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
 
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
         <SideComponents.RadioGroup value="value.radio_level_2" ctx={ctx}>
           <SideComponents.RadioLabel text="Обратиться за вынесением судебного приказа" />
           <Collapsible
-            shown={ctx.sideData.value.radio_level_2 === 0}
+            shown={
+              ctx.sideData.value.radio_level_2 === 0 ||
+              ctx.sideData.value.radio_level_1 === 0 ||
+              ctx.sideData.value.radio_level_1 === 1 ||
+              ctx.sideData.value.radio_level_1 === 2 ||
+              ctx.sideData.value.radio_level_1 === 3 ||
+              ctx.sideData.value.radio_level_1 === 4
+            }
             duration="0.1s"
           >
-            <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
-              <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 0}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Наименование суда:</label>
+            <div class="sydside-app">
+              <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+                <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 0}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
                     </div>
-                    <input type="text" id="n" placeholder="Введите суд" />
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>
-                    <input type="text" id="n" placeholder="Введите адрес" />
-                  </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указан конкретный суд, в котором рассматриваются споры по договору" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 1}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
-                    </div>
-                    <input type="text" id="n" placeholder="Укажите пункт" />
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
-                    </div>
-                    <input
-                      type="text"
-                      id="n"
-                      placeholder="Введите наименование"
-                    />
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>
-                    <input type="text" id="n" placeholder="Введите адрес" />
-                  </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства истца" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 2}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>
-                  </div>{" "}
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 3}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите адрес места жительства/нахождения займодавца:
-                      </label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указан конкретный суд, в котором рассматриваются споры по договору" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 1}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        id="n"
+                        placeholder="Введите наименование"
+                      />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства истца" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 2}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 3}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите пункт" />
                     </div>
-                  </div>{" "}
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора." />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 4}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите адрес места исполнения договора:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите адрес места жительства/нахождения займодавца:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора." />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 4}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
                     </div>
-                  </div>{" "}
-                </div>
-              </Collapsible>
-            </SideComponents.RadioGroup>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите адрес места исполнения договора:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
+                    </div>
+                  </div>
+                </Collapsible>
+              </SideComponents.RadioGroup>
+            </div>
           </Collapsible>
           <SideComponents.RadioLabel text="У меня имеются письменные возражения заёмщика относительно спорной задолженности." />
           <Collapsible
             shown={ctx.sideData.value.radio_level_2 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование документа</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Дата документа:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование документа
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите наименование" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Дата документа:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
             </div>
           </Collapsible>
@@ -560,28 +644,31 @@ function OrderProduction() {
             shown={ctx.sideData.value.radio_level_2 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату обращения с заявлением о вынесении судебного
                     приказа:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату определеия об отменен судебного приказа:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите номер дела из картотеки арбитражных дел:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите номер" />
               </div>
             </div>
           </Collapsible>
@@ -590,28 +677,31 @@ function OrderProduction() {
             shown={ctx.sideData.value.radio_level_2 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату обращения с заявлением о вынесении судебного
                     приказа:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату определеия об отменен судебного приказа:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите номер дела из картотеки арбитражных дел:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите номер" />
               </div>
             </div>
           </Collapsible>
@@ -648,30 +738,36 @@ function ActionProductionJusties() {
         "жалобы ответчика, если он обратиться с соответствующей жалобой.",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
-        <div className="App-tema">
-          <center>Подсудность</center>
-        </div>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
+        <div className="sydside-app-tema">Подсудность</div>
         <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
           <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
           <Collapsible
             shown={ctx.sideData.value.radio_level_1 === 0}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -680,23 +776,30 @@ function ActionProductionJusties() {
             shown={ctx.sideData.value.radio_level_1 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -705,23 +808,30 @@ function ActionProductionJusties() {
             shown={ctx.sideData.value.radio_level_1 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
                 </div>
+                <input type="text" id="n" placeholder=" Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -730,30 +840,38 @@ function ActionProductionJusties() {
             shown={ctx.sideData.value.radio_level_1 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите адрес жительства/нахождения займодавца:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
                 </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -762,28 +880,38 @@ function ActionProductionJusties() {
             shown={ctx.sideData.value.radio_level_1 === 4}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Укажите адрес места исполнения договора</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Укажите адрес места исполнения договора
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -820,31 +948,37 @@ function ActionProductionJurisdiction() {
         "жалобы ответчика, если он обратиться с соответствующей жалобой.",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
-        <div className="App-tema">
-          <center>Подсудность</center>
-        </div>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
+        <div className="sydside-app-tema">Подсудность</div>
         <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
           <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
           <Collapsible
             shown={ctx.sideData.value.radio_level_1 === 0}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
-              </div>{" "}
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
             </div>
           </Collapsible>
           <SideComponents.RadioLabel text="Указан конкретный суд, в котором рассматриваются споры по договору" />
@@ -852,23 +986,30 @@ function ActionProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -877,23 +1018,30 @@ function ActionProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -902,31 +1050,39 @@ function ActionProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите адрес жительства/нахождения займодавца:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
                 </div>
-              </div>{" "}
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
             </div>
           </Collapsible>
           <SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
@@ -934,29 +1090,39 @@ function ActionProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 4}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Укажите адрес места исполнения договора</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
                 </div>
-              </div>{" "}
+                <input type="text" id="n" placeholder="Укажите пункт" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Укажите адрес места исполнения договора
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
+              </div>
             </div>
           </Collapsible>
         </SideComponents.RadioGroup>
@@ -993,31 +1159,37 @@ function SimplifiedProductionJurisdiction() {
         +"обратиться с соответствующей жалобой.",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
 
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
-        <div className="App-tema">
-          <center>Подсудность</center>
-        </div>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
+        <div className="sydside-app-tema">Подсудность</div>
         <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
           <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
           <Collapsible
             shown={ctx.sideData.value.radio_level_1 === 0}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование суда:</label>
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -1026,23 +1198,30 @@ function SimplifiedProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder=" Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -1051,23 +1230,30 @@ function SimplifiedProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -1076,23 +1262,30 @@ function SimplifiedProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора в котором содержится данное условие:
                   </label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
-              </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
+              </div>
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -1101,28 +1294,38 @@ function SimplifiedProductionJurisdiction() {
             shown={ctx.sideData.value.radio_level_1 === 4}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите пункт договора, в котором содержится данное условие:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите пункт" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Укажите адрес места исполнения договора</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Укажите адрес места исполнения договора
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Введите наименование суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Введите наименование суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите суд" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Адрес суда:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Адрес суда:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите адрес" />
               </div>
             </div>
           </Collapsible>
@@ -1157,12 +1360,14 @@ function OrderProductionJusties() {
       text: "Судебный приказ отменяется в случае подачи возражений должником после чего необходимо обращаться с исковым заявлением",
     },
   ];
-  const tableProps = table.map((table) => <li> {table.text}</li>);
+  const tableProps = table.map((table) => (
+    <li className="sydside-li"> {table.text}</li>
+  ));
 
   return (
     <>
-      <div className="split-text">
-        <ul className="icon">{tableProps}</ul>
+      <div className="sydside-split-text">
+        <ul className="icon sydside-ul">{tableProps}</ul>
         <SideComponents.RadioGroup value="value.radio_level_2" ctx={ctx}>
           <SideComponents.RadioLabel text="Обратиться за вынесением судебного приказа" />
           <Collapsible
@@ -1176,161 +1381,205 @@ function OrderProductionJusties() {
             }
             duration="0.1s"
           >
-            <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
-              <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
+            <div class="sydside-app">
+              <SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+                <SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 0}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Наименование суда:</label>
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 0}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>{" "}
-                  </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указан конкретный суд, в котором рассматриваются споры по договору" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 1}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>{" "}
-                  </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства истца" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 2}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указан конкретный суд, в котором рассматриваются споры по договору" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 1}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства истца" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 2}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 3}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите адрес места жительства/нахождения займодавца:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="Указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 3}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
+                </Collapsible>
+                <SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора." />
+                <Collapsible
+                  shown={ctx.sideData.value.radio_level_1 === 4}
+                  duration="0.1s"
+                >
+                  <div className="sydside-app ">
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите пункт договора, в котором содержится данное
+                          условие:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Укажите пункт" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Укажите адрес места исполнения договора:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Введите наименование суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите суд" />
+                    </div>
+                    <div className="sydside-app-radio-text">
+                      <div className="sydside-app-radio-text-width">
+                        <label class="sydside-label" for="n">
+                          Адрес суда:
+                        </label>
+                      </div>
+                      <input type="text" id="n" placeholder="Введите адрес" />
                     </div>
                   </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите адрес места жительства/нахождения займодавца:
-                      </label>
-                    </div>
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
-                    </div>
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>
-                  </div>
-                </div>
-              </Collapsible>
-              <SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора." />
-              <Collapsible
-                shown={ctx.sideData.value.radio_level_1 === 4}
-                duration="0.1s"
-              >
-                <div className="App-p-p ">
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите пункт договора, в котором содержится данное
-                        условие:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">
-                        Укажите адрес места исполнения договора:
-                      </label>
-                    </div>{" "}
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Введите наименование суда:</label>
-                    </div>
-                  </div>
-                  <div className="App-radio-text">
-                    <div className="App-radio-text-width">
-                      <label for="n">Адрес суда:</label>
-                    </div>{" "}
-                  </div>
-                </div>
-              </Collapsible>
-            </SideComponents.RadioGroup>
+                </Collapsible>
+              </SideComponents.RadioGroup>
+            </div>
           </Collapsible>
           <SideComponents.RadioLabel text="У меня имеются письменные возражения заёмщика относительно спорной задолженности." />
           <Collapsible
             shown={ctx.sideData.value.radio_level_2 === 1}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Наименование документа</label>
-                </div>{" "}
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Наименование документа
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите наименование" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">Дата документа:</label>
-                </div>{" "}
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
+                    Дата документа:
+                  </label>
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
             </div>
           </Collapsible>
@@ -1342,28 +1591,31 @@ function OrderProductionJusties() {
             shown={ctx.sideData.value.radio_level_2 === 2}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату обращения с заявлением о вынесении судебного
                     приказа:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату определеия об отменен судебного приказа:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите номер дела из картотеки арбитражных дел:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Укажите номер" />
               </div>
             </div>
           </Collapsible>
@@ -1372,28 +1624,31 @@ function OrderProductionJusties() {
             shown={ctx.sideData.value.radio_level_2 === 3}
             duration="0.1s"
           >
-            <div className="App-p-p ">
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+            <div className="sydside-app ">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату обращения с заявлением о вынесении судебного
                     приказа:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Введите дату определеия об отменен судебного приказа:
                   </label>
-                </div>{" "}
+                </div>
+                <input type="text" id="n" placeholder="Введите дату" />
               </div>
-              <div className="App-radio-text">
-                <div className="App-radio-text-width">
-                  <label for="n">
+              <div className="sydside-app-radio-text">
+                <div className="sydside-app-radio-text-width">
+                  <label class="sydside-label" for="n">
                     Укажите номер дела из картотеки арбитражных дел:
                   </label>
                 </div>
+                <input type="text" id="n" placeholder="Укажите номер" />
               </div>
             </div>
           </Collapsible>
@@ -1446,47 +1701,58 @@ export default function SydSide() {
       <img src="../../../public/sides/hammer.jpg" alt="xd" />
       {page === 1 &&
         "Вид производства: Исковое производство в Арбитражном суде"}
+      {page === 2 &&
+        "Вид производства: Упрощенное производство в Арбитражном суде"}
+      {page === 3 &&
+        "Вид производства: Приказное производство в Арбитражном суде"}
+      {page === 4 && "Вид производства: Исковое производство у мировых судей"}
+      {page === 5 &&
+        "Вид производства: Исковое производство в суде общей юрисдикции"}
+      {page === 6 &&
+        "Вид производства: Упрощенное производство в суде общей юрисдикции"}
+      {page === 7 &&
+        "Вид производства: Приказное производство у мирового судьи"}
 
-      <div className="split-button">
+      <div className="sydside-split-button">
         <input
           type="button"
-          className={"button-route"}
+          className={"sydside-button-route"}
           value="1"
           onClick={() => setCount(1)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="2"
           onClick={() => setCount(2)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="3"
           onClick={() => setCount(3)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="4"
           onClick={() => setCount(4)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="5"
           onClick={() => setCount(5)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="6"
           onClick={() => setCount(6)}
         ></input>
         <input
           type="button"
-          className="button-route"
+          className="sydside-button-route"
           value="7"
           onClick={() => setCount(7)}
         ></input>
