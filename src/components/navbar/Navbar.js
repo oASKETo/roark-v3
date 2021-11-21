@@ -4,7 +4,7 @@ import {useHistory} from "react-router";
 import "./Navbar.css";
 import PartiesContext from "../context/PartiesContext";
 import ReactModal from "react-modal";
-import {generateDocx} from "../helper/DocumentMaker";
+import {generateDocx, generatePdf} from "../helper/DocumentMaker";
 
 function Breadcrumb({name, flowIndex, link}) {
 	const {update} = useContext(FlowContext);
@@ -41,6 +41,7 @@ function DocumentMakerButton() {
 		closeModal();
 	};
 	const onPdf = () => {
+        generatePdf(parties);
 		closeModal();
 	};
 	return (

@@ -1,6 +1,42 @@
-import {saveAs} from "file-saver";
+import saveAs from "file-saver";
+
+const serverUrl = "https://roark.jiftoo.dev";
+
+function request(parties, type) {
+	fetch(`${serverUrl}/${type}`, {
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(parties),
+	})
+		.then((v) => v.text())
+		.then((link) => {
+			console.log("link", link);
+			const downloadLink = serverUrl + "/" + link;
+			saveAs(downloadLink, ((split) => split[split.length - 1])(link.split("/")));
+			// const a = document.createElement("a");
+			// a.href = serverUrl + "/" + link;
+			// a.onclick = "return false";
+			// console.log(a.href);
+			// a.click();
+			// console.log(parties);
+		});
+}
 
 export function generateDocx(parties) {
+	console.log(parties);
+	request(parties, "docx");
+}
+
+export function generatePdf(parties) {
+	console.log(parties);
+	request(parties, "pdf");
+}
+
+/*
+export function _generateDocx(parties) {
 	if (!(parties && parties.zaimodavec.name && parties.zaemshik.name)) {
 		return;
 	}
@@ -139,3 +175,4 @@ export function generateDocx(parties) {
 		});
 	});
 }
+*/
