@@ -219,9 +219,9 @@ function useINNQuery(inn, depenencies) {
 
 		const updateInnName = (response) => {
 			const first = response.suggestions[0];
-			console.log(first.data.address.data);
+			console.log(first.data.address);
 			setInnObject({
-				address: first.data.unrestricted_value,
+				address: first.data.address,
 				status: first.data.state.status,
 				nameOpf: first.data.name.short_with_opf,
 				name: first.data.name.full_with_opf,
@@ -324,7 +324,7 @@ function DefendantAddressDropdown({ctx}) {
 						ctx={ctx}
 						disabled
 						autofill={{
-							value: innObject.address?.value ?? "",
+							value: innObject.address?.unrestricted_value ?? "",
 							shouldUpdate: shouldAutoupdate,
 						}}
 					/>
@@ -474,7 +474,7 @@ export function JuridicalFields({ctx}) {
 				value="address.value"
 				ctx={ctx}
 				autofill={{
-					value: innObject.address?.value ?? "",
+					value: innObject.address?.unrestricted_value ?? "",
 					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
