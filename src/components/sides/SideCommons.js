@@ -221,7 +221,7 @@ function useINNQuery(inn, depenencies) {
 			const first = response.suggestions[0];
 			console.log(first.data.address.data);
 			setInnObject({
-				address: first.data.address,
+				address: first.data.unrestricted_value,
 				status: first.data.state.status,
 				nameOpf: first.data.name.short_with_opf,
 				name: first.data.name.full_with_opf,
