@@ -2,12 +2,7 @@ import petrovich from "petrovich";
 import {useCallback, useContext, useState} from "react";
 import PartiesContext from "../context/PartiesContext.js";
 import Collapsible from "../reusable/Collapsible.js";
-import {
-  catchFetchStatusCode,
-  checkInn,
-  parsePackage,
-  tryFuncOr,
-} from "../reusable/Funcs.js";
+import {catchFetchStatusCode, checkInn, parsePackage, tryFuncOr, validateEmail} from "../reusable/Funcs.js";
 import {useUpdate} from "../reusable/Hooks.js";
 import ShowWhen from "../reusable/ShowWhen.js";
 import SideComponents from "./SideComponents.js";
@@ -70,7 +65,11 @@ export function useSideCommons(side) {
 			split.forEach((pk) => (toChange = toChange[pk]));
 
 			try {
-				toChange[newKey] = val;
+				try {
+					toChange[newKey] = val;
+				} catch (ex) {
+					throw new TypeError(ex.toString() + " " + key + " <- " + val);
+				}
 			} catch (ex) {
 				console.log("extension error", toChange);
 				throw ex;
@@ -85,13 +84,7 @@ export function useSideCommons(side) {
 
 function NameChangeSection({ctx}) {
 	const [checkboxState, setCheckboxState] = useState({
-    showFields: tryFuncOr(
-      () =>
-        ctx.sideData.changes.name ||
-        ctx.sideData.changes.surname ||
-        ctx.sideData.changes.paternal,
-      false
-    ),
+		showFields: tryFuncOr(() => ctx.sideData.changes.name || ctx.sideData.changes.surname || ctx.sideData.changes.paternal, false),
 	});
 
 	const stateCtx = {
@@ -101,70 +94,25 @@ function NameChangeSection({ctx}) {
 
 	return (
 		<>
-      <SideComponents.CheckboxLabel
-        text="В период действия договора займа изменились ФИО займодавца"
-        value="showFields"
-        ctx={stateCtx}
-      />
+			<SideComponents.CheckboxLabel text="В период действия договора займа изменились ФИО займодавца" value="showFields" ctx={stateCtx} />
 			<Collapsible collapsed={!checkboxState.showFields} duration="0.1s">
-        <SideComponents.InputField
-          label="Новая фамилия"
-          value="changes.surname"
-          ctx={ctx}
-        />
-        <SideComponents.InputField
-          label="Новое имя"
-          value="changes.name"
-          ctx={ctx}
-        />
-        <SideComponents.InputField
-          label="Новое отчество"
-          value="changes.paternal"
-          ctx={ctx}
-        />
-        <SideComponents.InputField
-          type="date"
-          label="Дата изменения ФИО"
-          value="changes.date"
-          ctx={ctx}
-        />
+				<SideComponents.InputField label="Новая фамилия" value="changes.surname" ctx={ctx} />
+				<SideComponents.InputField label="Новое имя" value="changes.name" ctx={ctx} />
+				<SideComponents.InputField label="Новое отчество" value="changes.paternal" ctx={ctx} />
+				<SideComponents.InputField type="date" label="Дата изменения ФИО" value="changes.date" ctx={ctx} />
 				<SideComponents.Label text="Фамилия, имя либо отчество изменились на основании" />
 				<SideComponents.RadioGroup value="changes.changeReason" ctx={ctx}>
 					<SideComponents.RadioLabel text="Заключения брака" />
-          <Collapsible
-            shown={ctx.sideData.changes.changeReason === 0}
-            duration="0.1s"
-          >
-            <SideComponents.InputField
-              type="date"
-              label="Дата заключения брака"
-              value="changes.reasonDate"
-              ctx={ctx}
-            />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 0} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата заключения брака" value="changes.reasonDate" ctx={ctx} />
 					</Collapsible>
 					<SideComponents.RadioLabel text="Расторжения брака" />
-          <Collapsible
-            shown={ctx.sideData.changes.changeReason === 1}
-            duration="0.1s"
-          >
-            <SideComponents.InputField
-              type="date"
-              label="Дата расторжения брака"
-              value="changes.reasonDate"
-              ctx={ctx}
-            />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 1} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата расторжения брака" value="changes.reasonDate" ctx={ctx} />
 					</Collapsible>
 					<SideComponents.RadioLabel text="Заявления гражданина об изменении фамилии имени отчества" />
-          <Collapsible
-            shown={ctx.sideData.changes.changeReason === 2}
-            duration="0.1s"
-          >
-            <SideComponents.InputField
-              type="date"
-              label="Дата свидетельства о перемене имени"
-              value="changes.reasonDate"
-              ctx={ctx}
-            />
+					<Collapsible shown={ctx.sideData.changes.changeReason === 2} duration="0.1s">
+						<SideComponents.InputField type="date" label="Дата свидетельства о перемене имени" value="changes.reasonDate" ctx={ctx} />
 					</Collapsible>
 				</SideComponents.RadioGroup>
 			</Collapsible>
@@ -199,11 +147,7 @@ function Cases({namePath, surnamePath, paternalPath, changesPath, ctx}) {
 			"genitive"
 		);
 
-    return (
-      <SideComponents.Label
-        text={`Взыскать в пользу ${formattedName.last} ${formattedName.first} ${formattedName.middle}`}
-      />
-    );
+		return <SideComponents.Label text={`Взыскать в пользу ${formattedName.last} ${formattedName.first} ${formattedName.middle}`} />;
 	} else {
 		return null;
 	}
@@ -230,9 +174,7 @@ function useINNQuery(inn, depenencies) {
 				okato: first.data.address.data.okato,
 			});
 		};
-    fetch(
-      "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
-      {
+		fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party", {
 			method: "POST",
 			mode: "cors",
 			headers: {
@@ -242,8 +184,7 @@ function useINNQuery(inn, depenencies) {
 				Authorization: "Token " + process.env.REACT_APP_DADATA,
 			},
 			body: JSON.stringify({query: inn}),
-      }
-    )
+		})
 			.then(catchFetchStatusCode)
 			.then((response) => response.json())
 			.then(updateInnName);
@@ -251,10 +192,7 @@ function useINNQuery(inn, depenencies) {
 
 	// idk if this is the right way to do it
 	// it seems to be right xd
-  const shouldAutoupdate = useCallback(
-    () => innObject.status === "ACTIVE",
-    [innObject]
-  );
+	const shouldAutoupdate = useCallback(() => innObject.status === "ACTIVE", [innObject]);
 
 	return [innObject, shouldAutoupdate];
 }
@@ -343,6 +281,16 @@ function DefendantAddressDropdown({ctx}) {
 				}}
 			/>
 			<SideComponents.InputField
+				label="Код OKATO"
+				value="address.okato"
+				ctx={ctx}
+				disabled
+				autofill={{
+					value: suggestion.okato ?? innObject.okato ?? "",
+					shouldUpdate: (old, neew) => !!neew && neew !== old,
+				}}
+			/>
+			<SideComponents.InputField
 				label="Код ОКТМО"
 				value="address.oktmo"
 				ctx={ctx}
@@ -356,42 +304,44 @@ function DefendantAddressDropdown({ctx}) {
 	);
 }
 
-function SideAddressDropdown({ctx}) {
+function SideAddressDropdown({ctx, onApplySuggestion}) {
 	if (ctx.side === "zaimodavec") {
-    return (
-      <SideComponents.AddressField
-        label="Адрес места жительства"
-        value="address.value"
-        ctx={ctx}
-      />
-    );
+		return <SideComponents.AddressField label="Адрес места жительства" value="address.value" ctx={ctx} onApplySuggestion={onApplySuggestion} />;
 	} else {
 		return <DefendantAddressDropdown ctx={ctx} />;
 	}
+}
+
+// sets these three variables without inputfields
+// might want to refactor later
+function addressSetHiddenStuff(suggestion, ctx) {
+	const data = suggestion.data;
+	console.log("set vals", "okato", data.okato, "oktmo", data.oktmo);
+	ctx.update("address.kladr", data.kladr_id);
+	ctx.update("address.okato", data.okato);
+	ctx.update("address.oktmo", data.oktmo);
 }
 
 export function PhysicalFields({ctx}) {
 	return (
 		<>
 			<SideComponents.Label text="Данные физического лица" />
-      <SideComponents.NameSelector
-        label="ФИО"
-        namePath="name"
-        surnamePath="surname"
-        paternalPath="paternal"
-        ctx={ctx}
-      />
+			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
 			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
-      <Cases
-        namePath="name"
-        surnamePath="surname"
-        paternalPath="paternal"
-        changesPath="changes"
-        ctx={ctx}
-      />
-			<SideAddressDropdown ctx={ctx} />
+			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
+			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
 			<SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<NameChangeSection ctx={ctx} />
 		</>
 	);
@@ -401,35 +351,25 @@ export function IndividualFields({ctx}) {
 	return (
 		<>
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
-      <SideComponents.NameSelector
-        label="ФИО"
-        namePath="name"
-        surnamePath="surname"
-        paternalPath="paternal"
-        ctx={ctx}
-      />
-      <Cases
-        namePath="name"
-        surnamePath="surname"
-        paternalPath="paternal"
-        changesPath="changes"
-        ctx={ctx}
-      />
-			<SideAddressDropdown ctx={ctx} />
+			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
+			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
+			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<NameChangeSection ctx={ctx} />
-      <SideComponents.StatefulCheckboxLabel
-        text="В период действия договора займа ИП было ликвидировано"
-        initiallyCollaped={!ctx.sideData.liquidationDate}
-      >
-        <SideComponents.InputField
-          type="date"
-          label="Дата ликвидации ИП"
-          value="liquidationDate"
-          ctx={ctx}
-        />
+			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
+				<SideComponents.InputField type="date" label="Дата ликвидации ИП" value="liquidationDate" ctx={ctx} />
 			</SideComponents.StatefulCheckboxLabel>
 		</>
 	);
@@ -437,32 +377,18 @@ export function IndividualFields({ctx}) {
 
 export function JuridicalFields({ctx}) {
 	// INN query
-  const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [
-    ctx.sideData.autofillAddress,
-  ]);
+	const [innObject, shouldAutoupdate] = useINNQuery(ctx.sideData.inn, [ctx.sideData.autofillAddress]);
 	return (
 		<>
 			<SideComponents.Label text="Данные юридического лица" />
-      <SideComponents.InputField
-        label="ИНН"
-        value="inn"
-        ctx={ctx}
-        validator="[0-9]*"
-      />
-      <ShowWhen
-        value={innObject.status}
-        isNot={"ACTIVE"}
-        andNotNull
-        andNotUndefined
-      >
+			<SideComponents.InputField label="ИНН" value="inn" ctx={ctx} validator="[0-9]*" />
+			<ShowWhen value={innObject.status} isNot={"ACTIVE"} andNotNull andNotUndefined>
 				<SideComponents.Label text="Внимание: Юридическое лицо не активно" />
 			</ShowWhen>
 			<SideComponents.InputField
 				label="Наименование юридического лица"
 				value="name"
-        disabled={
-          innObject.status !== "ACTIVE" && typeof innObject.status === "string"
-        }
+				disabled={innObject.status !== "ACTIVE" && typeof innObject.status === "string"}
 				autofill={{
 					value: innObject.nameOpf ?? innObject.name ?? "",
 					shouldUpdate: shouldAutoupdate,
@@ -473,6 +399,7 @@ export function JuridicalFields({ctx}) {
 				label="Адрес"
 				value="address.value"
 				ctx={ctx}
+				onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)}
 				autofill={{
 					value: innObject.address?.unrestricted_value ?? "",
 					shouldUpdate: shouldAutoupdate,
@@ -480,7 +407,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код КЛАДР"
-				value="kladr"
+				value="address.kladr"
 				ctx={ctx}
 				autofill={{
 					value: innObject.kladr ?? "",
@@ -489,7 +416,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код ОКТМО"
-				value="oktmo"
+				value="address.oktmo"
 				ctx={ctx}
 				autofill={{
 					value: innObject.oktmo ?? "",
@@ -498,7 +425,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код ОКАТО"
-				value="okato"
+				value="address.okato"
 				ctx={ctx}
 				autofill={{
 					value: innObject.okato ?? "",
@@ -506,7 +433,17 @@ export function JuridicalFields({ctx}) {
 				}}
 			/>
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
 				<SideComponents.InputField
 					label="Наименование филиала или представительства"

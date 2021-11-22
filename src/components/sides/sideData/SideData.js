@@ -40,6 +40,7 @@ export default class SideData {
 		realestate: null,
 		kladr: null,
 		oktmo: null,
+		okato: null,
 		inn: null,
 	});
 

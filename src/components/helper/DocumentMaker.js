@@ -1,6 +1,7 @@
 import saveAs from "file-saver";
 
 const serverUrl = "https://roark.jiftoo.dev";
+// const serverUrl = "http://localhost:6001";
 
 function request(parties, type) {
 	fetch(`${serverUrl}/${type}`, {

@@ -126,6 +126,7 @@ function InputField({
 	disabled,
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
+	notifyInvalid = {tester: undefined, messageBuilder: (input) => {}},
 	_masked = false,
 	_maskOptions,
 }) {
@@ -203,7 +204,9 @@ function InputField({
 			</label>
 		</div>
 	);
-
+	if (notifyInvalid.tester) {
+		console.log("tester", notifyInvalid.tester(inputFieldValue), inputFieldValue);
+	}
 	return (
 		<div className="side-inputfield-container">
 			{checkbox.side === "left" && checkboxElement}
@@ -214,6 +217,7 @@ function InputField({
 				) : (
 					<InputMask {..._maskOptions} type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				)}
+				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && <div className="side-inputfield-input-container-invalidhint">invalid</div>}
 			</div>
 			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
@@ -271,8 +275,6 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 			update(value, placeholder ? placeholder[1] : options[0][1]);
 		}
 	});
-
-	console.log(selectValue);
 
 	return (
 		<div className="side-inputfield-container">
@@ -533,7 +535,7 @@ function AddressField({
 		path: undefined,
 		shouldUpdate: (oldValue, newValue) => false,
 	},
-	onApplySuggestion = () => {},
+	onApplySuggestion = (suggestion) => {},
 	disabled,
 	ctx,
 }) {
@@ -563,7 +565,7 @@ function AddressField({
 		const id = setInterval(() => {
 			canCallApi.current = true;
 			if (delayedApiCall.current !== null) {
-				console.log("addres update valid delayed execute");
+				// console.log("addres update valid delayed execute");
 				delayedApiCall.current();
 				delayedApiCall.current = null;
 			}
@@ -599,10 +601,10 @@ function AddressField({
 			canCallApi.current = false;
 		};
 		if (canCallApi.current && inputValidator(input)) {
-			console.log("addres update valid");
+			// console.log("addres update valid");
 			apiCallFn();
 		} else {
-			console.log("addres update valid delayed set");
+			// console.log("addres update valid delayed set");
 			delayedApiCall.current = apiCallFn;
 		}
 		update(value, input);
