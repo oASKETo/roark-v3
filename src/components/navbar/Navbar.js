@@ -4,7 +4,7 @@ import {useHistory} from "react-router";
 import "./Navbar.css";
 import PartiesContext from "../context/PartiesContext";
 import ReactModal from "react-modal";
-import {generateDocx} from "../helper/DocumentMaker";
+//import {generateDocx} from "../helper/DocumentMaker";
 
 function Breadcrumb({name, flowIndex, link}) {
 	const {update} = useContext(FlowContext);
@@ -28,58 +28,6 @@ function Breadcrumb({name, flowIndex, link}) {
 	);
 }
 
-function DocumentMakerButton() {
-	const {parties} = useContext(PartiesContext);
-	const [showModal, setShowModal] = useState(false);
-
-	const closeModal = () => {
-		setShowModal(false);
-	};
-
-	const onDocx = () => {
-		generateDocx(parties);
-		closeModal();
-	};
-	const onPdf = () => {
-		closeModal();
-	};
-	return (
-		<div>
-			<button onClick={() => setShowModal(true)}>Документ</button>
-			<ReactModal
-				isOpen={showModal}
-				contentLabel="Yes"
-				onRequestClose={closeModal}
-				shouldCloseOnOverlayClick={true}
-				style={{
-					content: {
-						top: "50%",
-						left: "50%",
-						right: "auto",
-						bottom: "auto",
-						marginRight: "-50%",
-						transform: "translate(-50%, -50%)",
-						width: "300px",
-						display: "flex",
-						flexDirection: "column",
-						color: "var(--text-dark)",
-						textAlign: "center",
-					},
-					overlay: {
-						backgroundColor: "rgba(0,0,0,0.5)",
-					},
-				}}
-			>
-				<div>Выберите формат документа</div>
-				<div>
-					<button onClick={onDocx}>.docx</button>
-					<button onClick={onPdf}>.pdf</button>
-				</div>
-			</ReactModal>
-		</div>
-	);
-}
-
 function Navbar({flow}) {
 	return (
 		<nav className="navbar">
@@ -92,7 +40,6 @@ function Navbar({flow}) {
 				</ul>
 			</div>
 			<div className="navbar-right">
-				<DocumentMakerButton />
 				<div>Log in</div>
 			</div>
 		</nav>

@@ -1,4 +1,8 @@
 /* Оформление label */
+.sydside {
+  display: inline;
+  
+}
 .sydside-label {
   float: left;
 }
@@ -30,6 +34,13 @@
 .sydside-app-tema {
   text-align: center;
 
+  margin: auto; /* Выравниваем по центру */
+  color: #47525e;
+  font-family: Lato;
+  font-size: 26px;
+  line-height: 33px;
+}
+.sydside-app-tema-variables {
   margin: auto; /* Выравниваем по центру */
   color: #47525e;
   font-family: Lato;

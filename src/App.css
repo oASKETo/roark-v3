@@ -16,7 +16,7 @@ body {
 	left: 0;
 	right: 0;
 
-	padding: 24px;
+	
 	height: 100vh;
 }
 
@@ -32,7 +32,7 @@ body {
 
 	margin-bottom: 10px;
 
-	background-color: var(--container-background);
+	
 	color: var(--text-dark);
 }
 
@@ -49,7 +49,7 @@ body {
 	color: var(--text-dark);
 	background-color: var(--container-background);
 
-	border-bottom-right-radius: 4px;
+	
 }
 
 .debug-container {
