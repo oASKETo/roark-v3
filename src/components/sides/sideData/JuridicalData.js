@@ -2,9 +2,6 @@ import SideData from "./SideData.js";
 
 export default class JuridicalData extends SideData {
 	inn = null;
-    kladr = null;
-    okato = null;
-	oktmo = null;
 	autofillAddress = true; // always true
 	filial = Object.seal({name: null});
 

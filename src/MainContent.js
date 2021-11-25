@@ -23,7 +23,8 @@ export default function MainContent() {
 						steps={[
 							["Займодавец (Истец)", ZaimodavecSide],
 							["Заёмщик (Ответчик)", ZaemshikSide],
-							["", SydSide],
+
+							["Суд", SydSide],
 							["", CashOrder],
 							// More screens
 						]}

@@ -2,7 +2,8 @@ import petrovich from "petrovich";
 import {useCallback, useContext, useState} from "react";
 import PartiesContext from "../context/PartiesContext.js";
 import Collapsible from "../reusable/Collapsible.js";
-import {catchFetchStatusCode, checkInn, parsePackage, tryFuncOr} from "../reusable/Funcs.js";
+import {catchFetchStatusCode, checkInn, parsePackage, tryFuncOr, validateEmail} from "../reusable/Funcs.js";
+
 import {useUpdate} from "../reusable/Hooks.js";
 import ShowWhen from "../reusable/ShowWhen.js";
 import SideComponents from "./SideComponents.js";
@@ -109,7 +110,11 @@ export function useSideCommons(side) {
 			split.forEach((pk) => (toChange = toChange[pk]));
 
 			try {
-				toChange[newKey] = val;
+				try {
+					toChange[newKey] = val;
+				} catch (ex) {
+					throw new TypeError(ex.toString() + " " + key + " <- " + val);
+				}
 			} catch (ex) {
 				console.log("extension error", toChange);
 				throw ex;
@@ -203,7 +208,7 @@ function useINNQuery(inn, depenencies) {
 
 		const updateInnName = (response) => {
 			const first = response.suggestions[0];
-			console.log(first.data.address.data);
+			console.log(first.data.address);
 			setInnObject({
 				address: first.data.address,
 				status: first.data.state.status,
@@ -302,7 +307,7 @@ function DefendantAddressDropdown({ctx}) {
 						ctx={ctx}
 						disabled
 						autofill={{
-							value: innObject.address?.value ?? "",
+							value: innObject.address?.unrestricted_value ?? "",
 							shouldUpdate: shouldAutoupdate,
 						}}
 					/>
@@ -321,6 +326,16 @@ function DefendantAddressDropdown({ctx}) {
 				}}
 			/>
 			<SideComponents.InputField
+				label="Код OKATO"
+				value="address.okato"
+				ctx={ctx}
+				disabled
+				autofill={{
+					value: suggestion.okato ?? innObject.okato ?? "",
+					shouldUpdate: (old, neew) => !!neew && neew !== old,
+				}}
+			/>
+			<SideComponents.InputField
 				label="Код ОКТМО"
 				value="address.oktmo"
 				ctx={ctx}
@@ -334,12 +349,22 @@ function DefendantAddressDropdown({ctx}) {
 	);
 }
 
-function SideAddressDropdown({ctx}) {
+function SideAddressDropdown({ctx, onApplySuggestion}) {
 	if (ctx.side === "zaimodavec") {
-		return <SideComponents.AddressField label="Адрес места жительства" value="address.value" ctx={ctx} />;
+		return <SideComponents.AddressField label="Адрес места жительства" value="address.value" ctx={ctx} onApplySuggestion={onApplySuggestion} />;
 	} else {
 		return <DefendantAddressDropdown ctx={ctx} />;
 	}
+}
+
+// sets these three variables without inputfields
+// might want to refactor later
+function addressSetHiddenStuff(suggestion, ctx) {
+	const data = suggestion.data;
+	console.log("set vals", "okato", data.okato, "oktmo", data.oktmo);
+	ctx.update("address.kladr", data.kladr_id);
+	ctx.update("address.okato", data.okato);
+	ctx.update("address.oktmo", data.oktmo);
 }
 
 export function PhysicalFields({ctx}) {
@@ -349,9 +374,19 @@ export function PhysicalFields({ctx}) {
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
 			{/* TODO: Адрес по ИНН когда выбран последний пункт */}
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideAddressDropdown ctx={ctx} />
+			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
 			<SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<NameChangeSection ctx={ctx} />
 		</>
 	);
@@ -363,10 +398,21 @@ export function IndividualFields({ctx}) {
 			<SideComponents.Label text="Данные индивидуального предпринимателя" />
 			<SideComponents.NameSelector label="ФИО" namePath="name" surnamePath="surname" paternalPath="paternal" ctx={ctx} />
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
-			<SideAddressDropdown ctx={ctx} />
+
+			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
 			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<NameChangeSection ctx={ctx} />
 			<SideComponents.StatefulCheckboxLabel text="В период действия договора займа ИП было ликвидировано" initiallyCollaped={!ctx.sideData.liquidationDate}>
 				<SideComponents.InputField type="date" label="Дата ликвидации ИП" value="liquidationDate" ctx={ctx} />
@@ -399,14 +445,15 @@ export function JuridicalFields({ctx}) {
 				label="Адрес"
 				value="address.value"
 				ctx={ctx}
+				onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)}
 				autofill={{
-					value: innObject.address?.value ?? "",
+					value: innObject.address?.unrestricted_value ?? "",
 					shouldUpdate: shouldAutoupdate,
 				}}
 			/>
 			<SideComponents.InputField
 				label="Код КЛАДР"
-				value="kladr"
+				value="address.kladr"
 				ctx={ctx}
 				autofill={{
 					value: innObject.kladr ?? "",
@@ -415,7 +462,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код ОКТМО"
-				value="oktmo"
+				value="address.oktmo"
 				ctx={ctx}
 				autofill={{
 					value: innObject.oktmo ?? "",
@@ -424,7 +471,7 @@ export function JuridicalFields({ctx}) {
 			/>
 			<SideComponents.InputField
 				label="Код ОКАТО"
-				value="okato"
+				value="address.okato"
 				ctx={ctx}
 				autofill={{
 					value: innObject.okato ?? "",
@@ -432,7 +479,17 @@ export function JuridicalFields({ctx}) {
 				}}
 			/>
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
-			{ctx.side === "zaimodavec" && <SideComponents.InputField label="E-Mail" value="email" ctx={ctx} />}
+			{ctx.side === "zaimodavec" && (
+				<SideComponents.InputField
+					label="E-Mail"
+					value="email"
+					notifyInvalid={{
+						tester: validateEmail,
+						messageBuilder: (input) => "Некорректный адрес: " + input,
+					}}
+					ctx={ctx}
+				/>
+			)}
 			<SideComponents.StatefulCheckboxLabel text="Договор займа заключён с филиалом или представительством" initiallyCollaped={!ctx.sideData.filial?.name}>
 				<SideComponents.InputField
 					label="Наименование филиала или представительства"
