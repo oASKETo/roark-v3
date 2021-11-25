@@ -938,7 +938,7 @@ function OrderProductionJusties() {
 					</Collapsible>
 
 					<SideComponents.RadioLabel text="Я уже обращался с заявлением о вынесении судебного приказа, однако судебный приказ был отменён в связи с подачей возражений должника." />
-					
+
 					<Collapsible shown={ctx.sideData.value.radio_level_2 === 3} duration="0.1s">
 						<div className="sydside-app ">
 							<div className="sydside-app-radio-text">
@@ -1023,7 +1023,7 @@ export default function SydSide() {
 				<input type="button" className="sydside-button-route" value="7" onClick={() => setCount(7)}></input>
 			</div>
 			<div class="sydside">
-				<img src="/sides/hammer.jpg" alt="xd" />
+				<img className="sydside-app-img" src="/sides/hammer.jpg" alt="xd" />
 
 				<div class="sydside-app-tema-variables">
 					<label>Суд:</label>

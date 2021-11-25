@@ -10,6 +10,9 @@
 .sydside-app {
   margin-left: 40px;
 }
+.sydside-app-img {
+  max-width: 60px;
+}
 
 .sydside-ul {
   color: #47525e;
