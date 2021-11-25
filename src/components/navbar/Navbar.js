@@ -41,7 +41,7 @@ function DocumentMakerButton() {
 		closeModal();
 	};
 	const onPdf = () => {
-		generatePdf(parties);
+        generatePdf(parties);
 		closeModal();
 	};
 	return (
@@ -93,6 +93,7 @@ function Navbar({flow}) {
 				</ul>
 			</div>
 			<div className="navbar-right">
+				<DocumentMakerButton />
 				<div>Log in</div>
 			</div>
 		</nav>
