@@ -12,6 +12,7 @@ import CashOrderContext from "./components/context/CashOrderContext.js";
 import UserHelper from "./components/helper/UserHelper.js";
 import {getSortaISODateTime} from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
+import SydData from "./components/sides/sideData/SydData";
 import MainContent from "./MainContent.js";
 
 console.warn = () => {};
@@ -209,11 +210,7 @@ class App extends Component {
 			zaemshik: new PhysicalData(),
 		},
 		syd: {
-			///Необходимые классы
-			value: {
-				radio_level_1: -1,
-				radio_level_2: -1,
-			},
+			sydSideData: new SydData(),
 		},
 		order: {
 			value: {

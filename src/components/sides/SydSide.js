@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import SydContext from "../context/SydContext.js";
 import SideComponents from "./SideComponents.js";
-import {useAppContext} from "./SideCommons.js";
+import {useSydSide} from "./SideCommons.js";
 import Collapsible from "../reusable/Collapsible.js";
 import {tryFuncOr} from "../reusable/Funcs.js";
 import "./SydSide.css";
 
 //Исковое производство
 function ActionProduction() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -41,78 +40,37 @@ function ActionProduction() {
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<div className="sydside-app-tema">Подсудность</div>
-				<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 					<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 					<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
 
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование суда:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование суда" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+
+							<SideComponents.InputField label="Пункт договора" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре укзаано, что дело рассматривается по месту нахождения/жительства истца" />
 
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
 
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
 
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 						<div className="sydside-app">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Адрес места исполнения договора:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Адрес" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -122,7 +80,7 @@ function ActionProduction() {
 }
 //упрощенное производство
 function SimplifiedProduction() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -155,74 +113,32 @@ function SimplifiedProduction() {
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<div className="sydside-app-tema">Подсудность</div>
-				<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 					<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 					<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование суда:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование суда" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства истца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Адрес места исполнения договора
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Адрес" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -232,7 +148,7 @@ function SimplifiedProduction() {
 }
 //Приказное производство
 function OrderProduction() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -261,173 +177,77 @@ function OrderProduction() {
 		<>
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
-				<SideComponents.RadioGroup value="value.radio_level_2" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_2" ctx={ctx}>
 					<SideComponents.RadioLabel text="Обратиться за вынесением судебного приказа" />
 					<Collapsible
 						shown={
-							ctx.sideData.value.radio_level_2 === 0 ||
-							ctx.sideData.value.radio_level_1 === 0 ||
-							ctx.sideData.value.radio_level_1 === 1 ||
-							ctx.sideData.value.radio_level_1 === 2 ||
-							ctx.sideData.value.radio_level_1 === 3 ||
-							ctx.sideData.value.radio_level_1 === 4
+							ctx.sideData.radio_level_2 !== 1 &&
+							ctx.sideData.radio_level_2 !== 2 &&
+							ctx.sideData.radio_level_2 !== 3 &&
+							(ctx.sideData.radio_level_1 === 0 ||
+								ctx.sideData.radio_level_1 === 1 ||
+								ctx.sideData.radio_level_1 === 2 ||
+								ctx.sideData.radio_level_1 === 3 ||
+								ctx.sideData.radio_level_1 === 4)
 						}
 						duration="0.1s"
 					>
-						<div class="sydside-app">
-							<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+						<div className="sydside-app">
+							<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 								<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 								<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Наименование суда:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Наименование суда" />
-										</div>
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
+										<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре укзаано, что дело рассматривается по месту нахождения/жительства истца" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Адрес места исполнения договора:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Адрес" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
+										<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
 									</div>
 								</Collapsible>
 							</SideComponents.RadioGroup>
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="У меня имеются письменные возражения заёмщика относительно спорной задолженности." />
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование документа
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата документа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
+							<SideComponents.InputField label="Наименование документа:" value="titleDocument" ctx={ctx} placeholder="Наименование" />
+							<SideComponents.InputField type="date" label="Дата документа:" value="dateDocument" ctx={ctx} />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel
 						text="Я уже обращался с заявлением о вынесении судебного приказа, однако Арбитражный суд вынес 
                     определение  об отказе в принятии заявления о вынесении судебного приказа"
 					/>
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата обращения с заявлением о вынесении судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата определеия об отмене судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Номер дела из картотеки арбитражных дел:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Номер дела" />
-							</div>
+							<SideComponents.InputField type="date" label="Дата обращения с заявлением о вынесении судебного приказа:" value="dateApplication" ctx={ctx} />
+							<SideComponents.InputField type="date" label="Дата определения об отмене судебного приказа:" value="dateCancelOrder" ctx={ctx} />
+							<SideComponents.InputField label="Номер дела из картотеки арбитражных дел:" value="caseNumber" ctx={ctx} placeholder="Номер дела" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="Я уже обращался с заявлением о вынесении судебного приказа, однако судебный приказ был отменён в связи с подачей возражений должника." />
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата обращения с заявлением о вынесении судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата определения об отмене судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Номер дела из картотеки арбитражных дел:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Номер дела" />
-							</div>
+							<SideComponents.InputField type="date" label="Дата обращения с заявлением о вынесении судебного приказа:" value="dateApplication" ctx={ctx} />
+							<SideComponents.InputField type="date" label="Дата определения об отмене судебного приказа:" value="dateCancelOrder" ctx={ctx} />
+							<SideComponents.InputField label="Номер дела из картотеки арбитражных дел:" value="caseNumber" ctx={ctx} placeholder="Номер дела" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -437,7 +257,7 @@ function OrderProduction() {
 }
 //Исковое производство у мировых судей
 function ActionProductionJusties() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -469,74 +289,32 @@ function ActionProductionJusties() {
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<div className="sydside-app-tema">Подсудность</div>
-				<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 					<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 					<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование суда:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование суда" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства истца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder=" Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Адрес места исполнения договора
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Адрес" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
+							<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -546,7 +324,7 @@ function ActionProductionJusties() {
 }
 //Исковое производство в суде общей юрисдикции
 function ActionProductionJurisdiction() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -578,74 +356,32 @@ function ActionProductionJurisdiction() {
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<div className="sydside-app-tema">Подсудность</div>
-				<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 					<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 					<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование суда:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование суда" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства истца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Адрес места исполнения договора
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Адрес" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
+							<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -653,10 +389,9 @@ function ActionProductionJurisdiction() {
 		</>
 	);
 }
-
 //Упрощенное производство в суде общей юрисдикции
 function SimplifiedProductionJurisdiction() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -689,74 +424,32 @@ function SimplifiedProductionJurisdiction() {
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<div className="sydside-app-tema">Подсудность</div>
-				<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 					<SideComponents.RadioLabel text="Исковое заявление будет поданно по месту жительства/нахождения ответчика (по умолчанию)" />
 					<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование суда:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование суда" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder=" Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства истца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора" />
-					<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Пункт договора, с данным условием:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Пункт договора" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Адрес места исполнения договора
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Адрес" />
-							</div>
+							<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
+							<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -764,10 +457,9 @@ function SimplifiedProductionJurisdiction() {
 		</>
 	);
 }
-
 //Приказное производство у мирового судьи
 function OrderProductionJusties() {
-	const ctx = useAppContext(SydContext, "syd");
+	const ctx = useSydSide("sydSideData");
 	const table = [
 		{
 			id: 1,
@@ -796,175 +488,77 @@ function OrderProductionJusties() {
 		<>
 			<div className="sydside-split-text">
 				<ul className="icon sydside-ul">{tableProps}</ul>
-				<SideComponents.RadioGroup value="value.radio_level_2" ctx={ctx}>
+				<SideComponents.RadioGroup value="radio_level_2" ctx={ctx}>
 					<SideComponents.RadioLabel text="Обратиться за вынесением судебного приказа" />
 					<Collapsible
 						shown={
-							ctx.sideData.value.radio_level_1 === 0 ||
-							ctx.sideData.value.radio_level_1 === 1 ||
-							ctx.sideData.value.radio_level_1 === 2 ||
-							ctx.sideData.value.radio_level_1 === 3 ||
-							ctx.sideData.value.radio_level_1 === 4 ||
-							ctx.sideData.value.radio_level_2 === 0
+							ctx.sideData.radio_level_1 === 0 ||
+							ctx.sideData.radio_level_1 === 1 ||
+							ctx.sideData.radio_level_1 === 2 ||
+							ctx.sideData.radio_level_1 === 3 ||
+							ctx.sideData.radio_level_1 === 4 ||
+							ctx.sideData.radio_level_2 === 0
 						}
 						duration="0.1s"
 					>
-						<div class="sydside-app">
-							<SideComponents.RadioGroup value="value.radio_level_1" ctx={ctx}>
+						<div className="sydside-app">
+							<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 								<SideComponents.RadioLabel text="Исковое заявление будет подано по месту жительства/нахождения ответчика (по умолчанию)" />
 								<SideComponents.RadioLabel text="В договоре указан конкретный суд, в котором рассматриваются споры по договору" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 1} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 1} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Наименование суда:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Наименование суда" />
-										</div>
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Двухзначный код региона:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Код региона" />
-										</div>
+										<SideComponents.InputField label="Наименование суда:" value="nameSyd" ctx={ctx} placeholder="Наименование суда" />
+										<SideComponents.InputField label="Двухзначный код региона:" value="nameSyd" ctx={ctx} placeholder="Код региона" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре укзаано, что дело рассматривается по месту нахождения/жительства истца" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 2} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 2} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре указано, что дело рассматривается по месту нахождения/жительства Займодавца" />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 3} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 3} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
 									</div>
 								</Collapsible>
 								<SideComponents.RadioLabel text="В договоре имеется условие о месте исполнения договора." />
-								<Collapsible shown={ctx.sideData.value.radio_level_1 === 4} duration="0.1s">
+								<Collapsible shown={ctx.sideData.radio_level_1 === 4} duration="0.1s">
 									<div className="sydside-app ">
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Пункт договора, с данным условием:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Пункт договора" />
-										</div>
-										<div className="sydside-app-radio-text">
-											<div className="sydside-app-radio-text-width">
-												<label class="sydside-label" for="n">
-													Адрес места исполнения договора:
-												</label>
-											</div>
-											<input type="text" id="n" placeholder="Адрес" />
-										</div>
+										<SideComponents.InputField label="Пункт договора, с данным условием:" value="punkt" ctx={ctx} placeholder="Пункт договора" />
+										<SideComponents.InputField label="Адрес места исполнения договора:" value="adres" ctx={ctx} placeholder="Адрес" />
 									</div>
 								</Collapsible>
 							</SideComponents.RadioGroup>
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel text="У меня имеются письменные возражения заёмщика относительно спорной задолженности." />
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 1} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 1} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Наименование документа
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Наименование документа" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата документа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
+							<SideComponents.InputField label="Наименование документа:" value="titleDocument" ctx={ctx} placeholder="Наименование" />
+							<SideComponents.InputField type="date" label="Дата документа:" value="dateDocument" ctx={ctx} />
 						</div>
 					</Collapsible>
 					<SideComponents.RadioLabel
 						text="Я уже обращался с заявлением о вынесении судебного приказа, однако Мировой судья вынес 
                     определение  об отказе в принятии заявления о вынесении судебного приказа"
 					/>
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 2} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 2} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата обращения с заявлением о вынесении судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата определения об отмене судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Номер дела из картотеки арбитражных дел:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Номер дела" />
-							</div>
+							<SideComponents.InputField type="date" label="Дата обращения с заявлением о вынесении судебного приказа:" value="dateApplication" ctx={ctx} />
+							<SideComponents.InputField type="date" label="Дата определения об отмене судебного приказа:" value="dateCancelOrder" ctx={ctx} />
+							<SideComponents.InputField label="Номер дела из картотеки арбитражных дел:" value="caseNumber" ctx={ctx} placeholder="Номер дела" />
 						</div>
 					</Collapsible>
 
 					<SideComponents.RadioLabel text="Я уже обращался с заявлением о вынесении судебного приказа, однако судебный приказ был отменён в связи с подачей возражений должника." />
 
-					<Collapsible shown={ctx.sideData.value.radio_level_2 === 3} duration="0.1s">
+					<Collapsible shown={ctx.sideData.radio_level_2 === 3} duration="0.1s">
 						<div className="sydside-app ">
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата обращения с заявлением о вынесении судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Дата определение об отмене судебного приказа:
-									</label>
-								</div>
-								<input type="date" id="n" placeholder="Дата" />
-							</div>
-							<div className="sydside-app-radio-text">
-								<div className="sydside-app-radio-text-width">
-									<label class="sydside-label" for="n">
-										Номер дела из картотеки арбитражных дел:
-									</label>
-								</div>
-								<input type="text" id="n" placeholder="Номер дела" />
-							</div>
+							<SideComponents.InputField type="date" label="Дата обращения с заявлением о вынесении судебного приказа:" value="dateApplication" ctx={ctx} />
+							<SideComponents.InputField type="date" label="Дата определение об отмене судебного приказа:" value="dateCancelOrder" ctx={ctx} />
+							<SideComponents.InputField label="Номер дела из картотеки арбитражных дел:" value="caseNumber" ctx={ctx} placeholder="Номер дела" />
 						</div>
 					</Collapsible>
 				</SideComponents.RadioGroup>
@@ -972,45 +566,15 @@ function OrderProductionJusties() {
 		</>
 	);
 }
-
 export default function SydSide() {
 	//const ctx = useAppContext(SydContext, "syd");
 
 	// Эквивалентно:
 	// const {sideObject, update, ctx} = useSideCommons("zaemshik");
 	// const zaemshik = sideObject;
-	const ctx = useAppContext(SydContext, "syd");
+
 	const [page, setCount] = useState(0);
-	const color = [
-		{
-			id: 1,
-			text: "standard-button",
-		},
-		{
-			id: 2,
-			text: "standard-button",
-		},
-		{
-			id: 3,
-			text: "standard-button",
-		},
-		{
-			id: 4,
-			text: "standard-button",
-		},
-		{
-			id: 5,
-			text: "standard-button",
-		},
-		{
-			id: 6,
-			text: "standard-button",
-		},
-		{
-			id: 7,
-			text: "standard-button",
-		},
-	];
+
 	return (
 		<div className="App">
 			<div className="sydside-split-button">
