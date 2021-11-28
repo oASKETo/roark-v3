@@ -1,14 +1,13 @@
 import FileSaver from "file-saver";
-import Gifshot from "gifshot";
 import {toCanvas} from "html-to-image";
 import JSZip from "jszip";
 import React, {Component} from "react";
 import {BrowserRouter} from "react-router-dom";
 import "./App.css";
+import CashOrderContext from "./components/context/CashOrderContext.js";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
 import SydContext from "./components/context/SydContext.js";
-import CashOrderContext from "./components/context/CashOrderContext.js";
 import UserHelper from "./components/helper/UserHelper.js";
 import {getSortaISODateTime} from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
@@ -17,38 +16,13 @@ import MainContent from "./MainContent.js";
 
 console.warn = () => {};
 
-let screenshots = [];
-const maxRecords = 100;
-const stopRecordingScreen = () => {
-	const id = localStorage.getItem("_screenRecorderId");
-	if (id !== null) {
-		clearInterval(+id);
-	}
+const takeScreenshot = async () => {
+	const URL = await toCanvas(document.getElementById("webapp"), {
+		canvasWidth: document.documentElement.clientWidth,
+		canvasHeight: document.documentElement.clientHeight,
+	});
+	return URL.toDataURL();
 };
-const beginRecordingScreen = () => {
-	// only record in production
-	if (process.env.NODE_ENV === "development") {
-		return;
-	}
-	stopRecordingScreen();
-	localStorage.setItem(
-		"_screenRecorderId",
-		setInterval(() => {
-			toCanvas(document.getElementById("root"), {
-				canvasWidth: document.documentElement.clientWidth,
-				canvasHeight: document.documentElement.clientHeight,
-			}).then((dataURL) => {
-				screenshots.push(dataURL.toDataURL());
-				if (screenshots.length > maxRecords) {
-					screenshots.shift();
-				}
-			});
-		}, 600)
-	);
-};
-
-stopRecordingScreen();
-beginRecordingScreen();
 
 class ErrorHandler extends Component {
 	state = {
@@ -56,12 +30,10 @@ class ErrorHandler extends Component {
 		error: null,
 		errorInfo: null,
 		image: null,
-		imageCreation: 0,
 	};
 
 	static getDerivedStateFromError() {
-		stopRecordingScreen();
-		return {errorExists: true};
+		return {errorExists: true, image: takeScreenshot()};
 	}
 
 	constructor() {
@@ -72,38 +44,8 @@ class ErrorHandler extends Component {
 	}
 
 	async componentDidCatch(error, errorInfo) {
-		const gifLink = await this.createGif();
-		this.setState({error, errorInfo, image: gifLink});
-	}
-
-	async createGif() {
-		if (process.env.NODE_ENV === "development") {
-			return;
-		}
-		return await new Promise((rs, rj) => {
-			if (screenshots.length === 0) {
-				rs(null);
-			} else {
-				Gifshot.createGIF(
-					{
-						images: screenshots,
-						gifWidth: 800,
-						gifHeight: 500,
-						numFrames: maxRecords,
-						sampleInterval: 45,
-						frameDuration: 5,
-						progressCallback: (pc) => this.setState({imageCreation: pc}),
-					},
-					(obj) => {
-						if (!obj.error) {
-							rs(obj.image);
-						} else {
-							rs(null);
-						}
-					}
-				);
-			}
-		});
+		const image = await this.state.image;
+		this.setState((state) => ({error, errorInfo, image}));
 	}
 
 	async saveDebugArchive(type, error) {
@@ -113,12 +55,9 @@ class ErrorHandler extends Component {
 			zip.file("stacktrace.txt", this.state.errorInfo.componentStack);
 			zip.file("actions.gif", this.state.image.split(",")[1], {base64: true});
 		}
-		const screenshotURL = (
-			await toCanvas(document.getElementById("root"), {
-				canvasWidth: document.documentElement.clientWidth,
-				canvasHeight: document.documentElement.clientHeight,
-			})
-		).toDataURL();
+
+		const screenshotURL = await takeScreenshot();
+		console.log(screenshotURL);
 
 		zip.file("image.png", screenshotURL.split(",")[1], {base64: true});
 		zip.file("appinfo.txt", process.env.REACT_APP_VERSION);
@@ -135,11 +74,9 @@ class ErrorHandler extends Component {
 				errorInfo: null,
 				image: null,
 				errorExists: false,
-				imageCreation: 0,
 			},
 			() => {
 				window.history.go("/");
-				beginRecordingScreen();
 			}
 		);
 	}
@@ -147,7 +84,7 @@ class ErrorHandler extends Component {
 	ReportSaverButton({type, error = false}) {
 		return (
 			<button className="error-btn" onClick={() => this.saveDebugArchive(type, error)}>
-				{"Дебаг"}
+				Дебаг
 			</button>
 		);
 	}
@@ -179,10 +116,13 @@ class ErrorHandler extends Component {
                         }
                         #root {
                             padding: 18px !important;
+                        }
+                        img {
+
                         }`}
 					</style>
 					{/* eslint-disable-next-line jsx-a11y/alt-text */}
-					{this.state.image ? <img src={this.state.image} /> : <div>Generating image... {(this.state.imageCreation * 100).toFixed(1) + "%"}</div>}
+					{this.state.image && <img width="640" src={this.state.image} />}
 					<br />
 				</div>
 			);
@@ -234,7 +174,7 @@ class App extends Component {
 						<SydContext.Provider value={this.contextVal("syd")}>
 							<CashOrderContext.Provider value={this.contextVal("order")}>
 								<ErrorHandler>
-									<div className="main-content-helper-container">
+									<div id="webapp" className="main-content-helper-container">
 										<UserHelper />
 										<MainContent />
 									</div>
