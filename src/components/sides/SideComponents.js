@@ -636,9 +636,21 @@ function AddressField({
 		update(value, suggestion.unrestricted_value);
 	};
 
+	const [replaceInput, setReplaceInput] = useState("");
+	const [scrollSuggestionIndex, setScrollSuggestionIndex] = useState(-1);
+	const suggestionsRef = useRef(null);
+	const resetScroll = () => {
+		if (suggestionsRef.current && suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex]) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+		}
+		setReplaceInput("");
+		setScrollSuggestionIndex(-1);
+	};
+
 	const onInputBlur = (ev) => {
 		isBlurredRef.current = true;
 		setSuggestions({});
+		resetScroll();
 	};
 	const onInputFocus = (ev) => {
 		isBlurredRef.current = false;
@@ -647,10 +659,51 @@ function AddressField({
 	const onMouseEnter = (ev) => {
 		hoverRef.current = ev.target;
 		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
+		resetScroll();
 	};
 	const onMouseLeave = (ev) => {
 		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
 		hoverRef.current = null;
+		resetScroll();
+	};
+
+	const scrollSelection = (ev) => {
+		const clearHover = () => {
+			if (hoverRef.current) {
+				hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+				hoverRef.current = null;
+			}
+		};
+		const keys = Object.values(suggestions).map((d) => d.value);
+		let newIndex;
+		switch (ev.key) {
+			case "ArrowUp":
+				clearHover();
+				newIndex = scrollSuggestionIndex - 1 <= -1 ? keys.length - 1 : scrollSuggestionIndex - 1;
+				console.log(newIndex);
+				break;
+			case "ArrowDown":
+				clearHover();
+				newIndex = scrollSuggestionIndex + 1 >= keys.length ? 0 : scrollSuggestionIndex + 1;
+				break;
+			default:
+				if (scrollSuggestionIndex !== -1) {
+					update(value, replaceInput);
+					if (ev.key === "Enter") {
+						inputRef.current.blur();
+					}
+					setSuggestions({});
+					// eslint-disable-next-line no-fallthrough
+					resetScroll();
+				}
+				break;
+		}
+		if (newIndex || newIndex === 0) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+			suggestionsRef.current.childNodes[newIndex].classList.add("side-inputfield-suggestions-item-hover");
+			setReplaceInput(keys[newIndex]);
+			setScrollSuggestionIndex(newIndex);
+		}
 	};
 
 	const shouldOpenDialog = !!Object.keys(suggestions).length && document.activeElement === inputRef.current;
@@ -663,15 +716,16 @@ function AddressField({
 					ref={inputRef}
 					type="text"
 					placeholder={placeholder}
-					value={input}
+					value={replaceInput || input}
 					onBlur={onInputBlur}
+					onKeyDown={scrollSelection}
 					onFocus={onInputFocus}
 					disabled={disabled}
 					onChange={(ev) => {
 						update(value, ev.target.value);
 					}}
 				/>
-				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+				<dialog ref={suggestionsRef} className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
 					{Object.entries(suggestions).map(([key, suggestion]) => {
 						return (
 							<button
