@@ -10,7 +10,9 @@ export default function ZaemshikSide() {
 	// const {sideObject, update, ctx} = useSideCommons("zaemshik");
 	// const zaemshik = sideObject;
 
-    console.log(window.acorn.lineBreak.c)
+	// Конфликтная ошибка
+	//console.log(window.acorn.lineBreak.c);
+
 	return (
 		<>
 			<SideComponents.TypeSelector sideData={ctx.sideData} update={ctx.update} />

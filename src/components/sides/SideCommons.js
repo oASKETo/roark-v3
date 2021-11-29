@@ -1,6 +1,7 @@
 import petrovich from "petrovich";
 import {useCallback, useContext, useState} from "react";
 import PartiesContext from "../context/PartiesContext.js";
+import SydContext from "../context/SydContext.js";
 import Collapsible from "../reusable/Collapsible.js";
 import {catchFetchStatusCode, checkInn, parsePackage, tryFuncOr, validateEmail} from "../reusable/Funcs.js";
 
@@ -10,6 +11,7 @@ import SideComponents from "./SideComponents.js";
 import IndividualData from "./sideData/IndividualData.js";
 import JuridicalData from "./sideData/JuridicalData.js";
 import PhysicalData from "./sideData/PhysicalData.js";
+import SydData from "./sideData/SydData.js";
 
 export function useAppContext(ctx, name) {
 	const context = useContext(ctx);
@@ -36,27 +38,15 @@ export function useAppContext(ctx, name) {
 }
 //Не рабочая функция контекства для 7 окон
 export function useSydSide(side) {
-	const partyContext = useContext(PartiesContext);
-	const sideObject = partyContext.parties[side];
+	const partyContext = useContext(SydContext);
+	const sideObject = partyContext.syd[side];
 	const updateCtx = partyContext.update;
 
 	const update = (key, val) => {
 		let newPartyObj = sideObject;
 		// Type changed, reset data and update data class
 		if (key === "type" && val !== sideObject.type) {
-			switch (val) {
-				case 0:
-					newPartyObj = new PhysicalData();
-					break;
-				case 1:
-					newPartyObj = new IndividualData();
-					break;
-				case 2:
-					newPartyObj = new JuridicalData();
-					break;
-				default:
-					throw new Error("0 1 2 case only " + val);
-			}
+			newPartyObj = new SydData();
 			// type is now set in constructor
 			// newPartyObj.type = val;
 		} else {
@@ -73,7 +63,7 @@ export function useSydSide(side) {
 			}
 		}
 
-		updateCtx("parties", side, newPartyObj);
+		updateCtx("syd", side, newPartyObj);
 	};
 
 	return {sideData: sideObject, update: update, side};
