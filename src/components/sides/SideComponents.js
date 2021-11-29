@@ -204,9 +204,7 @@ function InputField({
 			</label>
 		</div>
 	);
-	if (notifyInvalid.tester) {
-		console.log("tester", notifyInvalid.tester(inputFieldValue), inputFieldValue);
-	}
+
 	return (
 		<div className="side-inputfield-container">
 			{checkbox.side === "left" && checkboxElement}
@@ -217,7 +215,9 @@ function InputField({
 				) : (
 					<InputMask {..._maskOptions} type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				)}
-				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && <div className="side-inputfield-input-container-invalidhint">invalid</div>}
+				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && (
+					<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
+				)}
 			</div>
 			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
