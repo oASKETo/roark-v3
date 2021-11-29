@@ -393,12 +393,12 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		setOverrideInput(inputSplit.filter((v) => v !== "").join(" "));
 		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
 
-		console.log(inputSplit.filter((v) => v !== "").join(" "));
+		resetScroll();
 	};
 	const stopPreviewSuggestion = (ev) => {
 		setOverrideInput("");
 		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
-		console.log("after stop", overrideInput, input);
+		resetScroll();
 	};
 	const applySuggestion = (ev) => {
 		const suggestion = hoverRef.current.dataset.suggestion;
@@ -415,53 +415,67 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		}
 	};
 
-	//* This is WIP ---------------
-	const [emulateHoverOn, setEmulateHoverOn] = useState({
-		current: -1,
-		previous: -1,
-	});
-	const suggestionListRef = useRef();
-	const emulateHover = (ev) => {
-		// const newObj = {current: emulateHoverOn.current, previous: emulateHoverOn.current};
-		// if (ev.key === "ArrowDown") {
-		// 	if (newObj.current + 1 < suggestionListRef.current.childNodes.length) {
-		// 		newObj.current += 1;
-		// 	}
-		// } else if (ev.key === "ArrowUp") {
-		// 	if (newObj.current - 1 >= 0) {
-		// 		newObj.current -= 1;
-		// 	}
-		// }
-		// setEmulateHoverOn(newObj);
+	//
+	const [replaceInput, setReplaceInput] = useState("");
+	const [scrollSuggestionIndex, setScrollSuggestionIndex] = useState(-1);
+	const suggestionsRef = useRef(null);
+	const resetScroll = () => {
+		if (suggestionsRef.current && suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex]) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+		}
+		setReplaceInput("");
+		setScrollSuggestionIndex(-1);
 	};
-	const removeFakeHover = () => {
-		// setEmulateHoverOn({current: -1, previous: emulateHoverOn});
-	};
-	useEffect(() => {
-		// if (emulateHoverOn.current === -1) {
-		// 	return;
-		// }
-		// console.log("emulate hover", emulateHoverOn);
-		// if (emulateHoverOn.previous !== -1) {
-		// 	const leaveEvent = new MouseEvent("mouseleave");
-		// 	// suggestionListRef.current.childNodes[emulateHoverOn.previous].dispatchEvent(leaveEvent);
-		// }
-		// if (emulateHoverOn.current !== -1) {
-		// 	const enterEvent = new MouseEvent("mouseenter");
-		// 	// suggestionListRef.current.childNodes[emulateHoverOn.current].dispatchEvent(enterEvent);
-		// 	console.log("enter dispatched");
-		// }
-	}, [emulateHoverOn]);
-	//* ---------------
 
 	const onInputBlur = (ev) => {
 		isBlurredRef.current = true;
-		removeFakeHover();
 		setSuggestions([]);
+		resetScroll();
 	};
 	const onInputFocus = (ev) => {
 		isBlurredRef.current = false;
 	};
+
+	const scrollSelection = (ev) => {
+		const clearHover = () => {
+			if (hoverRef.current) {
+				hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+				hoverRef.current = null;
+			}
+		};
+		const keys = suggestions;
+		console.log(suggestions);
+		let newIndex;
+		switch (ev.key) {
+			case "ArrowUp":
+				clearHover();
+				newIndex = scrollSuggestionIndex - 1 <= -1 ? keys.length - 1 : scrollSuggestionIndex - 1;
+				console.log(newIndex);
+				break;
+			case "ArrowDown":
+				clearHover();
+				newIndex = scrollSuggestionIndex + 1 >= keys.length ? 0 : scrollSuggestionIndex + 1;
+				break;
+			default:
+				if (scrollSuggestionIndex !== -1) {
+					const inputSplit = splitInput(input);
+					inputSplit[fillInStage] = replaceInput;
+					// Also append a space
+					setInput(inputSplit.filter((v) => v !== "").join(" ") + (fillInStage < 2 ? " " : ""));
+					setSuggestions([]);
+					// eslint-disable-next-line no-fallthrough
+					resetScroll();
+				}
+				break;
+		}
+		if (newIndex || newIndex === 0) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+			suggestionsRef.current.childNodes[newIndex].classList.add("side-inputfield-suggestions-item-hover");
+			setReplaceInput(keys[newIndex]);
+			setScrollSuggestionIndex(newIndex);
+		}
+	};
+	//
 
 	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
 
@@ -475,7 +489,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 					value={overrideInput === "" ? input : overrideInput}
 					onBlur={onInputBlur}
 					onFocus={onInputFocus}
-					onKeyDown={emulateHover}
+					onKeyDown={scrollSelection}
 					onChange={(ev) => {
 						if (overrideInput !== "") {
 							stopPreviewSuggestion();
@@ -488,7 +502,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 					<span className="side-inputfield-mask-pre">{input}</span>
 					<span className="side-inputfield-mask-post">{overrideInput === "" && suggestions[0]?.replace(splitInput(input)[fillInStage], "")}</span>
 				</div>
-				<dialog className="side-inputfield-suggestions" ref={suggestionListRef} style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+				<dialog ref={suggestionsRef} className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
 					{suggestions.map((suggestion) => {
 						return (
 							<button
