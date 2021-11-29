@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SideComponents from "./SideComponents.js";
-import {useSydSide} from "./SideCommons.js";
+import {useSydSide, useSideCommons} from "./SideCommons.js";
 import Collapsible from "../reusable/Collapsible.js";
 import {tryFuncOr} from "../reusable/Funcs.js";
 import "./SydSide.css";
@@ -8,6 +8,7 @@ import "./SydSide.css";
 //Исковое производство
 function ActionProduction() {
 	const ctx = useSydSide("sydSideData");
+
 	const table = [
 		{
 			id: 1,
@@ -567,8 +568,8 @@ function OrderProductionJusties() {
 	);
 }
 export default function SydSide() {
-	//const ctx = useAppContext(SydContext, "syd");
-
+	const ctxZaemshik = useSideCommons("zaemshik");
+	const ctx = useSydSide("sydSideData");
 	// Эквивалентно:
 	// const {sideObject, update, ctx} = useSideCommons("zaemshik");
 	// const zaemshik = sideObject;
@@ -586,19 +587,21 @@ export default function SydSide() {
 				<input type="button" className="sydside-button-route" value="6" onClick={() => setCount(6)}></input>
 				<input type="button" className="sydside-button-route" value="7" onClick={() => setCount(7)}></input>
 			</div>
-			<div class="sydside">
+			<div className="sydside">
 				<img className="sydside-app-img" src="/sides/hammer.jpg" alt="xd" />
 
-				<div class="sydside-app-tema-variables">
+				<div className="sydside-app-tema-variables">
 					<label>Суд:</label>
+					<label>{ctx.sideData.nameSyd}</label>
 				</div>
 
-				<div class="sydside-app-tema-variables">
+				<div className="sydside-app-tema-variables">
 					<label>Адрес суда:</label>
+					<label>{ctx.sideData.adres}</label>
 				</div>
 			</div>
 
-			{page === 1 && <div class="sydside-app-tema">Вид производства: Исковое производство в Арбитражном суде</div>}
+			{page === 1 && <div className="sydside-app-tema">Вид производства: Исковое производство в Арбитражном суде</div>}
 			{page === 2 && "Вид производства: Упрощенное производство в Арбитражном суде"}
 			{page === 3 && "Вид производства: Приказное производство в Арбитражном суде"}
 			{page === 4 && "Вид производства: Исковое производство у мировых судей"}
