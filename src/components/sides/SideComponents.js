@@ -444,7 +444,6 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 			}
 		};
 		const keys = suggestions;
-		console.log(suggestions);
 		let newIndex;
 		switch (ev.key) {
 			case "ArrowUp":

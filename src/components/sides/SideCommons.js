@@ -390,7 +390,7 @@ export function IndividualFields({ctx}) {
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 
 			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
-			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
+			<SideComponents.InputField label="ОГРНИП" value="ogrnip" validator={(str) => str.length <= 15 && (/^[0-9]*$/g).test(str)} ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
 			{ctx.side === "zaimodavec" && (
 				<SideComponents.InputField
