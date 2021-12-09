@@ -57,7 +57,7 @@ function CheckboxLabel({text, tooltip, value, ctx}) {
 	);
 }
 
-function RadioGroup({value, ctx, children}) {
+function RadioGroup({value, ctx, margin = "0", children}) {
 	const {sideData, update} = ctx;
 
 	const uniqueName = Math.random().toString();
@@ -70,10 +70,21 @@ function RadioGroup({value, ctx, children}) {
 	const onChange = (newVal) => {
 		update(value, newVal);
 	};
+
+	let fixedChildren = [];
+	if (Array.isArray(children)) {
+		fixedChildren = [...children];
+	} else if (children) {
+		fixedChildren = [children];
+	}
 	return (
 		<div
+			style={{marginLeft: margin}}
 			className="radio-group"
 			onChange={(ev) => {
+                // fix nested radios
+                ev.stopPropagation();
+                console.log("Change", value)
 				if (ev.target.getAttribute("type") === "radio") {
 					let val = ev.target.value;
 					if (!isNaN(+val)) {
@@ -83,7 +94,7 @@ function RadioGroup({value, ctx, children}) {
 				}
 			}}
 		>
-			{children.map((el, i, arr) => {
+			{fixedChildren.map((el, i, arr) => {
 				if (el.type === RadioLabel) {
 					const filteredArr = arr.filter((v) => v.type === RadioLabel);
 					const value = el.props.value ?? filteredArr.indexOf(el);
@@ -104,7 +115,7 @@ function RadioGroup({value, ctx, children}) {
 function RadioLabel({text, tooltip, name, value, checked}) {
 	return (
 		<div className="side-radiolabel-container">
-			<input type="radio" name={name} value={value} defaultChecked={checked} />
+			<input type="radio" name={name} id={name} value={value} defaultChecked={checked} />
 			{tooltip && (
 				<div title={tooltip}>
 					<HelpCircle className="side-inputfield-tooltip" />
@@ -115,6 +126,10 @@ function RadioLabel({text, tooltip, name, value, checked}) {
 	);
 }
 
+/**
+ * @param {object} param
+ * @param {"text"|"date"} param.type
+ */
 function InputField({
 	type = "text",
 	label,
@@ -207,9 +222,9 @@ function InputField({
 
 	return (
 		<div className="side-inputfield-container">
-			{checkbox.side === "left" && checkboxElement}
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
+				{checkbox.side === "left" && checkboxElement}
 				{!_masked ? (
 					<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				) : (
@@ -218,8 +233,8 @@ function InputField({
 				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && (
 					<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
 				)}
+				{checkbox.side === "right" && checkboxElement}
 			</div>
-			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
 				<div title={tooltip}>
 					<HelpCircle className="side-inputfield-tooltip" />
