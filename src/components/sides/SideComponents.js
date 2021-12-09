@@ -269,7 +269,7 @@ function PhoneInputField({label, placeholder, validator, tooltip, value, ctx, di
 // setIfEmpty -
 function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 	if (placeholder && placeholder[1] === null && setIfEmpty) {
-		throw Error("placeholder can't be null of setIfEmpty is true");
+		throw Error("placeholder can't be null if setIfEmpty is true");
 	}
 	// Option: [<Text>, <Value>]
 	const {sideData, update} = ctx;

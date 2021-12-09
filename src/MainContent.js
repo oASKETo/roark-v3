@@ -8,6 +8,7 @@ import ZaemshikSide from "./components/sides/ZaemshikSide";
 import ZaimodavecSide from "./components/sides/ZaimodavecSide";
 import SydSide from "./components/sides/SydSide";
 import CashOrder from "./components/sides/CashOrder";
+import Dogovor from "./components/dogovor/DogovorFlow";
 
 export default function MainContent() {
 	const {flow} = useContext(FlowContext);
@@ -23,9 +24,9 @@ export default function MainContent() {
 						steps={[
 							["Займодавец (Истец)", ZaimodavecSide],
 							["Заёмщик (Ответчик)", ZaemshikSide],
-
+                            ...Dogovor,
 							["Суд", SydSide],
-							["", CashOrder],
+							["Госпошлина", CashOrder],
 							// More screens
 						]}
 					/>

@@ -1,4 +1,5 @@
 import React from "react";
+import {FlowSkipButton} from "../reusable/Button.js";
 import ShowWhen from "../reusable/ShowWhen.js";
 import DefendantAdder from "./DefendantAdder.js";
 import {IndividualFields, JuridicalFields, PhysicalFields, useSideCommons} from "./SideCommons.js";
@@ -6,12 +7,6 @@ import SideComponents from "./SideComponents.js";
 
 export default function ZaemshikSide() {
 	const ctx = useSideCommons("zaemshik");
-	// Эквивалентно:
-	// const {sideObject, update, ctx} = useSideCommons("zaemshik");
-	// const zaemshik = sideObject;
-
-	// Конфликтная ошибка
-	//console.log(window.acorn.lineBreak.c);
 
 	return (
 		<>
@@ -28,6 +23,11 @@ export default function ZaemshikSide() {
 				<ShowWhen value={ctx.sideData.type} is={2}>
 					<JuridicalFields ctx={ctx} />
 				</ShowWhen>
+				<br />
+				{/* temp */}
+				<div className="flow-next-container">
+					<FlowSkipButton to="/sides" flowPage="2" text="Договор" width="40%" variant="normal"></FlowSkipButton>
+				</div>
 			</div>
 		</>
 	);

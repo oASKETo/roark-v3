@@ -1,6 +1,6 @@
-import {Component} from "react";
+import { Component } from "react";
 import "./Main.css";
-import Button from "./reusable/Button.js";
+import Button, { FlowSkipButton } from "./reusable/Button.js";
 
 export default class Main extends Component {
 	MainRow({children}) {
@@ -12,6 +12,9 @@ export default class Main extends Component {
 			<div className="main-container">
 				<this.MainRow>
 					<Button to="/sides" text="Начать!" width="90%" variant="big" />
+				</this.MainRow>
+				<this.MainRow>
+					<FlowSkipButton to="/sides" flowPage="2" text="Договор" width="80%" variant="big"></FlowSkipButton>
 				</this.MainRow>
 				<br />
 				<this.MainRow>

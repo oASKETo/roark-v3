@@ -1,12 +1,22 @@
-
-export default function ShowWhen({value, is, isNot, andNotUndefined, andNotNull, useDoubleEquals = false, children}) {
+export default function ShowWhen({value, is, isNot, andNotUndefined, andNotNull, useDoubleEquals = false, children, margin}) {
+	console.log(margin);
 	let shouldShow = true;
 	if (is !== undefined) {
-		// eslint-disable-next-line eqeqeq
-		shouldShow = useDoubleEquals ? value == is : value === is;
+		if (Array.isArray(is)) {
+			// eslint-disable-next-line eqeqeq
+			shouldShow = is.some((v) => (useDoubleEquals ? value == v : value === v));
+		} else {
+			// eslint-disable-next-line eqeqeq
+			shouldShow = useDoubleEquals ? value == is : value === is;
+		}
 	} else if (isNot !== undefined) {
-		// eslint-disable-next-line eqeqeq
-		shouldShow = useDoubleEquals ? value != is : value !== isNot;
+		if (Array.isArray(isNot)) {
+			// eslint-disable-next-line eqeqeq
+			shouldShow = isNot.some((v) => (useDoubleEquals ? value != v : value !== v));
+		} else {
+			// eslint-disable-next-line eqeqeq
+			shouldShow = useDoubleEquals ? value != is : value !== isNot;
+		}
 	}
 
 	if (andNotNull) {
@@ -17,7 +27,13 @@ export default function ShowWhen({value, is, isNot, andNotUndefined, andNotNull,
 	}
 
 	if (shouldShow) {
-		return children ?? null;
+		if (typeof margin === "string") {
+			return <div style={{marginLeft: margin}}>{children}</div>;
+		} else if (typeof margin === "boolean") {
+			return <div style={{marginLeft: "2em"}}>{children}</div>;
+		} else {
+			return children ?? null;
+		}
 	} else {
 		return null;
 	}

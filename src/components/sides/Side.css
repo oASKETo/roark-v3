@@ -51,6 +51,7 @@
 }
 .side-inputfield-input-container,
 .side-inputfield-relwrapper {
+    margin-bottom: auto;
 	text-align: center;
 	align-self: center;
 	max-width: 24vw;

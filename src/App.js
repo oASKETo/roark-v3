@@ -5,9 +5,11 @@ import React, {Component} from "react";
 import {BrowserRouter} from "react-router-dom";
 import "./App.css";
 import CashOrderContext from "./components/context/CashOrderContext.js";
+import DogovorContext from "./components/context/DogovorContext";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
 import SydContext from "./components/context/SydContext.js";
+import DogovorData from "./components/dogovor/dogovorData/DogovorData";
 import UserHelper from "./components/helper/UserHelper.js";
 import {getSortaISODateTime} from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
@@ -157,6 +159,9 @@ class App extends Component {
 				element: 1,
 			},
 		},
+		dogovor: {
+			dogovor: new DogovorData(),
+		},
 		update: (what, key, value) => {
 			this.setState((state) => ({[what]: {...state[what], [key]: value}}));
 		},
@@ -173,12 +178,14 @@ class App extends Component {
 					<PartiesContext.Provider value={this.contextVal("parties")}>
 						<SydContext.Provider value={this.contextVal("syd")}>
 							<CashOrderContext.Provider value={this.contextVal("order")}>
-								<ErrorHandler>
-									<div id="webapp" className="main-content-helper-container">
-										<UserHelper />
-										<MainContent />
-									</div>
-								</ErrorHandler>
+								<DogovorContext.Provider value={this.contextVal("dogovor")}>
+									<ErrorHandler>
+										<div id="webapp" className="main-content-helper-container">
+											<UserHelper />
+											<MainContent />
+										</div>
+									</ErrorHandler>
+								</DogovorContext.Provider>
 							</CashOrderContext.Provider>
 						</SydContext.Provider>
 					</PartiesContext.Provider>
