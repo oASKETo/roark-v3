@@ -1,141 +1,323 @@
 import "./CashOrder.css";
+import {useSydSide, useSideCommons} from "./SideCommons.js";
 
-function getTable(Original) {
-	const output = [];
-	for (var i = 0, len = Original.length; i < len; i += 1) {
-		output.push(+Original.charAt(i));
-	}
-	const getTables = output.map((output) => <td class="table-css">{output}</td>);
-	return getTables;
-}
-export default function CashOrder() {
-	const recipientsName = "УФК по Калужской области ( ИФНС России по Ленинскому округу города Калуги)";
-	const bank = "ГРКЦ ГУ Банка России по Тюменской обл.";
-	const kpp = "402701001";
-
-	const budgetСlassification = "Код бюджетной Классификации";
-	const stateDuty = "Госпошлина в суд";
-	const paymentDescription = "(наименование платежа)";
-	const fio = "Ф.И.О. плательщика";
-	const payersAddress = "Адрес плательщика";
-	const amountPayment = "Сумма платежа";
-	const information = "С условием приема указанной в платёжном документе суммы, в т.ч. с суммой взаимной платы за услуги банка, ознакомлен и согласен ";
-
-	const bik = "012908002";
-	const budgetClassificationCode = "182 1 08 01000 01 1050 110";
-
-	//Разбиваем полученный ИНН из базы
-	const innOriginal = "4027018228";
-
-	const inn = getTable(innOriginal);
-	//Разбиваем полученный номер счёта из базы
-	const accountNumberOriginal = "03100643000000013700";
-	const accountNumber = getTable(accountNumberOriginal);
+//Левое поле
+function leftColumnIzv() {
 	return (
-		<div class="b-blankContainer b-blankContainer--invoice">
-			<div class="b-blank-invoice ppf">
-				<div class="right-col">
-					<div class="label1">Квитанция</div>
-					<div class="label2">Кассир</div>
-				</div>
-				<div class="left-col">
-					<div class="label1-1">
-						<div class="label1-1-text">{recipientsName}</div>
-					</div>
-					<div class="label1">(наименование получателя)</div>
-					<div class="label2">(ИНН получателя платежа)</div>
-
-					<div class="table-bottom">
-						<table>{inn}</table>
-					</div>
-
-					{/* <div class="label2-1">{inn}</div> */}
-					<div class="label3">(номер счета получателя платежа)</div>
-
-					<div class="table-bottom table-left">
-						<table>{accountNumber}</table>
-					</div>
-
-					<div class="label-bank">{bank}</div>
-					<div class="label-budget-classification">{budgetСlassification}</div>
-					<div class="label-state-duty">{stateDuty}</div>
-					<div class="label-payment-description">{paymentDescription}</div>
-					<div class="label-fio">{fio}</div>
-					<div class="label-payers-address">{payersAddress}</div>
-					<div class="label-amount-payment">{amountPayment}</div>
-					<div class="label-information">{information}</div>
-				</div>
-				<div class="clear"></div>
-			</div>
-		</div>
+		<td valign="top" width="158" height="248">
+			<table cellspacing="10" cellpadding="0" width="158" align="center" border="0">
+				<tbody>
+					<tr>
+						<td align="center">
+							<div className="text-sl">ИЗВЕЩЕНИЕ</div>
+						</td>
+					</tr>
+					<tr>
+						<td height="200"></td>
+					</tr>
+					<tr>
+						<td align="center" width="118">
+							<div className="text-sl">Кассир</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	);
+}
+function leftColumnKvi() {
+	return (
+		<td valign="top" height="248">
+			<table cellspacing="0" cellpadding="0" width="158" align="center" border="0">
+				<tbody>
+					<tr valign="bottom">
+						<td align="center" height="220">
+							<div className="text-sl">
+								<strong>КВИТАНЦИЯ</strong>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td height="20"></td>
+					</tr>
+					<tr>
+						<td align="center" width="118">
+							<div className="text-sl">Кассир</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	);
+}
+// Правое поле
+function Content() {
+	const namePayee = ""; //(наименование получателя платежа)
+	const INN = ""; //(ИНН получателя платежа)
+	const payeeNumber = ""; //(номер счета получателя платежа)
+	const BIK = ""; // БИК
+	const numberKor = ""; //	(номер кор./с банка получателя)
+	const paymentDescription = ""; //	(наименование платежа)
+	const bankBoot = ""; //	(номер лицевого счета (код) плательщика)
+	const FIO = ""; //Ф.И.О. плательщика
+	const adres = ""; //Адрес плательщика
+	return (
+		<td valign="top" width="411">
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr align="right">
+						<td className="naz" colspan="3">
+							Форма № ПД-4
+						</td>
+					</tr>
+					<tr>
+						<td valign="bottom" align="middle" colspan="3" height="20">
+							<div className="text-l">{namePayee}</div>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="middle" colspan="3">
+							<div className="naz">(наименование получателя платежа)</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="203" valign="bottom" align="middle" height="20">
+							<div className="text-l">{INN}</div>
+						</td>
+						<td align="right" width="20">
+							<div className="text-sl"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="180">
+							<div className="text-l">{payeeNumber}</div>
+						</td>
+					</tr>
+					<tr>
+						<td className="naz" valign="top" align="middle">
+							(ИНН получателя платежа)
+						</td>
+						<td className="naz" align="middle"></td>
+						<td className="naz" valign="top" align="middle">
+							(номер счета получателя платежа)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l"></div>
+						</td>
+					</tr>
+					<tr>
+						<td className="naz" valign="top" align="middle">
+							(наименование банка получателя платежа)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td className="text-sl" valign="bottom" width="24">
+							БИК
+						</td>
+						<td valign="bottom" align="middle" height="20" width="128">
+							<div className="text-l">{BIK}</div>
+						</td>
+						<td valign="bottom" align="right" width="22">
+							<div className="text-sl"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="229">
+							<div className="text-l">{numberKor}</div>
+						</td>
+					</tr>
+					<tr>
+						<td height="12"></td>
+						<td></td>
+						<td></td>
+						<td className="naz" valign="top" align="middle">
+							(номер кор./с банка получателя)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l">{paymentDescription}</div>
+						</td>
+					</tr>
+					<tr>
+						<td className="naz" valign="top" align="middle">
+							(наименование платежа)
+						</td>
+					</tr>
+					<tr>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l">{bankBoot}</div>
+						</td>
+					</tr>
+					<tr>
+						<td className="naz" valign="top" align="middle">
+							(номер лицевого счета (код) плательщика)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom" width="130" height="20">
+							<div className="text-sl">Ф.И.О. плательщика:</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l">{FIO}</div>
+						</td>
+					</tr>
+					<tr>
+						<td valign="bottom" width="130" height="20">
+							<div className="text-sl">Адрес плательщика:</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l">{adres}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td align="right" width="209" height="20">
+							<div className="text-sl">Сумма платежа:</div>
+						</td>
+						<td width="87" valign="bottom" align="middle" height="20">
+							<div className="text-l" align="center"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="33">
+							<div className="text-sl">руб.</div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="42">
+							<div className="text-l" align="center"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="32">
+							<div className="text-sl">коп.</div>
+						</td>
+					</tr>
+					<tr>
+						<td valign="bottom" align="right" height="20">
+							<div className="text-sl">Сумма платы за услуги:</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-sl">руб.</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-sl">коп.</div>
+						</td>
+					</tr>
+					<tr>
+						<td valign="bottom" align="right" height="20">
+							<div className="text-sl">Итого:</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-sl">руб.</div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-l" align="center"></div>
+						</td>
+						<td valign="bottom" align="middle" height="20">
+							<div className="text-sl">коп.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="2" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom">
+							<div className="naz">
+								С условиями приема указанной в платежном документе суммы, в т.ч. с суммой взимаемой платы за услуги банка ознакомлен и согласен.
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom" height="20" width="77">
+							<div className="text-sl">Плательщик: </div>
+						</td>
+						<td valign="bottom" align="middle" height="20" width="119">
+							<div className="text-l"></div>
+						</td>
+						<td valign="bottom" height="20" width="56">
+							<div className="text-sl">(подпись)</div>
+						</td>
+						<td className="text-sl" valign="bottom" align="right" width="151">
+							Дата
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
 	);
 }
 
-// export default function CashOrder() {
-// 	const recipientsName = "УФК по Калужской области ( ИФНС России по Ленинскому округу города Калуги)";
-// 	const inn = "4027018228";
-// 	const kpp = "402701001";
-// 	const accountNumber = "03100643000000013700";
-// 	const bank = "ОТДЕЛЕНИЕ КАЛУГА БАНКА РОССИИ//УФК по Калужской области г. Калуга";
-// 	const bik = "012908002";
-// 	const budgetClassificationCode = "182 1 08 01000 01 1050 110";
-// 	return (
-// 		<div class="b-blankContainer b-blankContainer--invoice">
-// 			<div class="b-blank-invoice ppf">
-// 				<div class="right-col">
-// 					<div class="label1">Квитанция</div>
-// 					<div class="label2">Кассир</div>
-// 				</div>
-// 				<div class="left-col">
-// 					<div class="label1-1">
-// 						<div class="label1-1-text">{recipientsName}</div>
-// 					</div>
-// 					<div class="label1">(наименование получателя)</div>
-// 					<div class="label2">(ИНН получателя платежа)</div>
-// 					<div class="label2-1">{inn}</div>
-// 					<div class="label17">(КПП получателя платежа)</div>
-// 					<div class="label17-1">{kpp}</div>
-// 					<div class="label3">(номер счета получателя платежа)</div>
-// 					<div class="label3-1">{accountNumber}</div>
-// 					<div class="label4">В</div>
-// 					<div class="label4-1">
-// 						<div class="label4-1-text">{bank}</div>
-// 					</div>
-// 					<div class="label5">(наименование банка получателя платежа)</div>
-// 					<div class="label6">(БИК получателя платежа)</div>
-// 					<div class="label6-1">{bik}</div>
-// 					<div class="label7">Кор./сч.</div>
-// 					<div class="label7-1">40102810045370000030 </div>
-// 					<div class="label18">(Код ОКТМО)</div>
-// 					<div class="label18-1">29701000</div>
-// 					<div class="label8">(наименование платежа плательщика)</div>
-// 					<div class="label8-1" id="duty_nameRes"></div>
-// 					<div class="label9">(код бюджетной классификации)</div>
-// 					<div class="label9-1" id="duty_cbc">
-// 						{budgetClassificationCode}
-// 					</div>
-// 					<div class="label10">Ф.И.О. плательщика</div>
-// 					<div class="label10-1" id="duty_namePayer"></div>
-// 					<div class="label11">Адрес плательщика</div>
-// 					<div class="label11-1" id="duty_payerAccount"></div>
-// 					<div class="label12">Сумма иска</div>
-// 					<div class="label12-1" id="duty_summ">
-// 						0р.
-// 					</div>
-// 					<div class="label13">Сумма гос. пошлины</div>
-// 					<div class="label13-1" id="duty_duty">
-// 						0р.
-// 					</div>
-// 					<div class="label14">Итого</div>
-// 					<div class="label14-1" id="duty_duty_full">
-// 						0р.
-// 					</div>
-// 					<div class="label14-2" id="duty_date"></div>
-// 					<div class="label15">С условиями приема указанной в платежном документе суммы, в т.ч. с суммой взимаемой платы за услуги банка, ознакомлен и согласен.</div>
-// 					<div class="label16">Подпись плательщика</div>
-// 				</div>
-// 				<div class="clear"></div>
-// 			</div>
-// 		</div>
-// 	);
-// }
+export default function CashOrder() {
+	const cS0 = "0"; //cellspacing
+	const cP0 = "0"; //cellpadding
+	const width575 = "575"; //width
+	return (
+		<div text="#000000" bgcolor="#ffffff">
+			<table cellspacing={cS0} cellpadding={cP0} width="575" align="center" border="0">
+				<tbody>
+					<tr>
+						<td>
+							<div classNameName="text-sl" align="center">
+								КВИТАНЦИЯ НА ОПЛАТУ
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table cellspacing="0" cellpadding="0" align="center" border="0">
+				<tbody>
+					<tr>
+						<td valign="bottom"></td>
+						<td>
+							<table bordercolor="#000000" cellspacing="0" cellpadding="0" width="575" border="1">
+								<tbody>
+									<tr>
+										{leftColumnIzv()}
+										{Content()}
+									</tr>
+									<tr>
+										{leftColumnKvi()}
+										{Content()}
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td valign="top"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td align="right"></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+}
