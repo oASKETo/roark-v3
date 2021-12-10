@@ -1,7 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import {useHistory} from "react-router";
+import FlowContext from "../context/FlowContext";
 import "./Button.css";
 
+/** @param {object} obj
+ *  @param {"small"|"normal"|"big"} obj.variant
+ */
 export default function Button({width, height, text, variant, color, disabledColor, to, disabled, onClick}) {
 	const history = useHistory();
 	const goTo = () => {
@@ -31,5 +35,19 @@ export function IconButton({text, width, height, variant, src, reverse}) {
 				{text}
 			</button>
 		</div>
+	);
+}
+
+export function FlowSkipButton(params) {
+	const {update} = useContext(FlowContext);
+	const history = useHistory();
+	return (
+		<Button
+			{...params}
+			onClick={() => {
+				update("flow", "flowPage", +params.flowPage);
+				history.push(params.to);
+			}}
+		/>
 	);
 }

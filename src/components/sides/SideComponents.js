@@ -57,7 +57,7 @@ function CheckboxLabel({text, tooltip, value, ctx}) {
 	);
 }
 
-function RadioGroup({value, ctx, children}) {
+function RadioGroup({value, ctx, margin = "0", children}) {
 	const {sideData, update} = ctx;
 
 	const uniqueName = Math.random().toString();
@@ -70,10 +70,20 @@ function RadioGroup({value, ctx, children}) {
 	const onChange = (newVal) => {
 		update(value, newVal);
 	};
+
+	let fixedChildren = [];
+	if (Array.isArray(children)) {
+		fixedChildren = [...children];
+	} else if (children) {
+		fixedChildren = [children];
+	}
 	return (
 		<div
+			style={{marginLeft: margin}}
 			className="radio-group"
 			onChange={(ev) => {
+				// fix nested radios
+				ev.stopPropagation();
 				if (ev.target.getAttribute("type") === "radio") {
 					let val = ev.target.value;
 					if (!isNaN(+val)) {
@@ -83,7 +93,7 @@ function RadioGroup({value, ctx, children}) {
 				}
 			}}
 		>
-			{children.map((el, i, arr) => {
+			{fixedChildren.map((el, i, arr) => {
 				if (el.type === RadioLabel) {
 					const filteredArr = arr.filter((v) => v.type === RadioLabel);
 					const value = el.props.value ?? filteredArr.indexOf(el);
@@ -104,7 +114,7 @@ function RadioGroup({value, ctx, children}) {
 function RadioLabel({text, tooltip, name, value, checked}) {
 	return (
 		<div className="side-radiolabel-container">
-			<input type="radio" name={name} value={value} defaultChecked={checked} />
+			<input type="radio" name={name} id={name} value={value} defaultChecked={checked} />
 			{tooltip && (
 				<div title={tooltip}>
 					<HelpCircle className="side-inputfield-tooltip" />
@@ -115,6 +125,10 @@ function RadioLabel({text, tooltip, name, value, checked}) {
 	);
 }
 
+/**
+ * @param {object} param
+ * @param {"text"|"date"} param.type
+ */
 function InputField({
 	type = "text",
 	label,
@@ -127,6 +141,7 @@ function InputField({
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
 	notifyInvalid = {tester: undefined, messageBuilder: (input) => {}},
+	inline = {side: undefined, component: undefined},
 	_masked = false,
 	_maskOptions,
 }) {
@@ -204,22 +219,25 @@ function InputField({
 			</label>
 		</div>
 	);
-	if (notifyInvalid.tester) {
-		console.log("tester", notifyInvalid.tester(inputFieldValue), inputFieldValue);
-	}
+
 	return (
 		<div className="side-inputfield-container">
-			{checkbox.side === "left" && checkboxElement}
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
+				{inline && inline.side === "left" && React.cloneElement(inline.component, {_inline: true})}
+				{checkbox.side === "left" && checkboxElement}
 				{!_masked ? (
 					<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				) : (
 					<InputMask {..._maskOptions} type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				)}
-				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && <div className="side-inputfield-input-container-invalidhint">invalid</div>}
+				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && (
+					<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
+				)}
+				{checkbox.side === "right" && checkboxElement}
+				{/* TODO: Add '_inline' to the rest of the elements */}
+				{inline && inline.side === "right" && React.cloneElement(inline.component, {_inline: true})}
 			</div>
-			{checkbox.side === "right" && checkboxElement}
 			{tooltip && (
 				<div title={tooltip}>
 					<HelpCircle className="side-inputfield-tooltip" />
@@ -252,9 +270,9 @@ function PhoneInputField({label, placeholder, validator, tooltip, value, ctx, di
 }
 
 // setIfEmpty -
-function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
+function Select({label, placeholder, setIfEmpty, options, value, _inline, ctx}) {
 	if (placeholder && placeholder[1] === null && setIfEmpty) {
-		throw Error("placeholder can't be null of setIfEmpty is true");
+		throw Error("placeholder can't be null if setIfEmpty is true");
 	}
 	// Option: [<Text>, <Value>]
 	const {sideData, update} = ctx;
@@ -276,10 +294,10 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 		}
 	});
 
-	return (
-		<div className="side-inputfield-container">
+	const content = (
+		<>
 			<div className="side-inputfield-label">{label}</div>
-			<div className="side-inputfield-input-container">
+			<div className={"side-inputfield-input-container" + (_inline ? " inlined" : "")}>
 				<select className="side-select-selectelement" value={nullUndefFix(selectValue, "")} onChange={onChange}>
 					{placeholder && <option value={placeholder[1] === null ? nullId : placeholder[1]}>{placeholder[0]}</option>}
 					{options.map(([text, value], i) => {
@@ -291,8 +309,14 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 					})}
 				</select>
 			</div>
-		</div>
+		</>
 	);
+
+	if (_inline) {
+		return content;
+	} else {
+		return <div className="side-inputfield-container">{content}</div>;
+	}
 }
 
 function StatefulCheckboxLabel({text, tooltip, initiallyCollaped = true, duration, children}) {
@@ -393,12 +417,12 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		setOverrideInput(inputSplit.filter((v) => v !== "").join(" "));
 		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
 
-		console.log(inputSplit.filter((v) => v !== "").join(" "));
+		resetScroll();
 	};
 	const stopPreviewSuggestion = (ev) => {
 		setOverrideInput("");
 		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
-		console.log("after stop", overrideInput, input);
+		resetScroll();
 	};
 	const applySuggestion = (ev) => {
 		const suggestion = hoverRef.current.dataset.suggestion;
@@ -415,53 +439,66 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 		}
 	};
 
-	//* This is WIP ---------------
-	const [emulateHoverOn, setEmulateHoverOn] = useState({
-		current: -1,
-		previous: -1,
-	});
-	const suggestionListRef = useRef();
-	const emulateHover = (ev) => {
-		// const newObj = {current: emulateHoverOn.current, previous: emulateHoverOn.current};
-		// if (ev.key === "ArrowDown") {
-		// 	if (newObj.current + 1 < suggestionListRef.current.childNodes.length) {
-		// 		newObj.current += 1;
-		// 	}
-		// } else if (ev.key === "ArrowUp") {
-		// 	if (newObj.current - 1 >= 0) {
-		// 		newObj.current -= 1;
-		// 	}
-		// }
-		// setEmulateHoverOn(newObj);
+	//
+	const [replaceInput, setReplaceInput] = useState("");
+	const [scrollSuggestionIndex, setScrollSuggestionIndex] = useState(-1);
+	const suggestionsRef = useRef(null);
+	const resetScroll = () => {
+		if (suggestionsRef.current && suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex]) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+		}
+		setReplaceInput("");
+		setScrollSuggestionIndex(-1);
 	};
-	const removeFakeHover = () => {
-		// setEmulateHoverOn({current: -1, previous: emulateHoverOn});
-	};
-	useEffect(() => {
-		// if (emulateHoverOn.current === -1) {
-		// 	return;
-		// }
-		// console.log("emulate hover", emulateHoverOn);
-		// if (emulateHoverOn.previous !== -1) {
-		// 	const leaveEvent = new MouseEvent("mouseleave");
-		// 	// suggestionListRef.current.childNodes[emulateHoverOn.previous].dispatchEvent(leaveEvent);
-		// }
-		// if (emulateHoverOn.current !== -1) {
-		// 	const enterEvent = new MouseEvent("mouseenter");
-		// 	// suggestionListRef.current.childNodes[emulateHoverOn.current].dispatchEvent(enterEvent);
-		// 	console.log("enter dispatched");
-		// }
-	}, [emulateHoverOn]);
-	//* ---------------
 
 	const onInputBlur = (ev) => {
 		isBlurredRef.current = true;
-		removeFakeHover();
 		setSuggestions([]);
+		resetScroll();
 	};
 	const onInputFocus = (ev) => {
 		isBlurredRef.current = false;
 	};
+
+	const scrollSelection = (ev) => {
+		const clearHover = () => {
+			if (hoverRef.current) {
+				hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+				hoverRef.current = null;
+			}
+		};
+		const keys = suggestions;
+		let newIndex;
+		switch (ev.key) {
+			case "ArrowUp":
+				clearHover();
+				newIndex = scrollSuggestionIndex - 1 <= -1 ? keys.length - 1 : scrollSuggestionIndex - 1;
+				console.log(newIndex);
+				break;
+			case "ArrowDown":
+				clearHover();
+				newIndex = scrollSuggestionIndex + 1 >= keys.length ? 0 : scrollSuggestionIndex + 1;
+				break;
+			default:
+				if (scrollSuggestionIndex !== -1) {
+					const inputSplit = splitInput(input);
+					inputSplit[fillInStage] = replaceInput;
+					// Also append a space
+					setInput(inputSplit.filter((v) => v !== "").join(" ") + (fillInStage < 2 ? " " : ""));
+					setSuggestions([]);
+					// eslint-disable-next-line no-fallthrough
+					resetScroll();
+				}
+				break;
+		}
+		if (newIndex || newIndex === 0) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+			suggestionsRef.current.childNodes[newIndex].classList.add("side-inputfield-suggestions-item-hover");
+			setReplaceInput(keys[newIndex]);
+			setScrollSuggestionIndex(newIndex);
+		}
+	};
+	//
 
 	const shouldOpenDialog = !!suggestions.length && document.activeElement === inputRef.current;
 
@@ -475,7 +512,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 					value={overrideInput === "" ? input : overrideInput}
 					onBlur={onInputBlur}
 					onFocus={onInputFocus}
-					onKeyDown={emulateHover}
+					onKeyDown={scrollSelection}
 					onChange={(ev) => {
 						if (overrideInput !== "") {
 							stopPreviewSuggestion();
@@ -488,7 +525,7 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 					<span className="side-inputfield-mask-pre">{input}</span>
 					<span className="side-inputfield-mask-post">{overrideInput === "" && suggestions[0]?.replace(splitInput(input)[fillInStage], "")}</span>
 				</div>
-				<dialog className="side-inputfield-suggestions" ref={suggestionListRef} style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+				<dialog ref={suggestionsRef} className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
 					{suggestions.map((suggestion) => {
 						return (
 							<button
@@ -636,9 +673,21 @@ function AddressField({
 		update(value, suggestion.unrestricted_value);
 	};
 
+	const [replaceInput, setReplaceInput] = useState("");
+	const [scrollSuggestionIndex, setScrollSuggestionIndex] = useState(-1);
+	const suggestionsRef = useRef(null);
+	const resetScroll = () => {
+		if (suggestionsRef.current && suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex]) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+		}
+		setReplaceInput("");
+		setScrollSuggestionIndex(-1);
+	};
+
 	const onInputBlur = (ev) => {
 		isBlurredRef.current = true;
 		setSuggestions({});
+		resetScroll();
 	};
 	const onInputFocus = (ev) => {
 		isBlurredRef.current = false;
@@ -647,10 +696,51 @@ function AddressField({
 	const onMouseEnter = (ev) => {
 		hoverRef.current = ev.target;
 		hoverRef.current.classList.add("side-inputfield-suggestions-item-hover");
+		resetScroll();
 	};
 	const onMouseLeave = (ev) => {
 		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
 		hoverRef.current = null;
+		resetScroll();
+	};
+
+	const scrollSelection = (ev) => {
+		const clearHover = () => {
+			if (hoverRef.current) {
+				hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+				hoverRef.current = null;
+			}
+		};
+		const keys = Object.values(suggestions).map((d) => d.value);
+		let newIndex;
+		switch (ev.key) {
+			case "ArrowUp":
+				clearHover();
+				newIndex = scrollSuggestionIndex - 1 <= -1 ? keys.length - 1 : scrollSuggestionIndex - 1;
+				console.log(newIndex);
+				break;
+			case "ArrowDown":
+				clearHover();
+				newIndex = scrollSuggestionIndex + 1 >= keys.length ? 0 : scrollSuggestionIndex + 1;
+				break;
+			default:
+				if (scrollSuggestionIndex !== -1) {
+					update(value, replaceInput);
+					if (ev.key === "Enter") {
+						inputRef.current.blur();
+					}
+					setSuggestions({});
+					// eslint-disable-next-line no-fallthrough
+					resetScroll();
+				}
+				break;
+		}
+		if (newIndex || newIndex === 0) {
+			suggestionsRef.current.childNodes[scrollSuggestionIndex === -1 ? 0 : scrollSuggestionIndex].classList.remove("side-inputfield-suggestions-item-hover");
+			suggestionsRef.current.childNodes[newIndex].classList.add("side-inputfield-suggestions-item-hover");
+			setReplaceInput(keys[newIndex]);
+			setScrollSuggestionIndex(newIndex);
+		}
 	};
 
 	const shouldOpenDialog = !!Object.keys(suggestions).length && document.activeElement === inputRef.current;
@@ -663,15 +753,16 @@ function AddressField({
 					ref={inputRef}
 					type="text"
 					placeholder={placeholder}
-					value={input}
+					value={replaceInput || input}
 					onBlur={onInputBlur}
+					onKeyDown={scrollSelection}
 					onFocus={onInputFocus}
 					disabled={disabled}
 					onChange={(ev) => {
 						update(value, ev.target.value);
 					}}
 				/>
-				<dialog className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
+				<dialog ref={suggestionsRef} className="side-inputfield-suggestions" style={{display: shouldOpenDialog ? undefined : "none"}} open={shouldOpenDialog}>
 					{Object.entries(suggestions).map(([key, suggestion]) => {
 						return (
 							<button

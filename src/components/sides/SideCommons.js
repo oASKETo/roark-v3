@@ -13,9 +13,10 @@ import JuridicalData from "./sideData/JuridicalData.js";
 import PhysicalData from "./sideData/PhysicalData.js";
 import SydData from "./sideData/SydData.js";
 
-export function useAppContext(ctx, name) {
+export function useAppContext(ctx, name, root) {
 	const context = useContext(ctx);
-	const contextData = context[name];
+    // fix
+	const contextData = root ? context[name][root] : context[name];
 	const contextUpdate = context.update;
 
 	const update = (key, val) => {
@@ -390,7 +391,7 @@ export function IndividualFields({ctx}) {
 			<Cases namePath="name" surnamePath="surname" paternalPath="paternal" changesPath="changes" ctx={ctx} />
 
 			<SideAddressDropdown ctx={ctx} onApplySuggestion={(suggestion) => addressSetHiddenStuff(suggestion, ctx)} />
-			<SideComponents.InputField label="ОГРНИП" value="ogrnip" ctx={ctx} />
+			<SideComponents.InputField label="ОГРНИП" value="ogrnip" validator={(str) => str.length <= 15 && /^[0-9]*$/g.test(str)} ctx={ctx} />
 			{ctx.side === "zaimodavec" && <SideComponents.PhoneInputField label="Телефон" value="phone" ctx={ctx} />}
 			{ctx.side === "zaimodavec" && (
 				<SideComponents.InputField
