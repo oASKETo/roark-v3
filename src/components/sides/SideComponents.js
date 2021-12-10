@@ -82,9 +82,8 @@ function RadioGroup({value, ctx, margin = "0", children}) {
 			style={{marginLeft: margin}}
 			className="radio-group"
 			onChange={(ev) => {
-                // fix nested radios
-                ev.stopPropagation();
-                console.log("Change", value)
+				// fix nested radios
+				ev.stopPropagation();
 				if (ev.target.getAttribute("type") === "radio") {
 					let val = ev.target.value;
 					if (!isNaN(+val)) {
@@ -142,6 +141,7 @@ function InputField({
 	autofill = {value: undefined, path: undefined, shouldUpdate: (oldValue, newValue) => false},
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
 	notifyInvalid = {tester: undefined, messageBuilder: (input) => {}},
+	inline = {side: undefined, component: undefined},
 	_masked = false,
 	_maskOptions,
 }) {
@@ -224,6 +224,7 @@ function InputField({
 		<div className="side-inputfield-container">
 			<div className="side-inputfield-label">{label}</div>
 			<div className="side-inputfield-input-container">
+				{inline && inline.side === "left" && React.cloneElement(inline.component, {_inline: true})}
 				{checkbox.side === "left" && checkboxElement}
 				{!_masked ? (
 					<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
@@ -234,6 +235,8 @@ function InputField({
 					<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
 				)}
 				{checkbox.side === "right" && checkboxElement}
+				{/* TODO: Add '_inline' to the rest of the elements */}
+				{inline && inline.side === "right" && React.cloneElement(inline.component, {_inline: true})}
 			</div>
 			{tooltip && (
 				<div title={tooltip}>
@@ -267,7 +270,7 @@ function PhoneInputField({label, placeholder, validator, tooltip, value, ctx, di
 }
 
 // setIfEmpty -
-function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
+function Select({label, placeholder, setIfEmpty, options, value, _inline, ctx}) {
 	if (placeholder && placeholder[1] === null && setIfEmpty) {
 		throw Error("placeholder can't be null if setIfEmpty is true");
 	}
@@ -291,10 +294,10 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 		}
 	});
 
-	return (
-		<div className="side-inputfield-container">
+	const content = (
+		<>
 			<div className="side-inputfield-label">{label}</div>
-			<div className="side-inputfield-input-container">
+			<div className={"side-inputfield-input-container" + (_inline ? " inlined" : "")}>
 				<select className="side-select-selectelement" value={nullUndefFix(selectValue, "")} onChange={onChange}>
 					{placeholder && <option value={placeholder[1] === null ? nullId : placeholder[1]}>{placeholder[0]}</option>}
 					{options.map(([text, value], i) => {
@@ -306,8 +309,14 @@ function Select({label, placeholder, setIfEmpty, options, value, ctx}) {
 					})}
 				</select>
 			</div>
-		</div>
+		</>
 	);
+
+	if (_inline) {
+		return content;
+	} else {
+		return <div className="side-inputfield-container">{content}</div>;
+	}
 }
 
 function StatefulCheckboxLabel({text, tooltip, initiallyCollaped = true, duration, children}) {

@@ -17,6 +17,8 @@
 }
 .navbar-right > * {
     margin-left: 6px;
+    margin-bottom: auto;
+    white-space: nowrap;
 }
 
 .navbar-breadcrumbs {

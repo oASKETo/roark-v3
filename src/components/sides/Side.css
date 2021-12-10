@@ -51,10 +51,18 @@
 }
 .side-inputfield-input-container,
 .side-inputfield-relwrapper {
+    display: flex;
+    gap: 4px;
+    
     margin-bottom: auto;
+    /* makes it look nicer */
+    margin-top: 2px;
 	text-align: center;
 	align-self: center;
 	max-width: 24vw;
+}
+.side-inputfield-input-container.inlined input:not([type="checkbox"]), .side-inputfield-input-container select {
+   width: auto !important;
 }
 
 .side-inputfield-relwrapper {

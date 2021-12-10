@@ -95,7 +95,7 @@ function MissingCommon({ctx}) {
 					<MissingCommon2 ctx={ctx} />
 				</ShowWhenMargin>
 			</SideComponents.RadioGroup>
-			<SideComponents.InputField type="text" label="Пункт договора" value="srokVozvrata.punkt" ctx={ctx} />
+			<SideComponents.InputField type="text" label="Пункт договора с данным условием" value="srokVozvrata.punkt" ctx={ctx} />
 		</>
 	);
 }
@@ -117,7 +117,7 @@ export default function SrokVozvrata() {
 				<SideComponents.RadioLabel text="Сумма займа подлежит единовременному возврату до конкретной даты" />
 				<ShowWhenMargin value={ctx.sideData.srokVozvrata.value} is={0}>
 					<SideComponents.InputField type="date" label="Дата, когда сумма займа должна быть возвращена" value="srokVozvrata.setDate.date" ctx={ctx} />
-					<SideComponents.InputField type="text" label="Пункт договора" value="srokVozvrata.punkt" ctx={ctx} />
+					<SideComponents.InputField type="text" label="Пункт договора с данным условием" value="srokVozvrata.punkt" ctx={ctx} />
 				</ShowWhenMargin>
 				<SideComponents.RadioLabel text="Сумма займа предоставлена на опрделённый срок" />
 				<ShowWhenMargin value={ctx.sideData.srokVozvrata.value} is={1}>
@@ -126,20 +126,26 @@ export default function SrokVozvrata() {
 						label="Займ предоставлен на"
 						value="srokVozvrata.timePeriod.amount"
 						validator={(str) => /^[0-9]*$/g.test(str)}
+						inline={{
+							side: "right",
+							component: (
+								<SideComponents.Select
+									label=""
+									value="srokVozvrata.timePeriod.period"
+									options={[
+										["Дней", "day"],
+										["Недель", "week"],
+										["Месяцев", "month"],
+										["Лет", "year"],
+									]}
+									ctx={ctx}
+								/>
+							),
+						}}
 						ctx={ctx}
 					/>
-					<SideComponents.Select
-						label="Период"
-						value="srokVozvrata.timePeriod.period"
-						options={[
-							["День", "day"],
-							["Неделя", "week"],
-							["Месяц", "month"],
-							["Год", "year"],
-						]}
-						ctx={ctx}
-					/>
-					<SideComponents.InputField type="text" label="Пункт договора" value="srokVozvrata.punkt" ctx={ctx} />
+
+					<SideComponents.InputField type="text" label="Пункт договора с данным условием" value="srokVozvrata.punkt" ctx={ctx} />
 				</ShowWhenMargin>
 				<SideComponents.RadioLabel text="Договором займа предусмотрена рассрочка платежа" />
 				<ShowWhenMargin value={ctx.sideData.srokVozvrata.value} is={2}>
@@ -153,7 +159,7 @@ export default function SrokVozvrata() {
 							<LoanCommon ctx={ctx} />
 						</ShowWhenMargin>
 					</SideComponents.RadioGroup>
-					<SideComponents.InputField type="text" label="Пункт договора" value="srokVozvrata.punkt" ctx={ctx} />
+					<SideComponents.InputField type="text" label="Пункт договора с данным условием" value="srokVozvrata.punkt" ctx={ctx} />
 				</ShowWhenMargin>
 				<SideComponents.RadioLabel text="В договоре отсутствует условие о сроке (дате) возврата займа" />
 				<ShowWhenMargin value={ctx.sideData.srokVozvrata.value} is={3}>
