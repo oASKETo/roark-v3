@@ -1,5 +1,7 @@
 import "./CashOrder.css";
-import {useSydSide, useSideCommons} from "./SideCommons.js";
+import SideComponents from "../sides/SideComponents";
+import ReceiptContext from "../context/ReceiptContext.js";
+import {useAppContext, useSideCommons} from "../sides/SideCommons.js";
 
 //Левое поле
 function leftColumnIzv() {
@@ -52,15 +54,19 @@ function leftColumnKvi() {
 }
 // Правое поле
 function Content() {
-	const namePayee = ""; //(наименование получателя платежа)
-	const INN = ""; //(ИНН получателя платежа)
+	//(наименование получателя платежа)
+	//(ИНН получателя платежа)
 	const payeeNumber = ""; //(номер счета получателя платежа)
-	const BIK = ""; // БИК
-	const numberKor = ""; //	(номер кор./с банка получателя)
+	//(наименование банка получателя платежа)
+	// БИК
+	//	(номер кор./с банка получателя)
 	const paymentDescription = ""; //	(наименование платежа)
-	const bankBoot = ""; //	(номер лицевого счета (код) плательщика)
-	const FIO = ""; //Ф.И.О. плательщика
-	const adres = ""; //Адрес плательщика
+	//	(номер лицевого счета (код) плательщика)
+	//Ф.И.О. плательщика
+	//Адрес плательщика
+	const ctx = useAppContext(ReceiptContext, "receipt", "receipt");
+
+	const ctxZaimodavec = useSideCommons("zaimodavec");
 	return (
 		<td valign="top" width="411">
 			<table cellspacing="0" cellpadding="0" width="403" align="center" border="0">
@@ -71,8 +77,8 @@ function Content() {
 						</td>
 					</tr>
 					<tr>
-						<td valign="bottom" align="middle" colspan="3" height="20">
-							<div className="text-l">{namePayee}</div>
+						<td valign="bottom" colspan="3" height="20">
+							<div className="text-l">{ctx.sideData.namePayeeReceiver}</div>
 						</td>
 					</tr>
 					<tr>
@@ -81,8 +87,8 @@ function Content() {
 						</td>
 					</tr>
 					<tr>
-						<td width="203" valign="bottom" align="middle" height="20">
-							<div className="text-l">{INN}</div>
+						<td width="203" valign="bottom" height="20">
+							<div className="text-l">{ctx.sideData.namePayeeReceiver}</div>
 						</td>
 						<td align="right" width="20">
 							<div className="text-sl"></div>
@@ -106,7 +112,7 @@ function Content() {
 				<tbody>
 					<tr>
 						<td valign="bottom" align="middle" height="20">
-							<div className="text-l"></div>
+							<div className="text-l">{ctx.sideData.nameBankPayee}</div>
 						</td>
 					</tr>
 					<tr>
@@ -123,13 +129,13 @@ function Content() {
 							БИК
 						</td>
 						<td valign="bottom" align="middle" height="20" width="128">
-							<div className="text-l">{BIK}</div>
+							<div className="text-l">{ctx.sideData.BIK}</div>
 						</td>
 						<td valign="bottom" align="right" width="22">
 							<div className="text-sl"></div>
 						</td>
 						<td valign="bottom" align="middle" height="20" width="229">
-							<div className="text-l">{numberKor}</div>
+							<div className="text-l">{ctx.sideData.numberKor}</div>
 						</td>
 					</tr>
 					<tr>
@@ -156,7 +162,7 @@ function Content() {
 					</tr>
 					<tr>
 						<td valign="bottom" align="middle" height="20">
-							<div className="text-l">{bankBoot}</div>
+							<div className="text-l">{ctx.sideData.accountNumber}</div>
 						</td>
 					</tr>
 					<tr>
@@ -172,16 +178,16 @@ function Content() {
 						<td valign="bottom" width="130" height="20">
 							<div className="text-sl">Ф.И.О. плательщика:</div>
 						</td>
-						<td valign="bottom" align="middle" height="20">
-							<div className="text-l">{FIO}</div>
+						<td valign="bottom" height="20">
+							<div className="text-l">{ctxZaimodavec.sideData.surname} </div>
 						</td>
 					</tr>
 					<tr>
 						<td valign="bottom" width="130" height="20">
 							<div className="text-sl">Адрес плательщика:</div>
 						</td>
-						<td valign="bottom" align="middle" height="20">
-							<div className="text-l">{adres}</div>
+						<td valign="bottom" height="20">
+							<div className="text-l">{ctxZaimodavec.sideData.address.value}</div>
 						</td>
 					</tr>
 				</tbody>
@@ -275,9 +281,12 @@ function Content() {
 }
 
 export default function CashOrder() {
+	const ctx = useAppContext(ReceiptContext, "receipt", "receipt");
+
 	const cS0 = "0"; //cellspacing
 	const cP0 = "0"; //cellpadding
 	const width575 = "575"; //width
+
 	return (
 		<div text="#000000" bgcolor="#ffffff">
 			<table cellspacing={cS0} cellpadding={cP0} width="575" align="center" border="0">
@@ -318,6 +327,13 @@ export default function CashOrder() {
 					</tr>
 				</tbody>
 			</table>
+
+			<SideComponents.InputField label="Получатель платежа" value="namePayeeReceiver" ctx={ctx} placeholder="" />
+			<SideComponents.InputField label="ИНН получателя" value="INN" ctx={ctx} placeholder="" />
+			<SideComponents.InputField label="БИК" value="BIK" ctx={ctx} placeholder="" />
+			<SideComponents.InputField label="Номер счёта" value="accountNumber" ctx={ctx} placeholder="" />
+			<SideComponents.InputField label="Кор/сч" value="numberKor" ctx={ctx} placeholder="" />
+			<SideComponents.InputField label="Наименование банка получателя" value="nameBankPayee" ctx={ctx} placeholder="" />
 		</div>
 	);
 }

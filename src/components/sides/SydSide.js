@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import SideComponents from "./SideComponents.js";
-import {useSydSide, useSideCommons} from "./SideCommons.js";
+import {useAppContext} from "./SideCommons.js";
 import Collapsible from "../reusable/Collapsible.js";
+import SydContext from "../context/SydContext";
 import "./SydSide.css";
 
 //Объединение 1,2,4,5,6 окна
 function Production(window) {
-	const ctx = useSydSide("sydSideData");
+	const ctx = useAppContext(SydContext, "syd", "syd");
 	const table = [
 		{
 			id: 0,
@@ -185,7 +186,7 @@ function Production(window) {
 }
 //Объединение 3.7 окна
 function OrderProduction(window) {
-	const ctx = useSydSide("sydSideData");
+	const ctx = useAppContext(SydContext, "syd", "syd");
 	const table = [
 		{
 			id: 1,
@@ -295,7 +296,7 @@ function OrderProduction(window) {
 }
 //Главная функция
 export default function SydSide() {
-	const ctx = useSydSide("sydSideData");
+	const ctx = useAppContext(SydContext, "syd", "syd");
 	// Эквивалентно:
 	// const {sideObject, update, ctx} = useSideCommons("zaemshik");
 	// const zaemshik = sideObject;
@@ -331,6 +332,7 @@ export default function SydSide() {
 			text: "Вид производства: Приказное производство у мирового судьи",
 		},
 	];
+
 	return (
 		<div className="App">
 			<div className="sydside-split-button">
