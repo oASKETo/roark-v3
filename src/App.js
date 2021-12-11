@@ -4,12 +4,13 @@ import JSZip from "jszip";
 import React, {Component} from "react";
 import {BrowserRouter} from "react-router-dom";
 import "./App.css";
-import CashOrderContext from "./components/context/CashOrderContext.js";
 import DogovorContext from "./components/context/DogovorContext";
+import ReceiptContext from "./components/context/ReceiptContext";
 import FlowContext from "./components/context/FlowContext.js";
 import PartiesContext from "./components/context/PartiesContext.js";
 import SydContext from "./components/context/SydContext.js";
 import DogovorData from "./components/dogovor/dogovorData/DogovorData";
+import ReceiptData from "./components/receipt/ReceiptData";
 import UserHelper from "./components/helper/UserHelper.js";
 import {getSortaISODateTime} from "./components/reusable/Funcs";
 import PhysicalData from "./components/sides/sideData/PhysicalData";
@@ -152,15 +153,14 @@ class App extends Component {
 			zaemshik: new PhysicalData(),
 		},
 		syd: {
-			sydSideData: new SydData(),
+			syd: new SydData(),
 		},
-		order: {
-			value: {
-				element: 1,
-			},
-		},
+
 		dogovor: {
 			dogovor: new DogovorData(),
+		},
+		receipt: {
+			receipt: new ReceiptData(),
 		},
 		update: (what, key, value) => {
 			this.setState((state) => ({[what]: {...state[what], [key]: value}}));
@@ -177,7 +177,7 @@ class App extends Component {
 				<FlowContext.Provider value={this.contextVal("flow")}>
 					<PartiesContext.Provider value={this.contextVal("parties")}>
 						<SydContext.Provider value={this.contextVal("syd")}>
-							<CashOrderContext.Provider value={this.contextVal("order")}>
+							<ReceiptContext.Provider value={this.contextVal("receipt")}>
 								<DogovorContext.Provider value={this.contextVal("dogovor")}>
 									<ErrorHandler>
 										<div id="webapp" className="main-content-helper-container">
@@ -186,7 +186,7 @@ class App extends Component {
 										</div>
 									</ErrorHandler>
 								</DogovorContext.Provider>
-							</CashOrderContext.Provider>
+							</ReceiptContext.Provider>
 						</SydContext.Provider>
 					</PartiesContext.Provider>
 				</FlowContext.Provider>

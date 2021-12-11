@@ -1,0 +1,63 @@
+.text {
+	font-weight: normal; 
+    font-size: 12px; 
+    border-bottom: 1px solid black; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+.zagolovok {
+    font-weight:900;
+}
+.naz {
+    font-size: 10px; 
+	font-weight: 9px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.text-l {
+	font-size: 11px; 
+    border-bottom: 1px solid black; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+.text-sl {
+	font-size: 12px; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {   
+    font-size: 12pt; 
+}
+.vertical-align-middle {
+    vertical-align:middle;
+}
+.vertical-align-top {
+    vertical-align:top;
+}
+.align-center {
+    align-content: center;
+}
+.border-0 {
+    border:0px;
+}
+.border-1 {
+    border:1px;
+}
+.border-2 {
+    border:2px;
+}
+.border-color-black {
+    border-color:#000000;
+}
+.table-indent {
+    border-collapse: collapse;
+    padding: 0;
+}
+.table-custom {
+    
+    width:575px;
+    border:0px;
+}
+
+@media print {
+	.noprint { 
+        display: none; 
+    }
+}
