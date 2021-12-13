@@ -8,7 +8,7 @@ import Navbar from "./components/navbar/Navbar";
 import ZaemshikSide from "./components/sides/ZaemshikSide";
 import ZaimodavecSide from "./components/sides/ZaimodavecSide";
 import SydSide from "./components/sides/SydSide";
-import CashOrder from "./components/receipt/CashOrder";
+import Receipt from "./components/receipt/Receipt";
 import Dogovor from "./components/dogovor/DogovorFlow";
 
 export default function MainContent() {
@@ -27,7 +27,7 @@ export default function MainContent() {
 							["Заёмщик (Ответчик)", ZaemshikSide],
 							...Dogovor,
 							["Суд", SydSide],
-							["Госпошлина", CashOrder],
+							["Госпошлина", Receipt],
 							// More screens
 						]}
 					/>

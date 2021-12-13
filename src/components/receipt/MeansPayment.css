@@ -1,0 +1,111 @@
+.font11 {
+    font-size: 11px;
+}
+.font10 {
+    font-size: 10px;
+}
+.font13 {
+    font-size: 13px;
+}
+.border-font {
+border-top: 1px #000000 solid; font-size: 10px;
+}
+.br-top {
+    border-top: 1px #000000 solid;
+}
+.br-right {
+    border-right: 1px #000000 solid;
+}
+.br-bottom {
+    border-bottom: 1px #000000 solid;
+}
+.br-summ {
+    border-bottom: 1px #000000 solid; border-right: 1px #000000 solid; font-size: 10px;
+}
+.tID {
+    text-indent:0pt;
+}
+
+.duty-sum-title {
+    height: 40px;
+    width: 70px;
+    border-right: 1px solid #000;
+    padding: 6px 9px 4px 0;
+    float: left;
+    margin-right: 10px;
+}
+
+.duty-sum-value {
+    padding-top: 16px;
+}
+b.b-postedData {
+    color: #0773bf;
+    font-weight: normal;
+    font-style: normal;
+}
+.left-col-with_border {
+    border-right: 1px solid #000;
+}
+.col-center {
+    border: 1px solid #000;
+}
+.duty-template, .double-left-col {
+    border-bottom: 1px solid #000;
+    border-collapse: collapse;
+}
+.duty-col {
+    padding: 5px 0 4px 10px;
+}
+.duty-col-first {
+    padding-left: 0;
+}
+.duty-col-first, .duty-col-non-boundary {
+    border-right: 1px solid #000;
+}
+
+
+
+.duty-template td {
+    padding: 6px 7px 3px 10px;
+}
+
+
+.duty-template, .duty-template-footer {
+	width: 100%;
+	border-collapse: collapse;
+}
+.duty-template, .double-left-col {
+	border-bottom: 1px solid #000;
+	border-collapse: collapse;
+}
+.row2 td, .row3 td, .row7 td, .row10 td {
+	border-top: 1px solid #000;
+}
+.duty-sum-title {
+	height: 50px;
+	width: 80px;
+	border-right: 1px solid #000;
+	padding: 6px 9px 4px 0;
+	float: left;
+	margin-right: 10px;
+}
+.duty-sum-value {
+	padding-top: 16px;
+}
+.col-center {
+	border: 1px solid #000;
+}
+.left-col-with_border {
+	border-right: 1px solid #000;
+}
+.duty-template td {
+	padding: 6px 7px 3px 10px;
+}
+.row1 td {
+	padding: 0;
+}
+.duty-template .first {
+	padding-left: 0;
+}
+
+
