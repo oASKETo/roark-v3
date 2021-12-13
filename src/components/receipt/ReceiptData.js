@@ -5,4 +5,6 @@ export default class ReceiptData {
 	accountNumber = null;
 	numberKor = null;
 	nameBankPayee = null;
+	changesPlaintiff = null;
+	changes = null;
 }
