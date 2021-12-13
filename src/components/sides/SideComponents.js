@@ -443,10 +443,15 @@ function NameSelector({label, namePath, surnamePath, paternalPath, ctx}) {
 	};
 	const stopPreviewSuggestion = (ev) => {
 		setOverrideInput("");
-		hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+		if (hoverRef.current) {
+			hoverRef.current.classList.remove("side-inputfield-suggestions-item-hover");
+		}
 		resetScroll();
 	};
 	const applySuggestion = (ev) => {
+		if (!hoverRef.current) {
+			return;
+		}
 		const suggestion = hoverRef.current.dataset.suggestion;
 		const inputSplit = splitInput(input);
 		inputSplit[fillInStage] = suggestion;
