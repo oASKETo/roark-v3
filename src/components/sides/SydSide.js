@@ -4,6 +4,7 @@ import {useAppContext} from "./SideCommons.js";
 import Collapsible from "../reusable/Collapsible.js";
 import SydContext from "../context/SydContext";
 import "./SydSide.css";
+import ShowWhen from "../reusable/ShowWhen.js";
 
 //Объединение 1,2,4,5,6 окна
 function Production(window) {
@@ -184,6 +185,13 @@ function Production(window) {
 		</>
 	);
 }
+function ShowWhenMargin(props) {
+	return (
+		<ShowWhen {...props} children={undefined}>
+			{props.children}
+		</ShowWhen>
+	);
+}
 //Объединение 3.7 окна
 function OrderProduction(window) {
 	const ctx = useAppContext(SydContext, "syd", "syd");
@@ -223,17 +231,7 @@ function OrderProduction(window) {
 				<ul className="icon sydside-ul">{tableProps}</ul>
 				<SideComponents.RadioGroup value="radio_level_2" ctx={ctx}>
 					<SideComponents.RadioLabel text="Обратиться за вынесением судебного приказа" />
-					<Collapsible
-						shown={
-							ctx.sideData.radio_level_2 === 0 ||
-							ctx.sideData.radio_level_1 === 0 ||
-							ctx.sideData.radio_level_1 === 1 ||
-							ctx.sideData.radio_level_1 === 2 ||
-							ctx.sideData.radio_level_1 === 3 ||
-							ctx.sideData.radio_level_1 === 4
-						}
-						duration="0.1s"
-					>
+					<ShowWhenMargin value={ctx.sideData.radio_level_2} is={0}>
 						<div className="sydside-app">
 							<SideComponents.RadioGroup value="radio_level_1" ctx={ctx}>
 								<SideComponents.RadioLabel text="Исковое заявление будет подано по месту жительства/нахождения ответчика (по умолчанию)" />
@@ -265,7 +263,7 @@ function OrderProduction(window) {
 								</Collapsible>
 							</SideComponents.RadioGroup>
 						</div>
-					</Collapsible>
+					</ShowWhenMargin>
 					<SideComponents.RadioLabel text="У меня имеются письменные возражения заёмщика относительно спорной задолженности." />
 					<Collapsible shown={ctx.sideData.radio_level_2 === 1} duration="0.1s">
 						<div className="sydside-app ">

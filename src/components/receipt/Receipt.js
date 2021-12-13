@@ -442,7 +442,7 @@ function MeansPayment() {
 	);
 }
 export default function Receipt() {
-	return CashOrder();
+	return MeansPayment();
 }
 function CashOrder() {
 	const ctx = useAppContext(ReceiptContext, "receipt", "receipt");
