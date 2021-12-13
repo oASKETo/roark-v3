@@ -1,13 +1,41 @@
+class Neustoika {
+	value = null;
+	amount = null;
+	period = null;
+	punkt = null;
+	one300 = false;
+	maxType = null;
+	maxAmountPercent = null;
+    maxAmountMoney = null;
+}
+
+class VozvratZaima {
+	value = null;
+	// placeholders
+	first = Object.seal({
+		checked: false,
+		documents: [], // TODO
+	});
+	second = Object.seal({
+		checked: false,
+		payments: [],
+	});
+	third = Object.seal({
+		checked: false,
+		payments: [],
+	});
+}
+
 class Percent {
 	value = null;
-    punkt = null;
+	punkt = null;
 
-    // Both % and p.
-    percent = Object.seal({
-        amount: null,
-        period: null,
-    });
-    returnMore = null;
+	// Both % and p.
+	percent = Object.seal({
+		amount: null,
+		period: null,
+	});
+	returnMore = null;
 }
 
 class SrokVozvrata {
@@ -52,6 +80,8 @@ export default class DogovorData {
 
 	srokVozvrata = new SrokVozvrata();
 	percent = new Percent();
+	vozvratZaima = new VozvratZaima();
+	neustoika = new Neustoika();
 
 	constructor() {
 		Object.seal(this);

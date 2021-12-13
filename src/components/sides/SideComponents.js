@@ -142,6 +142,7 @@ function InputField({
 	checkbox = {side: undefined, label: "", value: undefined, onChange: undefined, disabled: false},
 	notifyInvalid = {tester: undefined, messageBuilder: (input) => {}},
 	inline = {side: undefined, component: undefined},
+	_inline = false,
 	_masked = false,
 	_maskOptions,
 }) {
@@ -220,31 +221,52 @@ function InputField({
 		</div>
 	);
 
-	return (
-		<div className="side-inputfield-container">
-			<div className="side-inputfield-label">{label}</div>
-			<div className="side-inputfield-input-container">
-				{inline && inline.side === "left" && React.cloneElement(inline.component, {_inline: true})}
-				{checkbox.side === "left" && checkboxElement}
+	if (_inline) {
+		return (
+			<>
+				<div className="side-inputfield-label">{label}</div>
 				{!_masked ? (
 					<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				) : (
 					<InputMask {..._maskOptions} type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
 				)}
-				{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && (
-					<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
-				)}
-				{checkbox.side === "right" && checkboxElement}
-				{/* TODO: Add '_inline' to the rest of the elements */}
-				{inline && inline.side === "right" && React.cloneElement(inline.component, {_inline: true})}
-			</div>
-			{tooltip && (
-				<div title={tooltip}>
-					<HelpCircle className="side-inputfield-tooltip" />
+			</>
+		);
+	} else {
+		return (
+			<div className="side-inputfield-container">
+				<div className="side-inputfield-label">{label}</div>
+				<div className="side-inputfield-input-container">
+					{inline && inline.side === "left" && React.cloneElement(inline.component, {_inline: true})}
+					{checkbox.side === "left" && checkboxElement}
+					{!_masked ? (
+						<input type={type} disabled={disabled} placeholder={placeholder} value={inputFieldValue} onChange={onChange} onKeyDown={onKeyDownInput} />
+					) : (
+						<InputMask
+							{..._maskOptions}
+							type={type}
+							disabled={disabled}
+							placeholder={placeholder}
+							value={inputFieldValue}
+							onChange={onChange}
+							onKeyDown={onKeyDownInput}
+						/>
+					)}
+					{notifyInvalid.tester && !!inputFieldValue && !notifyInvalid.tester(inputFieldValue) && (
+						<div className="side-inputfield-input-container-invalidhint">{notifyInvalid.messageBuilder(inputFieldValue)}</div>
+					)}
+					{checkbox.side === "right" && checkboxElement}
+					{/* TODO: Add '_inline' to the rest of the elements */}
+					{inline && inline.side === "right" && React.cloneElement(inline.component, {_inline: true})}
 				</div>
-			)}
-		</div>
-	);
+				{tooltip && (
+					<div title={tooltip}>
+						<HelpCircle className="side-inputfield-tooltip" />
+					</div>
+				)}
+			</div>
+		);
+	}
 }
 
 function MaskedInputField({
