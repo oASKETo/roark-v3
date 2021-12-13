@@ -26,7 +26,7 @@ export default function ZaemshikSide() {
 				<br />
 				{/* temp */}
 				<div className="flow-next-container">
-					<FlowSkipButton to="/sides" flowPage="2" text="Договор" width="40%" variant="normal"></FlowSkipButton>
+					<FlowSkipButton to="/sides" flowPage="7" text="Суд" width="40%" variant="normal"></FlowSkipButton>
 				</div>
 			</div>
 		</>
