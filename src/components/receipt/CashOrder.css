@@ -55,6 +55,12 @@ h1 {
     width:575px;
     border:0px;
 }
+.margin0 {
+    margin: 0;
+}
+.width100 {
+width:100%;
+}
 
 @media print {
 	.noprint { 
